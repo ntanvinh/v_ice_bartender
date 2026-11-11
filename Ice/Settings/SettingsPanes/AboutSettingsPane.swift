@@ -85,7 +85,7 @@ struct AboutSettingsPane: View {
                 }
 
                 VStack(alignment: .leading) {
-                    Text("Ice")
+                    Text("VIce Bartender")
                         .font(.system(size: 80))
                         .foregroundStyle(.primary)
 
@@ -145,7 +145,7 @@ struct AboutSettingsPane: View {
     @ViewBuilder
     private func bottomBar(containerShape: some InsettableShape) -> some View {
         HStack {
-            Button("Quit Ice") {
+            Button("Quit VIce Bartender") {
                 NSApp.terminate(nil)
             }
             Spacer()
@@ -158,7 +158,7 @@ struct AboutSettingsPane: View {
             Button("Report a Bug") {
                 openURL(issuesURL)
             }
-            Button("Support Ice", systemImage: "heart.circle.fill") {
+            Button("Support the original author", systemImage: "heart.circle.fill") {
                 openURL(donateURL)
             }
         }
