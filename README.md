@@ -1,5 +1,7 @@
 > [!IMPORTANT]
 > **VIce Bartender** is a community-maintained fork of [Ice](https://github.com/jordanbaird/Ice) by Jordan Baird, continued because the original project is no longer maintained. It stays open source under GPL-3.0; all original copyright belongs to its author. Upstream is tracked as the `upstream` git remote.
+>
+> macOS 27 (Golden Gate) support is based on [jordanbaird/Ice#995](https://github.com/jordanbaird/Ice/pull/995) by RabenkoYevhenii (GPL-3.0). On macOS 27 the menu bar is drawn by `MenuBarAgent`, so items are no longer windows; the macOS 27 code path reads them through Accessibility. Moving an app between sections works in Menu Bar Layout, and the order inside a section is set by ⌘-dragging in the menu bar.
 
 <div align="center">
     <img src="Ice/Assets.xcassets/AppIcon.appiconset/icon_256x256.png" width=200 height=200>
