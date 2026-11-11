@@ -20,7 +20,7 @@ struct AboutSettingsPane: View {
 
     private var contributeURL: URL {
         // swiftlint:disable:next force_unwrapping
-        URL(string: "https://github.com/jordanbaird/Ice")!
+        URL(string: "https://github.com/ntanvinh/v_ice_bartender")!
     }
 
     private var issuesURL: URL {

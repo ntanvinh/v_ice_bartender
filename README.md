@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **VIce Bartender** is a community-maintained fork of [Ice](https://github.com/jordanbaird/Ice) by Jordan Baird, continued because the original project is no longer maintained. It stays open source under GPL-3.0; all original copyright belongs to its author. Upstream is tracked as the `upstream` git remote.
+
 <div align="center">
     <img src="Ice/Assets.xcassets/AppIcon.appiconset/icon_256x256.png" width=200 height=200>
     <h1>Ice</h1>
