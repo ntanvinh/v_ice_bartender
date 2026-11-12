@@ -23,6 +23,9 @@ struct MenuBarLayoutSettingsPane: View {
                 header
                 if #available(macOS 27.0, *) {
                     StuckOverflowWarning(concealer: appState.concealer27)
+                    if let permission = appState.permissions.controlCenter {
+                        ControlCenterAccessNotice(permission: permission)
+                    }
                 }
                 layoutBars
                 if #available(macOS 27.0, *) {
@@ -162,6 +165,44 @@ private struct StuckOverflowWarning: View {
                 }
                 .padding(15)
                 .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+    }
+}
+
+/// Tells the user why Ice's icon can leave the menu bar while items are hidden, and offers the
+/// permission that stops it.
+///
+/// Without access to Control Centre's data Ice hides items through assessment mode, under which
+/// MenuBarAgent also drops the icon of an application signed on this Mac (measured on macOS 27.2,
+/// 2026-11-12), so the way back to the settings goes with them. The native switch drops nothing
+/// but Ice's own items it was asked to. See ``ControlCenterPermission``.
+@available(macOS 27.0, *)
+private struct ControlCenterAccessNotice: View {
+    @ObservedObject var permission: Permission
+
+    var body: some View {
+        if !permission.hasPermission {
+            IceSection {
+                HStack(alignment: .center, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("The VIce Bartender icon can disappear while items are hidden.")
+                            .font(.headline)
+                        Text("Without access to Control Center, macOS hides items in a way that also removes this icon. With access, VIce Bartender uses macOS's own \u{201C}Allow in the Menu Bar\u{201D} switch, which keeps it. macOS asks for Full Disk Access first: turn it on for VIce Bartender, then quit and reopen the app.")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    Spacer(minLength: 0)
+                    Button("Grant Permission") {
+                        permission.performRequest()
+                    }
+                }
+                .padding(15)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+                permission.recheck()
             }
         }
     }

@@ -54,6 +54,9 @@ final class LayoutBarContainer: NSView {
         }
     }
 
+    /// Ice's own icon, listed under "Visible" on macOS 27 and kept so the same view is reused.
+    private var ownIconItem: MenuBarItem?
+
     private var cancellables = Set<AnyCancellable>()
 
     /// Creates a container view with the given app state, section, and spacing.
@@ -180,9 +183,23 @@ final class LayoutBarContainer: NSView {
         else {
             return
         }
-        guard let items else {
+        guard var items else {
             arrangedViews.removeAll()
             return
+        }
+        if #available(macOS 27.0, *), section == .visible {
+            // Ice's own icon is not among the cached items, but the window should show it, drawn
+            // from the icon the user chose (see `OwnIconSlot27`).
+            let item = ownIconItem ?? MenuBarItem(
+                tag: .visibleControlItem,
+                syntheticWindowID: SyntheticWindowID27.make(bundleID: Constants.bundleIdentifier, identifier: MenuBarItemTag.visibleControlItem.title, index: 0),
+                ownerPID: ProcessInfo.processInfo.processIdentifier,
+                bounds: CGRect(x: 0, y: 0, width: 35, height: 24),
+                title: nil,
+                isOnScreen: true
+            )
+            ownIconItem = item
+            items.insert(item, at: OwnIconSlot27.index(isMovable: items.map(\.isMovable)))
         }
         var newViews = [LayoutBarItemView]()
         for item in items {

@@ -43,6 +43,20 @@ final class LayoutBarItemView: NSView {
         }
     }
 
+    /// A Boolean value that indicates whether the view shows Ice's own icon.
+    private var isOwnIcon: Bool {
+        item.tag == .visibleControlItem
+    }
+
+    /// Ice's own icon, as the user chose it. It is drawn rather than photographed: a photograph
+    /// of Ice's own item broke the bar (see `ItemImageStore27.isPhotographable`), and the icon is
+    /// known anyway.
+    private var ownIcon: NSImage? {
+        didSet {
+            needsDisplay = true
+        }
+    }
+
     /// A Boolean value that indicates whether the item view is a dragging placeholder.
     ///
     /// If this value is `true`, the item view does not draw its image.
@@ -75,7 +89,8 @@ final class LayoutBarItemView: NSView {
             setAccessibilityRole(.image)
             setAccessibilityLabel(item.displayName)
         }
-        self.isEnabled = item.isMovable
+        // Ice's own icon is shown, not arranged: the section it is in is Ice's to decide.
+        self.isEnabled = item.isMovable && !isOwnIcon
 
         configureCancellables()
     }
@@ -89,6 +104,24 @@ final class LayoutBarItemView: NSView {
         var c = Set<AnyCancellable>()
 
         if let appState {
+            if isOwnIcon {
+                let general = appState.settings.general
+                general.$iceIcon
+                    .combineLatest(general.$customIceIconIsTemplate)
+                    .receive(on: DispatchQueue.main)
+                    .sink { [weak self] icon, _ in
+                        guard let self else {
+                            return
+                        }
+                        // Everything is revealed while this window is open, so the icon is the
+                        // one for the visible state.
+                        MainActor.assumeIsolated {
+                            self.setFrameSize(self.item.bounds.size)
+                            self.ownIcon = icon.visible.nsImage(for: appState)
+                        }
+                    }
+                    .store(in: &c)
+            }
             appState.imageCache.$images
                 .sink { [weak self] images in
                     guard let self, let cachedImage = images[item.tag] else {
@@ -125,7 +158,42 @@ final class LayoutBarItemView: NSView {
     /// listed and none of it can be moved, so the difference has to be plain at a glance.
     private static let disabledFraction: CGFloat = 0.35
 
+    override func viewDidChangeEffectiveAppearance() {
+        super.viewDidChangeEffectiveAppearance()
+        needsDisplay = true
+    }
+
+    /// Draws Ice's own icon in the middle of its tile, in the colour the layout bar's glyphs have.
+    private func drawOwnIcon() {
+        guard !isDraggingPlaceholder, let icon = ownIcon else {
+            return
+        }
+        let rect = CGRect(
+            x: bounds.midX - icon.size.width / 2,
+            y: bounds.midY - icon.size.height / 2,
+            width: icon.size.width,
+            height: icon.size.height
+        )
+        guard icon.isTemplate else {
+            icon.draw(in: rect)
+            return
+        }
+        let isDark = effectiveAppearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua
+        let tint: NSColor = isDark ? .white : .black
+        let tinted = NSImage(size: icon.size, flipped: false) { bounds in
+            icon.draw(in: bounds)
+            tint.set()
+            bounds.fill(using: .sourceAtop)
+            return true
+        }
+        tinted.draw(in: rect)
+    }
+
     override func draw(_ dirtyRect: NSRect) {
+        if isOwnIcon {
+            drawOwnIcon()
+            return
+        }
         if !isDraggingPlaceholder {
             cachedImage?.nsImage.draw(
                 in: bounds,
@@ -155,6 +223,10 @@ final class LayoutBarItemView: NSView {
 
     override func mouseDragged(with event: NSEvent) {
         super.mouseDragged(with: event)
+
+        guard !isOwnIcon else {
+            return
+        }
 
         guard isEnabled else {
             let alert = provideAlertForDisabledItem()
