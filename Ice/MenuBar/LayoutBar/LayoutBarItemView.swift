@@ -82,7 +82,7 @@ final class LayoutBarItemView: NSView {
         super.init(frame: CGRect(origin: .zero, size: item.bounds.size))
         unregisterDraggedTypes()
 
-        self.toolTip = item.displayName
+        self.toolTip = Self.toolTip(for: item)
         if #available(macOS 27.0, *) {
             // Lets Scripts/macos27/verify-layout.sh find the item.
             setAccessibilityElement(true)
@@ -98,6 +98,21 @@ final class LayoutBarItemView: NSView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    /// What the tile says when the pointer rests on it.
+    ///
+    /// The tiles are pictures, and clicking one does nothing, so a tile that cannot be arranged
+    /// has to say why it is dimmed: its name alone left an item such as the Wi-Fi one, which
+    /// shows an Ethernet glyph on a wired Mac, looking like a button that does not work.
+    private static func toolTip(for item: MenuBarItem) -> String {
+        if item.tag == .visibleControlItem {
+            return "\(item.displayName)\nThis is the VIce Bartender icon. It always stays at the far right of this bar."
+        }
+        if !item.isMovable {
+            return "\(item.displayName)\nmacOS draws this item itself, so VIce Bartender cannot move or hide it. Click it in the menu bar, not here."
+        }
+        return item.displayName
     }
 
     private func configureCancellables() {
@@ -117,7 +132,10 @@ final class LayoutBarItemView: NSView {
                         // one for the visible state.
                         MainActor.assumeIsolated {
                             self.setFrameSize(self.item.bounds.size)
+                            // A custom icon that cannot be read must not leave an empty tile: the
+                            // icon is always to be seen, so the default one stands in for it.
                             self.ownIcon = icon.visible.nsImage(for: appState)
+                                ?? ControlItemImageSet.defaultIceIcon.visible.nsImage(for: appState)
                         }
                     }
                     .store(in: &c)
