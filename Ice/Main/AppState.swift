@@ -269,6 +269,8 @@ final class AppState: ObservableObject {
             permissions.accessibility.hasPermission
         case .screenRecording:
             permissions.screenRecording.hasPermission
+        case .controlCenter:
+            permissions.controlCenter?.hasPermission ?? false
         }
     }
 

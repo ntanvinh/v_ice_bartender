@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>SUFeedURL</key>
-	<string>https://ntanvinh.github.io/v_ice_bartender/appcast.xml</string>
+	<string>https://github.com/ntanvinh/v_ice_bartender/releases/latest/download/appcast.xml</string>
 	<key>SUPublicEDKey</key>
 	<string>3nfIGMOD8DALPE8vIdFo2tUOIVc2MVbzhc+2J9JLn+Q=</string>
 </dict>

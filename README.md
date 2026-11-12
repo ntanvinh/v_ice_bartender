@@ -98,6 +98,15 @@ VIce Bartender uses a number of system APIs that are available starting in macOS
 
 ![Menu Bar Item Spacing](https://github.com/user-attachments/assets/b196aa7e-184a-4d4c-b040-502f4aae40a6)
 
+## Development
+
+```sh
+Scripts/test.sh              # unit tests (swift test)
+Scripts/test.sh --build      # unit tests and an unsigned Debug build of the app
+Scripts/version.sh           # show the version and build number
+Scripts/version.sh bump patch   # or minor, major, current, or 0.13.0: raises MARKETING_VERSION and the build number, adds a CHANGELOG.md entry
+```
+
 ## License
 
 VIce Bartender is available under the [GPL-3.0 license](LICENSE).

@@ -14,6 +14,7 @@ final class AppPermissions: ObservableObject {
     enum PermissionKey {
         case accessibility
         case screenRecording
+        case controlCenter
     }
 
     /// The state of the app's granted permissions.
@@ -32,6 +33,15 @@ final class AppPermissions: ObservableObject {
     /// The permission for Screen Recording features.
     let screenRecording = ScreenRecordingPermission()
 
+    /// The permission to read Control Centre's data, which only macOS 27 has a use for.
+    let controlCenter: Permission? = {
+        if #available(macOS 27.0, *) {
+            ControlCenterPermission()
+        } else {
+            nil
+        }
+    }()
+
     /// The state of the app's granted permissions.
     @Published private(set) var permissionsState: PermissionsState = .missing
 
@@ -40,7 +50,7 @@ final class AppPermissions: ObservableObject {
 
     /// The permissions required for full app functionality.
     var allPermissions: [Permission] {
-        [accessibility, screenRecording]
+        [accessibility, screenRecording] + [controlCenter].compactMap { $0 }
     }
 
     /// The permissions required for basic app functionality.

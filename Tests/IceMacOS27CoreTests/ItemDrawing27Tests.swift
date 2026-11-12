@@ -93,6 +93,40 @@ struct ItemDrawing27Tests {
         ))
     }
 
+    // Measured on macOS 27.2, 2026-11-12, under assessment mode: the bar's own window listed one
+    // application item, iTerm2's at 1414. VOpenKey AI, signed locally, had been dropped by
+    // MenuBarAgent, yet its process still reported 1224 through Accessibility.
+    let listedByTheBar = [
+        CGRect(x: 1414, y: 7, width: 46, height: 24),
+        CGRect(x: 1473, y: 0, width: 21, height: 39),
+        CGRect(x: 1662, y: 0, width: 114, height: 39),
+    ]
+
+    @Test("An item the bar lists at the frame the application reports is listed")
+    func listed() {
+        #expect(ItemDrawing27.isListed(itemFrame: CGRect(x: 1414, y: 7.5, width: 46, height: 24), amongBarFrames: listedByTheBar))
+    }
+
+    @Test("An item the bar does not list is not, whatever its application reports")
+    func droppedByTheBar() {
+        #expect(!ItemDrawing27.isListed(itemFrame: CGRect(x: 1224, y: 7.5, width: 40, height: 24), amongBarFrames: listedByTheBar))
+    }
+
+    @Test("A frame a point or two off still counts as the same item")
+    func nearlyTheSameFrame() {
+        #expect(ItemDrawing27.isListed(itemFrame: CGRect(x: 1415.5, y: 7.5, width: 45, height: 24), amongBarFrames: listedByTheBar))
+    }
+
+    @Test("A frame the same width but further away is another item")
+    func sameWidthElsewhere() {
+        #expect(!ItemDrawing27.isListed(itemFrame: CGRect(x: 1300, y: 7.5, width: 46, height: 24), amongBarFrames: listedByTheBar))
+    }
+
+    @Test("With nothing known about what the bar lists, nothing is ruled out")
+    func nothingKnown() {
+        #expect(ItemDrawing27.isListed(itemFrame: CGRect(x: 1224, y: 7.5, width: 40, height: 24), amongBarFrames: []))
+    }
+
     @Test("Without a known active display only the overflow button decides")
     func unknownDisplay() {
         #expect(ItemDrawing27.isDrawn(itemFrame: CGRect(x: -442, y: 102, width: 33, height: 24), activeDisplayBounds: nil, chevronFrame: nil))

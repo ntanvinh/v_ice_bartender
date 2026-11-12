@@ -442,9 +442,17 @@ enum MenuBarItemProvider27 {
         // drawn counts: a concealed item keeps a stale frame further left, which would make
         // Ice treat the freed part of the bar as occupied.
         let concealed = lock.withLock { concealedPIDs }
+        // What the bar's own window lists is what it draws. An application MenuBarAgent has
+        // dropped — one signed locally, under assessment mode — still reports a frame, and that
+        // frame would otherwise stand for an icon in a stretch of empty bar (see
+        // `ItemDrawing27.isListed`).
+        let listedFrames = activeDisplayID.map { id in lock.withLock { lastBarFramesByDisplay[id] ?? [] } } ?? []
         let leftEdge = items
             .filter { item in
                 guard !concealed.contains(item.ownerPID) else {
+                    return false
+                }
+                guard ItemDrawing27.isListed(itemFrame: item.bounds, amongBarFrames: listedFrames) else {
                     return false
                 }
                 // Ice's own items are collapsed to nothing on macOS 27 and report a frame at

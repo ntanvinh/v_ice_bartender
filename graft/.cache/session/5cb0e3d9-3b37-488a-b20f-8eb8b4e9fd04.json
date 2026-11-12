@@ -1,0 +1,11 @@
+{
+  "lastQuery": "<task-notification>\n<task-id>bw91nwir1</task-id>\n<tool-use-id>toolu_018yW6S6QAsmE28ynXnevKYg</tool-use-id>\n<output-file>/private/tmp/claude-501/-Users-vinh-Documents-Developments-MyProjects-v-ice-bartender/5cb0e3d9-3b37-488a-b20f-8eb8b4e9fd04/tasks/bw91nwir1.output</output-file>\n<status>completed</status>\n<summary>Background command \"Install the final build and relaunch\" completed (exit code 0)</summary>\n</task-notification>",
+  "perAgentQuery": {},
+  "graftReads": 2,
+  "sourceReads": 26,
+  "savedTokens": 0,
+  "injectedPointers": [],
+  "nudges": 0,
+  "host": "claude-code",
+  "turnUsedGraft": true
+}

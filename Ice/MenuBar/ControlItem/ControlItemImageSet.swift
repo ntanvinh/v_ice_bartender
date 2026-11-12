@@ -37,10 +37,12 @@ struct ControlItemImageSet: Codable, Hashable, Identifiable {
 
 extension ControlItemImageSet {
     /// The default image set for the Ice icon.
+    ///
+    /// Only a fresh install uses it: a saved choice is read back as it was.
     static let defaultIceIcon = ControlItemImageSet(
-        name: .dot,
-        hidden: .catalog("DotFill"),
-        visible: .catalog("DotStroke")
+        name: .ellipsis,
+        hidden: .catalog("EllipsisFill"),
+        visible: .catalog("EllipsisStroke")
     )
 
     /// The image sets that the user can choose to display in the Ice icon.

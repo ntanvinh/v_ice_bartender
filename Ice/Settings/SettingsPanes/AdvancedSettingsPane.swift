@@ -188,23 +188,7 @@ struct AdvancedSettingsPane: View {
     @ViewBuilder
     private var allPermissions: some View {
         ForEach(appState.permissions.allPermissions) { permission in
-            LabeledContent {
-                if permission.hasPermission {
-                    Label {
-                        Text("Permission Granted")
-                    } icon: {
-                        Image(systemName: "checkmark.circle")
-                            .foregroundStyle(.green)
-                    }
-                } else {
-                    Button("Grant Permission") {
-                        permission.performRequest()
-                    }
-                }
-            } label: {
-                Text(permission.title)
-            }
-            .frame(height: 22)
+            PermissionSettingsRow(permission: permission)
         }
     }
 }

@@ -52,6 +52,29 @@ final class NativeAllowListConcealer27 {
         Preferences.shared != nil && (try? Preferences.read()) != nil
     }
 
+    /// The preference file `trackedApplications` lives in.
+    private nonisolated static var preferenceFilePath: String {
+        NSHomeDirectory() + "/Library/Group Containers/group.com.apple.controlcenter/Library/Preferences/group.com.apple.controlcenter.plist"
+    }
+
+    /// Asks macOS to let this application read Control Centre's data, and says whether it did.
+    ///
+    /// The preference is in another application's group container, and macOS keeps that behind
+    /// "access data from other applications". The preference calls ``isAvailable`` uses are answered
+    /// by `cfprefsd` on the application's behalf and never ask the user: they fail, silently, with
+    /// "requires user-preference-read or file-read-data sandbox access" (measured on macOS 27.2,
+    /// 2026-11-12), and Ice then hid items through assessment mode, under which MenuBarAgent also
+    /// drops Ice's own icon. Opening the file from this process is what makes the system ask.
+    ///
+    /// Blocks until the user has answered, so never call it on the main thread.
+    nonisolated static func requestAccess() -> Bool {
+        guard let handle = FileHandle(forReadingAtPath: preferenceFilePath) else {
+            return false
+        }
+        try? handle.close()
+        return true
+    }
+
     /// Turns off the given applications that are tracked and allowed, and turns back on the ones
     /// Ice turned off earlier that are no longer among them.
     ///

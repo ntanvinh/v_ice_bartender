@@ -38,6 +38,9 @@ final class Concealer27: ObservableObject {
     /// Whether the native switch can be read and written, checked once at setup.
     private var nativeIsAvailable = false
 
+    /// Whether a request for access to Control Centre's data is waiting for the system's answer.
+    private var isRequestingNativeAccess = false
+
     /// Set when the native switch failed in a way that will not mend itself in this run, so
     /// concealment falls back to assessment mode rather than leave everything shown.
     private var nativeFailed = false
@@ -173,6 +176,25 @@ final class Concealer27: ObservableObject {
         }
         NotchGeometry27.refresh()
         rememberedItemStore.load()
+        if !nativeIsAvailable {
+            requestNativeAccess()
+        }
+        // The system cannot ask while the screen is locked or no one is at the Mac, which is
+        // when Ice may be launched, and the answer, or the switch in System Settings, comes while
+        // another application is in front. So Ice asks again whenever it is brought forward
+        // without the access; the native switch takes over as soon as it can be read.
+        observers.append(NotificationCenter.default.addObserver(
+            forName: NSApplication.didBecomeActiveNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated {
+                guard let self, !self.nativeIsAvailable else {
+                    return
+                }
+                self.requestNativeAccess()
+            }
+        })
         let workspaceCenter = NSWorkspace.shared.notificationCenter
         for name in [NSWorkspace.didLaunchApplicationNotification, NSWorkspace.didTerminateApplicationNotification] {
             observers.append(workspaceCenter.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
@@ -275,6 +297,40 @@ final class Concealer27: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+        update()
+    }
+
+    /// Asks macOS for access to the data the native switch is kept in, and uses the switch if
+    /// it is granted.
+    ///
+    /// Without that access the switch cannot be read, assessment mode hides instead, and under it
+    /// MenuBarAgent drops Ice's own icon along with the hidden items (see
+    /// ``NativeAllowListConcealer27/requestAccess()``). The system asks once; after an answer
+    /// this is a read that fails or succeeds without a prompt.
+    func requestNativeAccess() {
+        // The request waits for the user while the system's question is up, so one at a time.
+        guard !isRequestingNativeAccess else {
+            return
+        }
+        isRequestingNativeAccess = true
+        Task { [weak self] in
+            let granted = await Task.detached(priority: .userInitiated) {
+                NativeAllowListConcealer27.requestAccess()
+            }.value
+            self?.isRequestingNativeAccess = false
+            self?.logger.notice("Access to Control Centre's data: \(granted ? "granted" : "not granted", privacy: .public)")
+            self?.refreshNativeAvailability()
+        }
+    }
+
+    /// Switches to the native switch if it can be read now and could not be before.
+    func refreshNativeAvailability() {
+        guard appState != nil, !nativeIsAvailable, NativeAllowListConcealer27.isAvailable else {
+            return
+        }
+        nativeIsAvailable = true
+        nativeFailed = false
+        logger.notice("The native Allow in the Menu Bar switch can be read now, so it replaces assessment mode")
         update()
     }
 
