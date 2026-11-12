@@ -26,6 +26,7 @@ struct MenuBarLayoutSettingsPane: View {
                     if let permission = appState.permissions.controlCenter {
                         ControlCenterAccessNotice(permission: permission)
                     }
+                    NativeSwitchesOffNotice(switches: appState.nativeSwitches27)
                 }
                 layoutBars
                 if #available(macOS 27.0, *) {
@@ -55,6 +56,19 @@ struct MenuBarLayoutSettingsPane: View {
                 }
                 .font(.system(size: 12, weight: .medium))
                 .foregroundStyle(.secondary)
+                if #available(macOS 27.0, *) {
+                    // The dimmed items are drawn by macOS. Ice cannot move or hide them, but macOS
+                    // has a switch for most of them (see `MenuBarSettingsLink27`).
+                    Text("Dimmed items are drawn by macOS and cannot be moved here: click one to open System Settings, where Wi\u{2011}Fi, Bluetooth, Sound and the others can be turned off. Dragging Text Input, VPN or Spotlight to Hidden turns them off there for you.")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Button("Open Menu Bar Settings") {
+                        MenuBarSettingsLink27.open()
+                    }
+                    .padding(.top, 4)
+                }
             }
             .padding(15)
         }
@@ -161,6 +175,57 @@ private struct StuckOverflowWarning: View {
                                 }
                             }
                         }
+                    }
+                }
+                .padding(15)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+    }
+}
+
+/// Lists the macOS items Ice turned off in System Settings, and offers each one back.
+///
+/// An item that is off leaves the menu bar and with it the layout window, so this is the way back
+/// that does not go through System Settings. See ``NativeMenuBarSwitches27``.
+@available(macOS 27.0, *)
+private struct NativeSwitchesOffNotice: View {
+    @ObservedObject var switches: NativeMenuBarSwitches27
+    @State private var failure: String?
+
+    var body: some View {
+        let off = NativeSwitch27.known.filter { switches.turnedOff.contains($0.identifier) }
+        if !off.isEmpty {
+            IceSection {
+                VStack(alignment: .leading, spacing: 10) {
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("Turned off in macOS")
+                            .font(.headline)
+                        Text("These items are off in System Settings > Menu Bar, so they are neither in the menu bar nor in this window. Turn one back on to see it again.")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    ForEach(off, id: \.identifier) { menuBarSwitch in
+                        HStack {
+                            Text(menuBarSwitch.label)
+                            Spacer(minLength: 0)
+                            Button("Show again") {
+                                failure = nil
+                                Task { @MainActor in
+                                    if case .failed(let message) = await switches.set(menuBarSwitch, shown: true) {
+                                        failure = message
+                                    }
+                                }
+                            }
+                            .disabled(switches.isWorking)
+                        }
+                    }
+                    if let failure {
+                        Text(failure)
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(.red)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                 }
                 .padding(15)

@@ -8,9 +8,9 @@
   "nudges": 0,
   "turnUsedGraft": false,
   "host": "claude-code",
-  "inputCostMicros": 2390505,
-  "inputTokensBilled": 11147051,
-  "lastBillingUuid": "333497fb-07ed-4bc4-bd56-fd2f7f02edb1",
+  "inputCostMicros": 2955995,
+  "inputTokensBilled": 13725665,
+  "lastBillingUuid": "20fc622d-a6e2-4022-b407-2f9b520e7b28",
   "graftTurns": 1,
   "lastTallyUuid": "2639d0f9-3887-4bf0-81a6-301e895e2502"
 }

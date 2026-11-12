@@ -63,6 +63,20 @@ final class AppState: ObservableObject {
         return concealer
     }
 
+    /// Storage for ``nativeSwitches27``, typed loosely so the property exists on every macOS.
+    private var nativeSwitches27Storage: AnyObject?
+
+    /// Turns macOS's own menu bar items off and on in System Settings on macOS 27.
+    @available(macOS 27.0, *)
+    var nativeSwitches27: NativeMenuBarSwitches27 {
+        if let switches = nativeSwitches27Storage as? NativeMenuBarSwitches27 {
+            return switches
+        }
+        let switches = NativeMenuBarSwitches27()
+        nativeSwitches27Storage = switches
+        return switches
+    }
+
     /// Storage for ``captureWatcher27``, typed loosely so the property exists on every macOS.
     private var captureWatcher27Storage: AnyObject?
 

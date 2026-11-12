@@ -84,6 +84,8 @@ enum MenuBarItemProvider27 {
     /// menu bar was active. Hover hit-testing needs it for the display that is not active,
     /// where Accessibility reports no frames at all.
     nonisolated(unsafe) private static var lastLeftEdges = [CGDirectDisplayID: CGFloat]()
+    /// The left edge of Ice's own icon on the bar, from the last read that found it drawn.
+    nonisolated(unsafe) private static var lastOwnIconMinX: CGFloat?
     /// Processes whose items are concealed. Accessibility keeps reporting their frames where
     /// they were last drawn, so without this they would pass for drawn items.
     nonisolated(unsafe) private static var concealedPIDs = Set<pid_t>()
@@ -181,6 +183,13 @@ enum MenuBarItemProvider27 {
     /// was active.
     static func leftEdge(for displayID: CGDirectDisplayID) -> CGFloat? {
         lock.withLock { lastLeftEdges[displayID] }
+    }
+
+    /// The left edge of Ice's own icon on the bar, from the last read that found it drawn, or
+    /// `nil` if none has. A read that does not find it, because it is collapsed to nothing under
+    /// assessment mode or because Ice's own process did not answer in time, keeps the last one.
+    static func ownIconMinX() -> CGFloat? {
+        lock.withLock { lastOwnIconMinX }
     }
 
     /// Frames of the system items drawn on the given display, from the last read.
@@ -470,6 +479,10 @@ enum MenuBarItemProvider27 {
                 .map(\.frame)
             if let activeDisplayID, let leftEdge {
                 lastLeftEdges[activeDisplayID] = leftEdge
+            }
+            // Collapsed to nothing, Ice's own icon reports a frame at the origin, which is no place.
+            if let own = items.first(where: { $0.tag == .visibleControlItem && $0.isOnScreen && $0.bounds.width > 4 && $0.bounds.minX > 0 }) {
+                lastOwnIconMinX = own.bounds.minX
             }
         }
         return items

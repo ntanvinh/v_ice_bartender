@@ -93,3 +93,86 @@ struct TrackedApplications27Tests {
         #expect(same(array, odd))
     }
 }
+
+@Suite("TrackedApplications27 – the switch must list the item")
+struct TrackedApplications27RegistrationTests {
+    typealias Fixtures = TrackedApplications27Tests
+
+    /// iTerm2's switch as it was on 2026-11-12 (macOS 27.2): off, listing only a Chrome for Testing binary.
+    static let itermKey = Fixtures.bundleKey("com.googlecode.iterm2")
+    static let chromeLocation: [String: Any] = [
+        "adhocBinary": ["_0": ["relative": "file:///Users/me/Library/Caches/ms-playwright/chrome-mac/Google%20Chrome%20for%20Testing.app/Contents/MacOS/Google%20Chrome%20for%20Testing"]],
+    ]
+    static let iterm: [Any] = [
+        itermKey, ["location": itermKey, "menuItemLocations": [chromeLocation], "isAllowed": false] as [String: Any],
+    ]
+
+    @Test("A switch that lists a foreign binary does not cover the application's own item")
+    func foreignBinary() {
+        #expect(!TrackedApplications27.switchCoversItem(
+            ofBundle: "com.googlecode.iterm2", at: "/Applications/iTerm.app", switchID: "com.googlecode.iterm2", in: Self.iterm
+        ))
+    }
+
+    @Test("Registering adds the owner's bundle to that switch's locations, and nothing else")
+    func registers() throws {
+        let (array, changed) = TrackedApplications27.registeringItem(
+            ofBundle: "com.googlecode.iterm2", at: "/Applications/iTerm.app", underSwitch: "com.googlecode.iterm2", in: Self.iterm
+        )
+        #expect(changed)
+        #expect(array.count == Self.iterm.count)
+        let value = try #require(array[1] as? [String: Any])
+        let locations = try #require(value["menuItemLocations"] as? [Any])
+        #expect(locations.count == 2)
+        #expect((locations[0] as? NSDictionary)?.isEqual(to: Self.chromeLocation) == true)
+        #expect((locations[1] as? NSDictionary)?.isEqual(to: Fixtures.bundleKey("com.googlecode.iterm2")) == true)
+        #expect(value["isAllowed"] as? Bool == false)
+        #expect((value["location"] as? NSDictionary)?.isEqual(to: Self.itermKey) == true)
+    }
+
+    @Test("Registering twice changes nothing the second time")
+    func idempotent() {
+        let once = TrackedApplications27.registeringItem(
+            ofBundle: "com.googlecode.iterm2", at: "/Applications/iTerm.app", underSwitch: "com.googlecode.iterm2", in: Self.iterm
+        )
+        let twice = TrackedApplications27.registeringItem(
+            ofBundle: "com.googlecode.iterm2", at: "/Applications/iTerm.app", underSwitch: "com.googlecode.iterm2", in: once.array
+        )
+        #expect(!twice.changed)
+        #expect((twice.array as NSArray).isEqual(to: once.array))
+    }
+
+    @Test("An application signed on this Mac is covered by a binary inside its own bundle")
+    func adhocInsideOwnBundle() {
+        let key = Fixtures.bundleKey("vn.io.lssoft.vmonitorai")
+        let location: [String: Any] = ["adhocBinary": ["_0": ["relative": "file:///Users/me/Applications/VMonitor%20AI.app/Contents/MacOS/VMonitor%20AI"]]]
+        let array: [Any] = [key, ["location": key, "menuItemLocations": [location], "isAllowed": false] as [String: Any]]
+        #expect(TrackedApplications27.switchCoversItem(
+            ofBundle: "vn.io.lssoft.vmonitorai", at: "/Users/me/Applications/VMonitor AI.app", switchID: "vn.io.lssoft.vmonitorai", in: array
+        ))
+        let result = TrackedApplications27.registeringItem(
+            ofBundle: "vn.io.lssoft.vmonitorai", at: "/Users/me/Applications/VMonitor AI.app", underSwitch: "vn.io.lssoft.vmonitorai", in: array
+        )
+        #expect(!result.changed)
+    }
+
+    @Test("A helper's bundle listed by the application's switch is covered, as FortiClient's is")
+    func helperBundleListed() {
+        let key = Fixtures.bundleKey("com.fortinet.FortiClient")
+        let helper = Fixtures.bundleKey("com.fortinet.forticlient.macos.vpn")
+        let array: [Any] = [key, ["location": key, "menuItemLocations": [helper, key], "isAllowed": false] as [String: Any]]
+        #expect(TrackedApplications27.switchCoversItem(
+            ofBundle: "com.fortinet.forticlient.macos.vpn", at: "/Applications/FortiClient.app/Contents/Helpers/vpn.app", switchID: "com.fortinet.FortiClient", in: array
+        ))
+    }
+
+    @Test("An unknown switch, or one with no list, is left alone")
+    func leftAlone() {
+        #expect(TrackedApplications27.switchCoversItem(ofBundle: "x", at: "/x.app", switchID: "missing", in: Self.iterm))
+        let key = Fixtures.bundleKey("a.b")
+        let bare: [Any] = [key, ["location": key, "isAllowed": false] as [String: Any]]
+        let result = TrackedApplications27.registeringItem(ofBundle: "a.b", at: "/a.app", underSwitch: "a.b", in: bare)
+        #expect(!result.changed)
+        #expect((result.array as NSArray).isEqual(to: bare))
+    }
+}

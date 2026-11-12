@@ -186,8 +186,8 @@ final class LayoutBarContainer: NSView {
         var items = items
         if #available(macOS 27.0, *), section == .visible {
             // Ice's own icon is not among the cached items, but the window should always show it,
-            // drawn from the icon the user chose, at the far right (see `OwnIconSlot27`). It is
-            // listed even when the cache has nothing for this section.
+            // drawn from the icon the user chose, where it stands on the bar (see
+            // `OwnIconSlot27`). It is listed even when the cache has nothing for this section.
             let item = ownIconItem ?? MenuBarItem(
                 tag: .visibleControlItem,
                 syntheticWindowID: SyntheticWindowID27.make(bundleID: Constants.bundleIdentifier, identifier: MenuBarItemTag.visibleControlItem.title, index: 0),
@@ -197,7 +197,12 @@ final class LayoutBarContainer: NSView {
                 isOnScreen: true
             )
             ownIconItem = item
-            items = OwnIconSlot27.placing(item, in: items ?? [])
+            items = OwnIconSlot27.placing(
+                item,
+                in: items ?? [],
+                ownMinX: MenuBarItemProvider27.ownIconMinX(),
+                minX: \.bounds.minX
+            )
         }
         guard let items else {
             arrangedViews.removeAll()

@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# Verifies the Menu Bar Layout window on macOS 27: while it is open every item is shown;
-# dragging an item into the Hidden row moves its application to the Hidden section, which
-# is concealed after the window closes and stays so after Ice restarts. The layout is
-# restored afterwards.
+# Verifies the Menu Bar Layout window on macOS 27: opening it leaves the real bar as it was
+# (hidden items stay hidden); dragging an item into the Hidden row moves its application to
+# the Hidden section and conceals it on the real bar at once, with the window still open, and
+# it stays so after the window closes and after Ice restarts. The layout is restored
+# afterwards.
 #
 # Requirements: Ice installed with Scripts/install.sh, EXT_APP with a window on the
 # external display, TEST_LABEL/TEST_BUNDLE naming a visible application with a menu bar
@@ -87,6 +88,8 @@ if [ -n "$SOURCE" ] && [ -n "$TARGET" ]; then
     "$WORK/bin/input" drag ${SOURCE} ${TARGET}
 fi
 sleep 3
+# The window is still open: the drop has to show on the real bar already.
+AFTER_DROP=$(external_leftmost after-drop)
 STORED=$(defaults read vn.io.lssoft.vicebartender MacOS27Layout | sed -nE "s/^ *\"?${TEST_BUNDLE//./\\.}\"? = ([0-9]);/\1/p")
 "$WORK/bin/input" close-window
 sleep 3
@@ -101,11 +104,12 @@ activate "$EXT_APP"
 AFTER_RESTART=$(external_leftmost after-restart)
 STORED_AFTER_RESTART=$(defaults read vn.io.lssoft.vicebartender MacOS27Layout | sed -nE "s/^ *\"?${TEST_BUNDLE//./\\.}\"? = ([0-9]);/\1/p")
 
-echo "before=$BEFORE layout-open=$OPEN_LEFTMOST after-close=$AFTER_CLOSE after-restart=$AFTER_RESTART stored=${STORED:-none} stored-after-restart=${STORED_AFTER_RESTART:-none}"
+echo "before=$BEFORE layout-open=$OPEN_LEFTMOST after-drop=$AFTER_DROP after-close=$AFTER_CLOSE after-restart=$AFTER_RESTART stored=${STORED:-none} stored-after-restart=${STORED_AFTER_RESTART:-none}"
 FAILED=0
 check() { if eval "$2"; then echo "PASS  $1"; else echo "FAIL  $1"; FAILED=1; fi; }
-check "every item is shown while the layout window is open" "[ ${OPEN_LEFTMOST:-9999} -lt $((BEFORE - 20)) ]"
+check "the real bar is left as it was while the layout window is open" "[ ${OPEN_LEFTMOST:-0} -gt $((BEFORE - 20)) ]"
 check "dragging into the Hidden row moves the application to Hidden" "[ '${STORED:-}' = 1 ]"
+check "the moved application is concealed on the real bar at once, window still open" "[ ${AFTER_DROP:-0} -gt $((OPEN_LEFTMOST + 10)) ]"
 check "the moved application is concealed after the window closes" "[ ${AFTER_CLOSE:-0} -gt $((BEFORE + 10)) ]"
 check "the move survives a restart" "[ '${STORED_AFTER_RESTART:-}' = 1 ] && [ ${AFTER_RESTART:-0} -gt $((BEFORE + 10)) ]"
 echo "work: $WORK"

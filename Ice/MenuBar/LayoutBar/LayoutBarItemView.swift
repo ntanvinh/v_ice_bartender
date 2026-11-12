@@ -107,10 +107,20 @@ final class LayoutBarItemView: NSView {
     /// shows an Ethernet glyph on a wired Mac, looking like a button that does not work.
     private static func toolTip(for item: MenuBarItem) -> String {
         if item.tag == .visibleControlItem {
-            return "\(item.displayName)\nThis is the VIce Bartender icon. It always stays at the far right of this bar."
+            return "\(item.displayName)\nThis is the VIce Bartender icon. macOS keeps it just left of Control Center, and VIce Bartender cannot move it past that."
         }
-        if !item.isMovable {
-            return "\(item.displayName)\nmacOS draws this item itself, so VIce Bartender cannot move or hide it. Click it in the menu bar, not here."
+        if !item.isMovable, #available(macOS 27.0, *) {
+            return "\(item.displayName)\n\(MenuBarSettingsLink27.explanation)\nClick to open System Settings > Menu Bar."
+        }
+        if
+            #available(macOS 27.0, *),
+            let bundleID = item.sourceApplication?.bundleIdentifier,
+            !NativeSwitch27.canIceHide(bundleID: bundleID, tracked: NativeAllowListConcealer27.trackedBundleIDs())
+        {
+            if let menuBarSwitch = NativeSwitch27.menuBarSwitch(bundleID: bundleID, title: item.title) {
+                return "\(item.displayName)\nmacOS draws this item and VIce Bartender cannot hide it itself. Drag it to Hidden and VIce Bartender turns off \u{201C}\(menuBarSwitch.label)\u{201D} in System Settings > Menu Bar for you."
+            }
+            return "\(item.displayName)\nmacOS draws this item and VIce Bartender cannot hide it. If macOS has a switch for it under Menu Bar Controls in System Settings > Menu Bar, turn it off there."
         }
         return item.displayName
     }
@@ -239,6 +249,36 @@ final class LayoutBarItemView: NSView {
         }
     }
 
+    /// Whether the pointer moved since the button went down, which makes the click a drag.
+    private var didDragSinceMouseDown = false
+
+    override func mouseDown(with event: NSEvent) {
+        didDragSinceMouseDown = false
+        super.mouseDown(with: event)
+    }
+
+    override func mouseUp(with event: NSEvent) {
+        super.mouseUp(with: event)
+        // A click on a tile macOS draws itself goes where macOS lets the user hide it.
+        if #available(macOS 27.0, *), !isEnabled, !isOwnIcon, !didDragSinceMouseDown, event.clickCount == 1 {
+            MenuBarSettingsLink27.open()
+        }
+    }
+
+    /// Tells the user why an item macOS draws itself cannot be dragged, and offers the place where
+    /// macOS can hide it.
+    @available(macOS 27.0, *)
+    private func presentAlertForSystemItem() {
+        let alert = NSAlert()
+        alert.messageText = "macOS draws this item itself."
+        alert.informativeText = MenuBarSettingsLink27.explanation
+        alert.addButton(withTitle: "Open Menu Bar Settings")
+        alert.addButton(withTitle: "Cancel")
+        if alert.runModal() == .alertFirstButtonReturn {
+            MenuBarSettingsLink27.open()
+        }
+    }
+
     override func mouseDragged(with event: NSEvent) {
         super.mouseDragged(with: event)
 
@@ -246,9 +286,15 @@ final class LayoutBarItemView: NSView {
             return
         }
 
+        didDragSinceMouseDown = true
+
         guard isEnabled else {
-            let alert = provideAlertForDisabledItem()
-            alert.runModal()
+            if #available(macOS 27.0, *) {
+                presentAlertForSystemItem()
+            } else {
+                let alert = provideAlertForDisabledItem()
+                alert.runModal()
+            }
             return
         }
 

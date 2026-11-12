@@ -18,7 +18,9 @@ import Foundation
 ///
 /// Only bundle keys are ever read or changed here. Every other key, and everything in a value
 /// besides `isAllowed`, is passed back exactly as it came: MenuBarAgent wrote it, and Ice has no
-/// business reshaping it.
+/// business reshaping it. The one exception is `menuItemLocations`, which gains the owner's
+/// bundle when a switch does not list the item it is meant to hide (see
+/// ``switchCoversItem(ofBundle:at:switchID:in:)``).
 enum TrackedApplications27 {
     /// One key and value pair of the list.
     struct Entry: Equatable {
@@ -97,6 +99,74 @@ enum TrackedApplications27 {
             changed.insert(bundleID)
         }
         return (result, changed)
+    }
+
+    /// Whether the switch of `switchID` lists the item of the application at `bundlePath`.
+    ///
+    /// MenuBarAgent finds the switch of an item by the locations a switch lists, not by the key
+    /// it is filed under, so a switch that does not list an application's own item does nothing
+    /// to it. Measured on macOS 27.2, 2026-11-12: iTerm2's switch listed only a Chrome for Testing
+    /// binary an automation tool had launched from it, iTerm2 was turned off in it, and iTerm2's
+    /// icon stayed on the bar; listing iTerm2's own bundle there hid it at once.
+    ///
+    /// A bundle location for the owner covers it, and so does a binary inside the owner's bundle:
+    /// that is how an application signed on this Mac is listed.
+    static func switchCoversItem(ofBundle owner: String, at bundlePath: String, switchID: String, in array: [Any]) -> Bool {
+        guard let locations = menuItemLocations(ofSwitch: switchID, in: array) else {
+            // No such switch, or one without a list to compare with: nothing to say it does not.
+            return true
+        }
+        let root = bundlePath.hasSuffix("/") ? bundlePath : bundlePath + "/"
+        return locations.contains { location in
+            guard let location = location as? [String: Any] else {
+                return false
+            }
+            if bundleID(ofKey: location) == owner {
+                return true
+            }
+            guard
+                let binary = (location["adhocBinary"] as? [String: Any])?["_0"] as? [String: Any],
+                let path = binary.values.lazy.compactMap({ $0 as? String }).compactMap({ URL(string: $0)?.path }).first
+            else {
+                return false
+            }
+            return path.hasPrefix(root)
+        }
+    }
+
+    /// The list with the owner's bundle added to the locations of `switchID`, if its switch does
+    /// not cover the owner's item yet (see ``switchCoversItem(ofBundle:at:switchID:in:)``).
+    ///
+    /// Only that one list gains one element; everything else comes back as it was.
+    static func registeringItem(
+        ofBundle owner: String,
+        at bundlePath: String,
+        underSwitch switchID: String,
+        in array: [Any]
+    ) -> (array: [Any], changed: Bool) {
+        guard
+            !switchCoversItem(ofBundle: owner, at: bundlePath, switchID: switchID, in: array),
+            let entry = entries(in: array).first(where: { $0.bundleID == switchID }),
+            var value = array[entry.valueIndex] as? [String: Any],
+            var locations = value["menuItemLocations"] as? [Any]
+        else {
+            return (array, false)
+        }
+        locations.append(["bundle": ["_0": owner]] as [String: Any])
+        value["menuItemLocations"] = locations
+        var result = array
+        result[entry.valueIndex] = value
+        return (result, true)
+    }
+
+    private static func menuItemLocations(ofSwitch switchID: String, in array: [Any]) -> [Any]? {
+        guard
+            let entry = entries(in: array).first(where: { $0.bundleID == switchID }),
+            let value = array[entry.valueIndex] as? [String: Any]
+        else {
+            return nil
+        }
+        return value["menuItemLocations"] as? [Any]
     }
 
     /// Decodes the preference's data into the flat array, or `nil` if it is not one.

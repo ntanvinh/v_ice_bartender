@@ -52,6 +52,11 @@ final class NativeAllowListConcealer27 {
         Preferences.shared != nil && (try? Preferences.read()) != nil
     }
 
+    /// The applications MenuBarAgent keeps a switch for, or `nil` if the list cannot be read.
+    static func trackedBundleIDs() -> Set<String>? {
+        (try? Preferences.read()).map { Set(TrackedApplications27.allowedStates(in: $0).keys) }
+    }
+
     /// The preference file `trackedApplications` lives in.
     private nonisolated static var preferenceFilePath: String {
         NSHomeDirectory() + "/Library/Group Containers/group.com.apple.controlcenter/Library/Preferences/group.com.apple.controlcenter.plist"
@@ -92,6 +97,22 @@ final class NativeAllowListConcealer27 {
             ($0, Self.switchIdentifier(for: $0, amongst: states))
         })
         let concealedSwitches = Set(switches.values)
+        // A switch macOS keeps for an application can fail to list the application's own item,
+        // and then turning it off hides nothing (see `TrackedApplications27.switchCoversItem`).
+        // List the item for the applications Ice is hiding, so that the switch reaches it.
+        var registered = Set<String>()
+        for (owner, switchID) in switches {
+            guard
+                let path = NSRunningApplication.runningApplications(withBundleIdentifier: owner).first?.bundleURL?.path
+            else {
+                continue
+            }
+            let result = TrackedApplications27.registeringItem(ofBundle: owner, at: path, underSwitch: switchID, in: array)
+            if result.changed {
+                array = result.array
+                registered.insert(owner)
+            }
+        }
         let recorded = Self.recorded
         let toDisallow = Set(concealedSwitches.filter { states[$0] == true })
         let toAllow = recorded.subtracting(concealedSwitches)
@@ -101,7 +122,10 @@ final class NativeAllowListConcealer27 {
         let disallowed = TrackedApplications27.settingAllowed(false, for: toDisallow, in: array)
         let allowed = TrackedApplications27.settingAllowed(true, for: toAllow, in: disallowed.array)
         array = allowed.array
-        if !disallowed.changed.isEmpty || !allowed.changed.isEmpty {
+        if !registered.isEmpty {
+            logger.notice("Listed the menu bar item of the switch macOS kept without it: \(registered.sorted().joined(separator: " "), privacy: .public)")
+        }
+        if !registered.isEmpty || !disallowed.changed.isEmpty || !allowed.changed.isEmpty {
             try Preferences.write(array)
             if !disallowed.changed.isEmpty {
                 logger.notice("Disallowed in the menu bar: \(disallowed.changed.sorted().joined(separator: " "), privacy: .public)")

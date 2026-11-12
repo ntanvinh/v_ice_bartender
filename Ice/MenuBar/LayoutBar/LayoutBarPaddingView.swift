@@ -77,6 +77,21 @@ final class LayoutBarPaddingView: NSView {
             // On macOS 27 the saved layout decides sections and macOS orders the items within
             // one, so a drop only moves the item's application to this section.
             if !draggingSource.item.isControlItem, let bundleID = draggingSource.item.sourceApplication?.bundleIdentifier {
+                if
+                    container.section != .visible,
+                    !NativeSwitch27.canIceHide(bundleID: bundleID, tracked: NativeAllowListConcealer27.trackedBundleIDs())
+                {
+                    // Only macOS can hide this one. Putting it in "Hidden" would record a hiding
+                    // that never happens, so the tile goes back, and its switch in System Settings
+                    // is pressed for the user when it is known, or they are told where to find it.
+                    returnToOldContainer(draggingSource)
+                    if let menuBarSwitch = NativeSwitch27.menuBarSwitch(bundleID: bundleID, title: draggingSource.item.title) {
+                        turnOff(menuBarSwitch, appState: appState, item: draggingSource.item, bundleID: bundleID)
+                    } else {
+                        presentAlertForItemOnlyMacOSCanHide(draggingSource.item, bundleID: bundleID, failure: nil)
+                    }
+                    return false
+                }
                 appState.concealer27.setSection(MacOS27Section(container.section), for: bundleID)
             }
             return true
@@ -111,6 +126,46 @@ final class LayoutBarPaddingView: NSView {
         }
 
         return true
+    }
+
+    /// Puts a tile that was dragged here back in the row and place it came from.
+    private func returnToOldContainer(_ view: LayoutBarItemView) {
+        container.shouldAnimateNextLayoutPass = false
+        arrangedViews.removeAll { $0 === view }
+        guard let (old, index) = view.oldContainerInfo else {
+            return
+        }
+        old.shouldAnimateNextLayoutPass = false
+        old.arrangedViews.insert(view, at: min(index, old.arrangedViews.count))
+    }
+
+    @available(macOS 27.0, *)
+    private func turnOff(_ menuBarSwitch: NativeSwitch27.MenuBarSwitch, appState: AppState, item: MenuBarItem, bundleID: String) {
+        Task { @MainActor in
+            let outcome = await appState.nativeSwitches27.set(menuBarSwitch, shown: false)
+            if case .failed(let message) = outcome {
+                presentAlertForItemOnlyMacOSCanHide(item, bundleID: bundleID, failure: message)
+            }
+        }
+    }
+
+    @available(macOS 27.0, *)
+    private func presentAlertForItemOnlyMacOSCanHide(_ item: MenuBarItem, bundleID: String, failure: String?) {
+        let label = NativeSwitch27.label(bundleID: bundleID, title: item.title)
+        let alert = NSAlert()
+        alert.messageText = "VIce Bartender cannot hide \(label ?? "this item")."
+        let guidance = "macOS draws it and keeps it out of VIce Bartender's reach, so it would stay in the menu bar. "
+            + (label.map { "Turn off \u{201C}\($0)\u{201D} under Menu Bar Controls in System Settings > Menu Bar to hide it." }
+                ?? "If macOS has a switch for it under Menu Bar Controls in System Settings > Menu Bar, turn it off there.")
+        alert.informativeText = failure.map { "\($0)\n\n\(guidance)" } ?? guidance
+        alert.addButton(withTitle: "Open Menu Bar Settings")
+        alert.addButton(withTitle: "Cancel")
+        // After the drag has ended: a modal session inside a drop would hold the drag open.
+        DispatchQueue.main.async {
+            if alert.runModal() == .alertFirstButtonReturn {
+                MenuBarSettingsLink27.open()
+            }
+        }
     }
 
     private func move(item: MenuBarItem, to destination: MenuBarItemManager.MoveDestination) {

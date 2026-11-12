@@ -267,17 +267,6 @@ final class Concealer27: ObservableObject {
                 }
             }
             .store(in: &cancellables)
-        let navigation = appState.navigationState
-        navigation.$isSettingsPresented
-            .combineLatest(navigation.$settingsNavigationIdentifier)
-            .removeDuplicates { $0.0 == $1.0 && $0.1 == $1.1 }
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                MainActor.assumeIsolated {
-                    self?.update()
-                }
-            }
-            .store(in: &cancellables)
         appState.captureIndicatorPanel27.performSetup(watcher: appState.captureWatcher27, concealer: self)
         // Changing the method releases the old one in full before the new one is applied (see
         // `update`). Received on the main queue, so the setting already holds the new value.
@@ -1136,6 +1125,10 @@ final class Concealer27: ObservableObject {
         remember(items: items)
         var cache = MenuBarItemManager.ItemCache(displayID: displayID)
         let layout = savedLayout
+        // What only macOS can hide stays on the bar whatever the layout says (see `NativeSwitch27`),
+        // so the layout window lists it under "Visible", where it is, instead of a row that
+        // promises a hiding nobody does.
+        let tracked = NativeAllowListConcealer27.trackedBundleIDs()
         let all = items + concealedItemsMissing(from: items)
         for item in all.sorted(by: { $0.bounds.minX < $1.bounds.minX }) where !item.isSystemClone {
             // An item macOS 27 draws itself — the clock, Wi-Fi, the battery, Control Centre —
@@ -1153,7 +1146,9 @@ final class Concealer27: ObservableObject {
             if item.isControlItem {
                 continue
             }
-            switch layout[item.sourceApplication?.bundleIdentifier ?? ""] ?? .visible {
+            let bundleID = item.sourceApplication?.bundleIdentifier ?? ""
+            let section = NativeSwitch27.canIceHide(bundleID: bundleID, tracked: tracked) ? layout[bundleID] ?? .visible : .visible
+            switch section {
             case .visible: cache[.visible].append(item)
             case .hidden: cache[.hidden].append(item)
             case .alwaysHidden: cache[.alwaysHidden].append(item)
@@ -1193,12 +1188,16 @@ final class Concealer27: ObservableObject {
 
     // MARK: Private
 
+    /// What the bar shows, from Ice's sections alone.
+    ///
+    /// The layout window is deliberately not a case. It used to reveal every item while it was
+    /// open, so that all of them could be photographed at once, and the real bar then looked as
+    /// if Ice were not hiding anything, and a drag between its rows showed nothing on the bar
+    /// until the window was closed (reported 2026-11-12). The bar now stays as it was, so a drop
+    /// moves the application on the real bar at once, and the tile of an item with no image yet
+    /// is photographed by showing its application for a moment (`ItemImageStore27.photographMissing`),
+    /// as for the Ice Bar.
     private func revealState(_ appState: AppState) -> RevealState27 {
-        let navigation = appState.navigationState
-        if navigation.isSettingsPresented, navigation.settingsNavigationIdentifier == .menuBarLayout {
-            // Everything is drawn while the layout window is open, so every item can be photographed.
-            return .allRevealed
-        }
         if appState.settings.general.useIceBar {
             // The Ice Bar shows hidden items in its own panel, so the bar stays concealed.
             return .allHidden
