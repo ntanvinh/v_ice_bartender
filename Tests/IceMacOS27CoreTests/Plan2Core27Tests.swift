@@ -265,6 +265,29 @@ struct ItemImageBackground27Tests {
         #expect(votes.light == 4)
     }
 
+    @Test("Dark wallpaper does not outvote a white glyph")
+    func darkWallpaperDoesNotOutvoteTheGlyph() {
+        // Measured 2026-11-12 on an aerial video wallpaper of tea fields: across the bar, 68 349
+        // pixels were within 55 of black against 7 405 within 55 of white, though every glyph was
+        // drawn in pure white (255). Counted that loosely, the dark foliage outvoted the glyphs
+        // whenever a frame was dark enough, the bar was judged to have black glyphs, and the
+        // VOpenKey tile came out as a cloud of wallpaper around a hole in the shape of its box.
+        let width = 12
+        let height = 6
+        var pixels = [UInt8]()
+        for y in 0..<height {
+            for x in 0..<width {
+                let isGlyph = (8...9).contains(x) && (2...3).contains(y)
+                let isFoliage = (1...5).contains(x) && (1...4).contains(y)
+                let value: UInt8 = isGlyph ? 255 : isFoliage ? 30 : 128
+                pixels += [value, value, value, 255]
+            }
+        }
+        let votes = ItemImages27.toneVotes(pixels: pixels, width: width, height: height)
+        #expect(votes.light == 4)
+        #expect(votes.dark == 0)
+    }
+
     @Test("The glyph keeps its own colour")
     func glyphColourKept() {
         let pixels = ItemImages27.removingBackground(pixels: tile(background: (100, 140, 170), centre: (40, 200, 90)), width: 5, height: 5, background: (100, 140, 170))

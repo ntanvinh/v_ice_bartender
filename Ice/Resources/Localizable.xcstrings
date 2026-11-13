@@ -1,0 +1,3075 @@
+{
+  "sourceLanguage" : "en",
+  "version" : "1.0",
+  "strings" : {
+    "\"%@\" is not movable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” không thể di chuyển"
+          }
+        }
+      }
+    },
+    "\"%@\" took too long to respond" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” phản hồi quá lâu"
+          }
+        }
+      }
+    },
+    "%@ does not publish its status to macOS, so VIce Bartender cannot see when it changes." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ không gửi trạng thái của nó cho macOS nên VIce Bartender không thể biết khi nào trạng thái thay đổi."
+          }
+        }
+      }
+    },
+    "%@ is unresponsive. Until it is restarted, it cannot be moved. Movement of other menu bar items may also be affected until this is resolved." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ không phản hồi. Cho đến khi được khởi động lại, mục này không thể di chuyển. Việc di chuyển các mục thanh menu khác cũng có thể bị ảnh hưởng cho đến khi khắc phục."
+          }
+        }
+      }
+    },
+    "%@ second" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ giây"
+          }
+        }
+      }
+    },
+    "%@ seconds" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ giây"
+          }
+        }
+      }
+    },
+    "A new update is available" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Có bản cập nhật mới"
+          }
+        }
+      }
+    },
+    "About" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giới thiệu"
+          }
+        }
+      }
+    },
+    "Absolutely no personal information is collected or stored." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tuyệt đối không thu thập hay lưu trữ thông tin cá nhân."
+          }
+        }
+      }
+    },
+    "Accessibility" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trợ năng"
+          }
+        }
+      }
+    },
+    "Account number" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Số tài khoản"
+          }
+        }
+      }
+    },
+    "Acknowledgements" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ghi công"
+          }
+        }
+      }
+    },
+    "Advanced" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nâng cao"
+          }
+        }
+      }
+    },
+    "Allow in the Menu Bar" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cho phép trong thanh menu"
+          }
+        }
+      }
+    },
+    "Always-Hidden" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luôn ẩn"
+          }
+        }
+      }
+    },
+    "An item in Always-Hidden always stays hidden." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mục trong phần Luôn ẩn sẽ luôn bị ẩn."
+          }
+        }
+      }
+    },
+    "Another switch is being changed. Try again in a moment." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Một công tắc khác đang được thay đổi. Hãy thử lại sau giây lát."
+          }
+        }
+      }
+    },
+    "Apply" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Áp dụng"
+          }
+        }
+      }
+    },
+    "Apply different settings based on the current system appearance." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Áp dụng cài đặt khác nhau theo giao diện hệ thống hiện tại."
+          }
+        }
+      }
+    },
+    "Apply the current spacing" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Áp dụng khoảng cách hiện tại"
+          }
+        }
+      }
+    },
+    "Applying this setting will relaunch all apps with menu bar items. Some apps may need to be manually relaunched." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Áp dụng cài đặt này sẽ khởi động lại mọi ứng dụng có mục trên thanh menu. Một số ứng dụng có thể cần được mở lại thủ công."
+          }
+        }
+      }
+    },
+    "Arrange menu bar items." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sắp xếp các mục trên thanh menu."
+          }
+        }
+      }
+    },
+    "Arrow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mũi tên"
+          }
+        }
+      }
+    },
+    "Assessment mode" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chế độ đánh giá"
+          }
+        }
+      }
+    },
+    "Automatically check for updates" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tự động kiểm tra cập nhật"
+          }
+        }
+      }
+    },
+    "Automatically download updates" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tự động tải cập nhật"
+          }
+        }
+      }
+    },
+    "Automatically rehide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tự động ẩn lại"
+          }
+        }
+      }
+    },
+    "BETA" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BETA"
+          }
+        }
+      }
+    },
+    "Bank" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ngân hàng"
+          }
+        }
+      }
+    },
+    "Based on" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dựa trên"
+          }
+        }
+      }
+    },
+    "Border" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viền"
+          }
+        }
+      }
+    },
+    "Border Color" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Màu viền"
+          }
+        }
+      }
+    },
+    "Border Width" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Độ dày viền"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hủy"
+          }
+        }
+      }
+    },
+    "Change the menu bar's appearance." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thay đổi giao diện thanh menu."
+          }
+        }
+      }
+    },
+    "Check for Updates" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kiểm tra cập nhật"
+          }
+        }
+      }
+    },
+    "Check for Updates…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kiểm tra cập nhật…"
+          }
+        }
+      }
+    },
+    "Checking for updates is not supported in debug mode." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không hỗ trợ kiểm tra cập nhật ở chế độ gỡ lỗi."
+          }
+        }
+      }
+    },
+    "Chevron" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mũi tên chữ V"
+          }
+        }
+      }
+    },
+    "Choose a custom icon to show in the menu bar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chọn biểu tượng tùy chỉnh để hiện trên thanh menu."
+          }
+        }
+      }
+    },
+    "Choose any amount on PayPal. A browser will open; internet access is required." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chọn số tiền bất kỳ trên PayPal. Trình duyệt sẽ mở ra; cần có kết nối Internet."
+          }
+        }
+      }
+    },
+    "Choose image…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chọn ảnh…"
+          }
+        }
+      }
+    },
+    "Choose the language of VIce Bartender. \"System\" follows the language set in System Settings." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chọn ngôn ngữ của VIce Bartender. \"Hệ thống\" dùng ngôn ngữ đặt trong Cài đặt Hệ thống."
+          }
+        }
+      }
+    },
+    "Clear" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xóa"
+          }
+        }
+      }
+    },
+    "Click Item" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bấm mục"
+          }
+        }
+      }
+    },
+    "Click inside an empty area of the menu bar to show hidden menu bar items." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bấm vào vùng trống của thanh menu để hiện các mục đang ẩn."
+          }
+        }
+      }
+    },
+    "Click to open System Settings > Menu Bar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bấm để mở Cài đặt hệ thống > Thanh menu."
+          }
+        }
+      }
+    },
+    "Click to show hidden menu bar items. Right-click to access VIce Bartender's settings." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bấm để hiện các mục thanh menu đang ẩn. Bấm chuột phải để mở cài đặt VIce Bartender."
+          }
+        }
+      }
+    },
+    "Contact" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liên hệ"
+          }
+        }
+      }
+    },
+    "Continue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiếp tục"
+          }
+        }
+      }
+    },
+    "Continue in Limited Mode" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiếp tục ở chế độ hạn chế"
+          }
+        }
+      }
+    },
+    "Control Center Access" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Truy cập Trung tâm điều khiển"
+          }
+        }
+      }
+    },
+    "Copied" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã sao chép"
+          }
+        }
+      }
+    },
+    "Copy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sao chép"
+          }
+        }
+      }
+    },
+    "Could not create event for \"%@\"" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không thể tạo sự kiện cho “%@”"
+          }
+        }
+      }
+    },
+    "Could not create the QR code. You can still transfer using the details below." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không tạo được mã QR. Bạn vẫn có thể chuyển khoản theo thông tin bên dưới."
+          }
+        }
+      }
+    },
+    "Custom" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tùy chỉnh"
+          }
+        }
+      }
+    },
+    "Custom icon uses dynamic appearance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biểu tượng tùy chỉnh dùng giao diện động"
+          }
+        }
+      }
+    },
+    "Dark Appearance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giao diện tối"
+          }
+        }
+      }
+    },
+    "Developed by %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phát triển bởi %@"
+          }
+        }
+      }
+    },
+    "Developer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nhà phát triển"
+          }
+        }
+      }
+    },
+    "Dimmed items are drawn by macOS and cannot be moved here: click one to open System Settings, where Wi‑Fi, Bluetooth, Sound and the others can be turned off. Dragging Text Input, VPN or Spotlight to Hidden turns them off there for you." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Các mục bị mờ do macOS vẽ nên không thể di chuyển ở đây: bấm vào một mục để mở Cài đặt hệ thống, nơi có thể tắt Wi‑Fi, Bluetooth, Âm thanh và các mục khác. Kéo Nguồn nhập, VPN hoặc Spotlight vào phần Ẩn sẽ tự tắt chúng ở đó cho bạn."
+          }
+        }
+      }
+    },
+    "Display images of individual menu bar items." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiển thị hình ảnh của từng mục trên thanh menu."
+          }
+        }
+      }
+    },
+    "Display the icon as a monochrome image that dynamically adjusts to match the menu bar's appearance. This setting removes all color from the icon, but ensures consistent rendering with both light and dark backgrounds." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiển thị biểu tượng dưới dạng ảnh đơn sắc, tự điều chỉnh theo giao diện của thanh menu. Tùy chọn này bỏ hết màu khỏi biểu tượng nhưng giữ hiển thị nhất quán trên cả nền sáng lẫn nền tối."
+          }
+        }
+      }
+    },
+    "Donate" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ủng hộ"
+          }
+        }
+      }
+    },
+    "Done" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xong"
+          }
+        }
+      }
+    },
+    "Door" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cánh cửa"
+          }
+        }
+      }
+    },
+    "Dot" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chấm"
+          }
+        }
+      }
+    },
+    "Drag to arrange your menu bar items into different sections." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kéo để sắp xếp các mục thanh menu vào những phần khác nhau."
+          }
+        }
+      }
+    },
+    "Due to a bug in a previous version of the app, the data for Ice’s menu bar sections was corrupted and had to be reset." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do lỗi ở phiên bản trước của app, dữ liệu các phần thanh menu của Ice đã bị hỏng và phải đặt lại."
+          }
+        }
+      }
+    },
+    "Dynamic" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tự động"
+          }
+        }
+      }
+    },
+    "ERROR" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LỖI"
+          }
+        }
+      }
+    },
+    "Edit Menu Bar Appearance…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chỉnh giao diện thanh menu…"
+          }
+        }
+      }
+    },
+    "Ellipsis" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dấu ba chấm"
+          }
+        }
+      }
+    },
+    "Enable secondary context menu" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bật menu ngữ cảnh phụ"
+          }
+        }
+      }
+    },
+    "Enable the Ice Bar" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bật Ice Bar"
+          }
+        }
+      }
+    },
+    "Enable the always-hidden section" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bật phần luôn ẩn"
+          }
+        }
+      }
+    },
+    "English" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "English"
+          }
+        }
+      }
+    },
+    "Event operation timed out for \"%@\"" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thao tác sự kiện bị hết thời gian cho “%@”"
+          }
+        }
+      }
+    },
+    "Focused app" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ứng dụng đang dùng"
+          }
+        }
+      }
+    },
+    "Full" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đầy đủ"
+          }
+        }
+      }
+    },
+    "General" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chung"
+          }
+        }
+      }
+    },
+    "Get real-time information about the menu bar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nhận thông tin thời gian thực về thanh menu."
+          }
+        }
+      }
+    },
+    "Go to Advanced Settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đến phần Cài đặt nâng cao"
+          }
+        }
+      }
+    },
+    "Gradient" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chuyển màu"
+          }
+        }
+      }
+    },
+    "Grant Permission" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cấp quyền"
+          }
+        }
+      }
+    },
+    "Granted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã cấp"
+          }
+        }
+      }
+    },
+    "Hidden" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ẩn"
+          }
+        }
+      }
+    },
+    "Hide %@ Section" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ẩn phần %@"
+          }
+        }
+      }
+    },
+    "Hide app menus when showing menu bar items" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ẩn menu ứng dụng khi hiện các mục thanh menu"
+          }
+        }
+      }
+    },
+    "Hide menu bar items with macOS's own “Allow in the Menu Bar” switch." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ẩn các mục thanh menu bằng công tắc “Cho phép trong thanh menu” của chính macOS."
+          }
+        }
+      }
+    },
+    "Hiding method" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cách ẩn"
+          }
+        }
+      }
+    },
+    "Hiding on macOS 27" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ẩn mục trên macOS 27"
+          }
+        }
+      }
+    },
+    "Hold to Preview" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giữ để xem trước"
+          }
+        }
+      }
+    },
+    "Hotkey is reserved by macOS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phím tắt này đã được macOS dành riêng"
+          }
+        }
+      }
+    },
+    "Hotkeys" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phím tắt"
+          }
+        }
+      }
+    },
+    "Hover over an empty area of the menu bar to show hidden menu bar items." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di chuột lên vùng trống của thanh menu để hiện các mục đang ẩn."
+          }
+        }
+      }
+    },
+    "I've donated" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tôi đã ủng hộ"
+          }
+        }
+      }
+    },
+    "App Icon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biểu tượng ứng dụng"
+          }
+        }
+      }
+    },
+    "Ice Cube" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viên đá"
+          }
+        }
+      }
+    },
+    "Ice by Jordan Baird" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ice của Jordan Baird"
+          }
+        }
+      }
+    },
+    "Ice icon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biểu tượng Ice"
+          }
+        }
+      }
+    },
+    "If VIce Bartender makes your day easier, you can help keep it maintained. Any amount is welcome and entirely optional." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nếu VIce Bartender giúp ích cho bạn, bạn có thể góp phần duy trì ứng dụng. Số tiền nào cũng được hoan nghênh và hoàn toàn tùy ý."
+          }
+        }
+      }
+    },
+    "If macOS has a switch for it under Menu Bar Controls in System Settings > Menu Bar, turn it off there." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nếu macOS có công tắc cho mục này trong Điều khiển thanh menu ở Cài đặt hệ thống > Thanh menu, hãy tắt nó ở đó."
+          }
+        }
+      }
+    },
+    "International" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quốc tế"
+          }
+        }
+      }
+    },
+    "Invalid event source" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nguồn sự kiện không hợp lệ"
+          }
+        }
+      }
+    },
+    "It is shown only while it is in Hidden." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mục này chỉ được hiện khi nằm trong phần Ẩn."
+          }
+        }
+      }
+    },
+    "Items can also be arranged by ⌘ Command + dragging them in the menu bar, while their section is showing." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bạn cũng có thể sắp xếp bằng ⌘ Command + kéo ngay trên thanh menu, khi phần chứa mục đó đang hiện."
+          }
+        }
+      }
+    },
+    "Items can also be arranged by ⌘ Command + dragging them in the menu bar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bạn cũng có thể sắp xếp bằng ⌘ Command + kéo ngay trên thanh menu."
+          }
+        }
+      }
+    },
+    "Items missing, or showing the wrong icon?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mục bị mất hoặc hiện sai biểu tượng?"
+          }
+        }
+      }
+    },
+    "Keep the VIce Bartender icon in the menu bar while items are hidden." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giữ biểu tượng VIce Bartender trên thanh menu khi các mục đang bị ẩn."
+          }
+        }
+      }
+    },
+    "Language" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ngôn ngữ"
+          }
+        }
+      }
+    },
+    "Last checked: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kiểm tra lần cuối: %@"
+          }
+        }
+      }
+    },
+    "Leading End Cap" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đầu bên trái"
+          }
+        }
+      }
+    },
+    "Light Appearance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giao diện sáng"
+          }
+        }
+      }
+    },
+    "Loading menu bar items…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đang tải các mục thanh menu…"
+          }
+        }
+      }
+    },
+    "Location" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vị trí"
+          }
+        }
+      }
+    },
+    "Make more room in the menu bar by hiding the current app menus if needed. macOS normally shows Ice in the Dock while this setting is in effect; turn that off with “Show app icon in the Dock.”" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tạo thêm chỗ trên thanh menu bằng cách ẩn menu của ứng dụng hiện tại nếu cần. Khi tùy chọn này đang bật, macOS thường hiện Ice trên Dock; tắt “Hiện biểu tượng ứng dụng trên Dock” để ẩn đi."
+          }
+        }
+      }
+    },
+    "Menu Bar Appearance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giao diện thanh menu"
+          }
+        }
+      }
+    },
+    "Menu Bar Indicators" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chỉ báo trên thanh menu"
+          }
+        }
+      }
+    },
+    "Menu Bar Item" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mục thanh menu"
+          }
+        }
+      }
+    },
+    "Menu Bar Items" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Các mục thanh menu"
+          }
+        }
+      }
+    },
+    "Menu Bar Layout" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bố cục thanh menu"
+          }
+        }
+      }
+    },
+    "Menu Bar Sections" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Các phần của thanh menu"
+          }
+        }
+      }
+    },
+    "Menu Bar Shape" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hình dạng thanh menu"
+          }
+        }
+      }
+    },
+    "Menu bar item is not movable." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không thể di chuyển mục thanh menu này."
+          }
+        }
+      }
+    },
+    "Menu bar item spacing" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khoảng cách giữa các mục thanh menu"
+          }
+        }
+      }
+    },
+    "Menu bar items are rehidden after a fixed amount of time." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Các mục thanh menu được ẩn lại sau một khoảng thời gian cố định."
+          }
+        }
+      }
+    },
+    "Menu bar items are rehidden using a smart algorithm." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Các mục thanh menu được ẩn lại bằng thuật toán thông minh."
+          }
+        }
+      }
+    },
+    "Menu bar items are rehidden when the focused app changes." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Các mục thanh menu được ẩn lại khi ứng dụng đang dùng thay đổi."
+          }
+        }
+      }
+    },
+    "Menu bar layout requires screen recording permissions." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bố cục thanh menu cần quyền ghi màn hình."
+          }
+        }
+      }
+    },
+    "Missing bounds rectangle for \"%@\"" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thiếu hình chữ nhật vị trí cho “%@”"
+          }
+        }
+      }
+    },
+    "Missing mouse location" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thiếu vị trí con trỏ chuột"
+          }
+        }
+      }
+    },
+    "Mouse pointer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con trỏ chuột"
+          }
+        }
+      }
+    },
+    "Never" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chưa bao giờ"
+          }
+        }
+      }
+    },
+    "No shape kind selected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chưa chọn kiểu hình dạng"
+          }
+        }
+      }
+    },
+    "None" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không"
+          }
+        }
+      }
+    },
+    "Not Granted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chưa cấp"
+          }
+        }
+      }
+    },
+    "Not enough room to show \"%@\"" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không đủ chỗ để hiện “%@”"
+          }
+        }
+      }
+    },
+    "Not granted, optional" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chưa cấp, tùy chọn"
+          }
+        }
+      }
+    },
+    "Not granted, required" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chưa cấp, bắt buộc"
+          }
+        }
+      }
+    },
+    "Note: You may need to log out and back in for this setting to apply properly." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lưu ý: bạn có thể cần đăng xuất rồi đăng nhập lại để cài đặt này có hiệu lực đầy đủ."
+          }
+        }
+      }
+    },
+    "OK" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "Open Ice Settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mở cài đặt Ice"
+          }
+        }
+      }
+    },
+    "Open Menu Bar Settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mở cài đặt thanh menu"
+          }
+        }
+      }
+    },
+    "Open PayPal" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mở PayPal"
+          }
+        }
+      }
+    },
+    "Operation could not be completed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không thể hoàn tất thao tác"
+          }
+        }
+      }
+    },
+    "Other" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khác"
+          }
+        }
+      }
+    },
+    "Payment link" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liên kết thanh toán"
+          }
+        }
+      }
+    },
+    "Permissions" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quyền truy cập"
+          }
+        }
+      }
+    },
+    "Please try again. If the error persists, please file a bug report." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hãy thử lại. Nếu lỗi vẫn tiếp diễn, hãy gửi báo cáo lỗi."
+          }
+        }
+      }
+    },
+    "Quit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thoát"
+          }
+        }
+      }
+    },
+    "Quit VIce Bartender" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thoát VIce Bartender"
+          }
+        }
+      }
+    },
+    "Recipient" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Người nhận"
+          }
+        }
+      }
+    },
+    "Record" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ghi"
+          }
+        }
+      }
+    },
+    "Record Hotkey" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ghi phím tắt"
+          }
+        }
+      }
+    },
+    "Region" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khu vực"
+          }
+        }
+      }
+    },
+    "Relaunch %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mở lại %@"
+          }
+        }
+      }
+    },
+    "Reset" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đặt lại"
+          }
+        }
+      }
+    },
+    "Reset Menu Bar Appearance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đặt lại giao diện thanh menu"
+          }
+        }
+      }
+    },
+    "Reset to the default spacing" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đặt lại khoảng cách mặc định"
+          }
+        }
+      }
+    },
+    "Restart VIce Bartender to apply the new language." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khởi động lại VIce Bartender để áp dụng ngôn ngữ mới."
+          }
+        }
+      }
+    },
+    "Restart now" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khởi động lại ngay"
+          }
+        }
+      }
+    },
+    "Restart the menu bar" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khởi động lại thanh menu"
+          }
+        }
+      }
+    },
+    "Right-click in an empty area of the menu bar to display a minimal version of Ice's menu. Disable this setting if you encounter conflicts with other apps." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bấm chuột phải vào vùng trống của thanh menu để hiện menu rút gọn của Ice. Tắt tùy chọn này nếu gặp xung đột với ứng dụng khác."
+          }
+        }
+      }
+    },
+    "Round Cap" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đầu tròn"
+          }
+        }
+      }
+    },
+    "Scan with your banking app and enter any amount." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quét bằng ứng dụng ngân hàng và nhập số tiền bất kỳ."
+          }
+        }
+      }
+    },
+    "Screen Recording" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ghi màn hình"
+          }
+        }
+      }
+    },
+    "Scroll or swipe in the menu bar to show hidden menu bar items." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuộn hoặc vuốt trên thanh menu để hiện các mục đang ẩn."
+          }
+        }
+      }
+    },
+    "Search Menu Bar Items" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tìm mục thanh menu"
+          }
+        }
+      }
+    },
+    "Search menu bar items" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tìm mục thanh menu"
+          }
+        }
+      }
+    },
+    "Search menu bar items…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tìm mục thanh menu…"
+          }
+        }
+      }
+    },
+    "Section divider style" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kiểu vạch chia phần"
+          }
+        }
+      }
+    },
+    "Shadow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đổ bóng"
+          }
+        }
+      }
+    },
+    "Shape Kind" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kiểu hình dạng"
+          }
+        }
+      }
+    },
+    "Show %@ Section" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiện phần %@"
+          }
+        }
+      }
+    },
+    "Show Ice icon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiện biểu tượng Ice"
+          }
+        }
+      }
+    },
+    "Show Item" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiện mục"
+          }
+        }
+      }
+    },
+    "Show a camera and microphone indicator" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiện chỉ báo camera và micro"
+          }
+        }
+      }
+    },
+    "Show again" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiện lại"
+          }
+        }
+      }
+    },
+    "Show all sections when ⌘ Command + dragging menu bar items" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiện mọi phần khi ⌘ Command + kéo các mục thanh menu"
+          }
+        }
+      }
+    },
+    "Show app icon in the Dock" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiện biểu tượng ứng dụng trên Dock"
+          }
+        }
+      }
+    },
+    "Show for %lld seconds when its status changes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiện trong %lld giây khi trạng thái thay đổi"
+          }
+        }
+      }
+    },
+    "Show hidden menu bar items in a separate bar below the menu bar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiện các mục thanh menu đang ẩn trên một thanh riêng bên dưới thanh menu."
+          }
+        }
+      }
+    },
+    "Show on click" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiện khi bấm"
+          }
+        }
+      }
+    },
+    "Show on hover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiện khi di chuột"
+          }
+        }
+      }
+    },
+    "Show on hover delay" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Độ trễ khi hiện lúc di chuột"
+          }
+        }
+      }
+    },
+    "Show on scroll" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiện khi cuộn"
+          }
+        }
+      }
+    },
+    "Shows a thank-you in About. Nothing is sent or checked." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiện lời cảm ơn trong mục Giới thiệu. Không có gì được gửi đi hay kiểm tra."
+          }
+        }
+      }
+    },
+    "Smart" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thông minh"
+          }
+        }
+      }
+    },
+    "Solid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Một màu"
+          }
+        }
+      }
+    },
+    "Some items are folded away on the built-in display." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Một số mục bị gộp lại trên màn hình tích hợp."
+          }
+        }
+      }
+    },
+    "Space" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dấu cách"
+          }
+        }
+      }
+    },
+    "Split" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tách đôi"
+          }
+        }
+      }
+    },
+    "Square Cap" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đầu vuông"
+          }
+        }
+      }
+    },
+    "Strategy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiến lược"
+          }
+        }
+      }
+    },
+    "Sunglasses" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kính râm"
+          }
+        }
+      }
+    },
+    "Support Ice's original author" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ủng hộ tác giả gốc của Ice"
+          }
+        }
+      }
+    },
+    "Support VIce Bartender" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ủng hộ VIce Bartender"
+          }
+        }
+      }
+    },
+    "Support the original author" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ủng hộ tác giả gốc"
+          }
+        }
+      }
+    },
+    "System" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hệ thống"
+          }
+        }
+      }
+    },
+    "System Settings could not be opened: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không thể mở Cài đặt hệ thống: %@"
+          }
+        }
+      }
+    },
+    "System Settings did not accept the press. Turn it off there by hand." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cài đặt hệ thống không nhận cú bấm. Hãy tắt nó ở đó bằng tay."
+          }
+        }
+      }
+    },
+    "Task timed out before completion" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tác vụ hết thời gian trước khi hoàn tất"
+          }
+        }
+      }
+    },
+    "Temporarily shown item delay" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thời gian giữ mục hiện tạm thời"
+          }
+        }
+      }
+    },
+    "Thank you for your support." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cảm ơn bạn đã ủng hộ."
+          }
+        }
+      }
+    },
+    "The Ice Bar is centered below the Ice icon." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ice Bar nằm giữa, bên dưới biểu tượng Ice."
+          }
+        }
+      }
+    },
+    "The Ice Bar is centered below the mouse pointer." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ice Bar nằm giữa, bên dưới con trỏ chuột."
+          }
+        }
+      }
+    },
+    "The Ice Bar requires screen recording permissions." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ice Bar cần quyền ghi màn hình."
+          }
+        }
+      }
+    },
+    "The Ice Bar's location changes based on context." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vị trí của Ice Bar thay đổi theo ngữ cảnh."
+          }
+        }
+      }
+    },
+    "The VIce Bartender icon can disappear while items are hidden." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biểu tượng VIce Bartender có thể biến mất khi các mục đang bị ẩn."
+          }
+        }
+      }
+    },
+    "The amount of time to wait before hiding temporarily shown menu bar items." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thời gian chờ trước khi ẩn lại các mục thanh menu đang hiện tạm thời."
+          }
+        }
+      }
+    },
+    "The amount of time to wait before showing on hover." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thời gian chờ trước khi hiện khi di chuột."
+          }
+        }
+      }
+    },
+    "The app does not verify transfers and nothing is unlocked by donating." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ứng dụng không kiểm tra giao dịch và việc ủng hộ không mở khóa thêm gì."
+          }
+        }
+      }
+    },
+    "The camera is in use" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera đang được dùng"
+          }
+        }
+      }
+    },
+    "The following applications failed to quit and were not restarted:" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Các ứng dụng sau không thoát được và chưa được khởi động lại:"
+          }
+        }
+      }
+    },
+    "The license notices could not be loaded." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không thể tải thông báo giấy phép."
+          }
+        }
+      }
+    },
+    "The menu bar icon remains available when this is off." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biểu tượng trên thanh menu vẫn còn khi tắt tùy chọn này."
+          }
+        }
+      }
+    },
+    "The microphone is in use" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Micro đang được dùng"
+          }
+        }
+      }
+    },
+    "The switch did not change in System Settings. Turn it off there by hand." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Công tắc không đổi trong Cài đặt hệ thống. Hãy tắt nó ở đó bằng tay."
+          }
+        }
+      }
+    },
+    "The switch was not found in System Settings > Menu Bar. Turn it off there by hand." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không tìm thấy công tắc trong Cài đặt hệ thống > Thanh menu. Hãy tắt nó ở đó bằng tay."
+          }
+        }
+      }
+    },
+    "These items are off in System Settings > Menu Bar, so they are neither in the menu bar nor in this window. Turn one back on to see it again." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Các mục này đang tắt trong Cài đặt hệ thống > Thanh menu nên không có trên thanh menu cũng như trong cửa sổ này. Bật lại một mục để thấy nó."
+          }
+        }
+      }
+    },
+    "This action cannot be undone." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không thể hoàn tác thao tác này."
+          }
+        }
+      }
+    },
+    "This is the VIce Bartender icon. macOS keeps it just left of Control Center, and VIce Bartender cannot move it past that." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đây là biểu tượng VIce Bartender. macOS giữ nó ngay bên trái Trung tâm điều khiển và VIce Bartender không thể di chuyển nó qua điểm đó."
+          }
+        }
+      }
+    },
+    "Timed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theo thời gian"
+          }
+        }
+      }
+    },
+    "Tint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Màu phủ"
+          }
+        }
+      }
+    },
+    "Tip: You can also edit these settings by right-clicking in an empty area of the menu bar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mẹo: bạn cũng có thể chỉnh các cài đặt này bằng cách bấm chuột phải vào vùng trống của thanh menu."
+          }
+        }
+      }
+    },
+    "Tiếng Việt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiếng Việt"
+          }
+        }
+      }
+    },
+    "Toggle application menus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bật/tắt menu ứng dụng"
+          }
+        }
+      }
+    },
+    "Toggle the always-hidden section" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bật/tắt phần luôn ẩn"
+          }
+        }
+      }
+    },
+    "Toggle the hidden section" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bật/tắt phần ẩn"
+          }
+        }
+      }
+    },
+    "Trailing End Cap" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đầu bên phải"
+          }
+        }
+      }
+    },
+    "Transfer note" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nội dung chuyển khoản"
+          }
+        }
+      }
+    },
+    "Turn off “%@” under Menu Bar Controls in System Settings > Menu Bar to hide it." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hãy tắt “%@” trong Điều khiển thanh menu ở Cài đặt hệ thống > Thanh menu để ẩn nó."
+          }
+        }
+      }
+    },
+    "Turned off in macOS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã tắt trong macOS"
+          }
+        }
+      }
+    },
+    "Type Hotkey" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nhập phím tắt"
+          }
+        }
+      }
+    },
+    "Unable to display menu bar items" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không thể hiển thị các mục thanh menu"
+          }
+        }
+      }
+    },
+    "Use Ice Bar" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dùng Ice Bar"
+          }
+        }
+      }
+    },
+    "Use dynamic appearance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dùng giao diện động"
+          }
+        }
+      }
+    },
+    "Use inset shape on screens with notch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dùng hình thụt vào trên màn hình có tai thỏ"
+          }
+        }
+      }
+    },
+    "Uses assessment mode, which also removes Control Centre's modules and needs a brief reveal to pass clicks to system items. Only for systems where the native switch does not work." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dùng chế độ đánh giá, chế độ này cũng gỡ các mô-đun của Trung tâm điều khiển và cần hiện ra chốc lát để chuyển cú bấm tới các mục hệ thống. Chỉ dành cho máy mà công tắc gốc không hoạt động."
+          }
+        }
+      }
+    },
+    "Uses macOS's own Allow in the Menu Bar switch for each hidden app. System items stay native, including Focus and the camera indicator, and clicks on them need no reveal. While hidden, those apps show as not allowed in System Settings > Control Center." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dùng công tắc “Cho phép trong thanh menu” của chính macOS cho từng ứng dụng bị ẩn. Các mục hệ thống vẫn giữ nguyên, gồm Tập trung và chỉ báo camera, và bấm vào chúng không cần hiện ra trước. Khi bị ẩn, các ứng dụng đó hiện là không được cho phép trong Cài đặt hệ thống > Trung tâm điều khiển."
+          }
+        }
+      }
+    },
+    "VIce Bartender" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VIce Bartender"
+          }
+        }
+      }
+    },
+    "VIce Bartender Settings…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cài đặt VIce Bartender…"
+          }
+        }
+      }
+    },
+    "VIce Bartender can work in a limited mode without this permission." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VIce Bartender vẫn chạy được ở chế độ hạn chế khi không có quyền này."
+          }
+        }
+      }
+    },
+    "VIce Bartender cannot arrange menu bar items in automatically hidden menu bars." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VIce Bartender không thể sắp xếp các mục trong thanh menu tự động ẩn."
+          }
+        }
+      }
+    },
+    "VIce Bartender cannot display menu bar items for automatically hidden menu bars" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VIce Bartender không thể hiển thị các mục của thanh menu tự động ẩn"
+          }
+        }
+      }
+    },
+    "VIce Bartender cannot edit the appearance of automatically hidden menu bars." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VIce Bartender không thể chỉnh giao diện của thanh menu tự động ẩn."
+          }
+        }
+      }
+    },
+    "VIce Bartender cannot hide %@." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VIce Bartender không thể ẩn %@."
+          }
+        }
+      }
+    },
+    "VIce Bartender cannot hide this item." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VIce Bartender không thể ẩn mục này."
+          }
+        }
+      }
+    },
+    "VIce Bartender is a fork of Ice. © 2025 Jordan Baird, licensed under GPL-3.0." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VIce Bartender là bản fork của Ice. © 2025 Jordan Baird, giấy phép GPL-3.0."
+          }
+        }
+      }
+    },
+    "VIce Bartender is built on the work of the people below." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VIce Bartender được xây dựng trên công sức của những người dưới đây."
+          }
+        }
+      }
+    },
+    "VIce Bartender needs the Accessibility permission to press the switch for you." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VIce Bartender cần quyền Trợ năng để bấm công tắc giúp bạn."
+          }
+        }
+      }
+    },
+    "VIce Bartender needs this to:" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VIce Bartender cần quyền này để:"
+          }
+        }
+      }
+    },
+    "VIce Bartender needs your permission to manage the menu bar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VIce Bartender cần quyền của bạn để quản lý thanh menu."
+          }
+        }
+      }
+    },
+    "Version %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phiên bản %@"
+          }
+        }
+      }
+    },
+    "Version %@ is now available" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phiên bản %@ đã sẵn sàng"
+          }
+        }
+      }
+    },
+    "VietQR donation bank transfer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chuyển khoản ủng hộ qua VietQR"
+          }
+        }
+      }
+    },
+    "Vietnam" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Việt Nam"
+          }
+        }
+      }
+    },
+    "Visible" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiển thị"
+          }
+        }
+      }
+    },
+    "Website" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trang web"
+          }
+        }
+      }
+    },
+    "Without access to Control Center, macOS hides items in a way that also removes this icon. With access, VIce Bartender uses macOS's own “Allow in the Menu Bar” switch, which keeps it. macOS asks for Full Disk Access first: turn it on for VIce Bartender, then quit and reopen the app." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khi không có quyền truy cập Trung tâm điều khiển, macOS ẩn các mục theo cách cũng làm mất biểu tượng này. Khi có quyền, VIce Bartender dùng công tắc “Cho phép trong thanh menu” của chính macOS và biểu tượng được giữ lại. macOS sẽ hỏi quyền Truy cập toàn bộ ổ đĩa trước: hãy bật cho VIce Bartender, rồi thoát và mở lại ứng dụng."
+          }
+        }
+      }
+    },
+    "You may need to log out for the changes to take effect." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bạn có thể cần đăng xuất để các thay đổi có hiệu lực."
+          }
+        }
+      }
+    },
+    "default" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mặc định"
+          }
+        }
+      }
+    },
+    "left click" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bấm chuột trái"
+          }
+        }
+      }
+    },
+    "macOS 27 fixes an item's spacing when its application creates it, so changing it would mean quitting and starting every application that has one — and an application whose item is hidden publishes nothing to relaunch, so it would keep the old spacing regardless. Ice does not offer it here." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 27 sửa khoảng cách của một mục khi ứng dụng tạo ra nó, nên đổi khoảng cách sẽ buộc phải thoát và mở lại mọi ứng dụng có mục như vậy — còn ứng dụng có mục đang bị ẩn thì không có gì để mở lại, nên khoảng cách cũ vẫn giữ nguyên. Ice không cung cấp tùy chọn này ở đây."
+          }
+        }
+      }
+    },
+    "macOS draws it and keeps it out of VIce Bartender's reach, so it would stay in the menu bar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS vẽ mục này và giữ nó ngoài tầm với của VIce Bartender, nên nó vẫn sẽ ở lại trên thanh menu."
+          }
+        }
+      }
+    },
+    "macOS draws none of its own while VIce Bartender is hiding items. Click VIce Bartender's to open Control Centre." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS không tự vẽ chỉ báo nào khi VIce Bartender đang ẩn các mục. Bấm vào chỉ báo của VIce Bartender để mở Trung tâm điều khiển."
+          }
+        }
+      }
+    },
+    "macOS draws this item and VIce Bartender cannot hide it itself. Drag it to Hidden and VIce Bartender turns off “%@” in System Settings > Menu Bar for you." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS vẽ mục này và VIce Bartender không tự ẩn được. Kéo nó vào phần Ẩn và VIce Bartender sẽ tắt “%@” trong Cài đặt hệ thống > Thanh menu giúp bạn."
+          }
+        }
+      }
+    },
+    "macOS draws this item and VIce Bartender cannot hide it. If macOS has a switch for it under Menu Bar Controls in System Settings > Menu Bar, turn it off there." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS vẽ mục này và VIce Bartender không thể ẩn nó. Nếu macOS có công tắc cho mục này trong Điều khiển thanh menu ở Cài đặt hệ thống > Thanh menu, hãy tắt nó ở đó."
+          }
+        }
+      }
+    },
+    "macOS draws this item itself, so VIce Bartender cannot move or hide it. macOS can: turn it off under Menu Bar Controls in System Settings > Menu Bar. Wi‑Fi, Bluetooth, Sound, Spotlight, Siri, Text Input and VPN each have a switch there." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS tự vẽ mục này nên VIce Bartender không thể di chuyển hay ẩn nó. macOS thì có thể: hãy tắt nó trong Điều khiển thanh menu ở Cài đặt hệ thống > Thanh menu. Wi‑Fi, Bluetooth, Âm thanh, Spotlight, Siri, Nguồn nhập và VPN đều có công tắc ở đó."
+          }
+        }
+      }
+    },
+    "macOS draws this item itself." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS tự vẽ mục này."
+          }
+        }
+      }
+    },
+    "macOS prohibits \"%@\" from being moved." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS không cho phép di chuyển “%@”."
+          }
+        }
+      }
+    },
+    "macOS sometimes stops drawing an item, and relaunching the application it belongs to does not bring it back. Restarting the part of macOS that draws the menu bar does. The bar blinks for about a second. Nothing closes, and no settings change." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đôi khi macOS ngừng vẽ một mục và mở lại ứng dụng của mục đó cũng không đưa nó trở lại. Khởi động lại phần của macOS vẽ thanh menu thì được. Thanh menu sẽ nháy khoảng một giây. Không có gì bị đóng và không cài đặt nào thay đổi."
+          }
+        }
+      }
+    },
+    "macOS stopped laying them out when VIce Bartender freed the space beside the notch, and left no control to reach them. Restarting the menu bar, below, brings them back. So does relaunching the application whose item is missing." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ngừng bố trí các mục này khi VIce Bartender giải phóng khoảng trống cạnh tai thỏ, và không để lại cách nào để truy cập chúng. Khởi động lại thanh menu bên dưới sẽ đưa chúng trở lại. Mở lại ứng dụng có mục bị mất cũng được."
+          }
+        }
+      }
+    },
+    "max" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tối đa"
+          }
+        }
+      }
+    },
+    "none" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "không"
+          }
+        }
+      }
+    },
+    "right click" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bấm chuột phải"
+          }
+        }
+      }
+    },
+    "© 2025 Jordan Baird · © 2026 %@ · GPL-3.0" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2025 Jordan Baird · © 2026 %@ · GPL-3.0"
+          }
+        }
+      }
+    }
+  }
+}

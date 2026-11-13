@@ -24,5 +24,5 @@ enum MenuBarSettingsLink27 {
     }
 
     /// What the dimmed tiles of the layout window say about the item they stand for.
-    static let explanation = "macOS draws this item itself, so VIce Bartender cannot move or hide it. macOS can: turn it off under Menu Bar Controls in System Settings > Menu Bar. Wi\u{2011}Fi, Bluetooth, Sound, Spotlight, Siri, Text Input and VPN each have a switch there."
+    static var explanation: String { String(localized: "macOS draws this item itself, so VIce Bartender cannot move or hide it. macOS can: turn it off under Menu Bar Controls in System Settings > Menu Bar. Wi\u{2011}Fi, Bluetooth, Sound, Spotlight, Siri, Text Input and VPN each have a switch there.") }
 }

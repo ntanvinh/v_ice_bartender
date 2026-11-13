@@ -1,0 +1,32 @@
+{
+  "ice-bar": {
+    "shows": "The Ice Bar strip holding the hidden items Slack, Slack Huddle, 1Password, iTerm2, Tailscale and iStat Menus, drawn by the app's own Ice Bar view with demo items on a transparent canvas. Demo glyphs, not the apps' own icons; no menu bar above it.",
+    "inUse": true,
+    "language": "en-US"
+  },
+  "drag-and-drop-layout": {
+    "shows": "The Menu Bar Layout window with the Visible, Hidden and Always-Hidden rows filled with demo tiles (Zoom, Dropbox, Bluetooth, Slack, 1Password, iTerm2, Tailscale, iStat Menus, Sleep Timer, Clipboard History). No tile is mid-drag.",
+    "inUse": true,
+    "language": "en-US"
+  },
+  "search-menu-bar-items": {
+    "shows": "The search panel with \"slack\" typed and the results Slack Huddle and Slack (both hidden items), Show Item ready. App icons are the generic fallback because the demo items have no running app.",
+    "inUse": true,
+    "language": "en-US"
+  },
+  "menu-bar-appearance": {
+    "shows": "The Menu Bar Appearance pane with a purple-to-blue gradient tint, shadow, a 2 pt light border and the full rounded shape set. It is a settings screen, which is what this feature is; there is no live menu bar preview in the pane.",
+    "inUse": true,
+    "language": "en-US"
+  },
+  "keyboard-shortcuts": {
+    "shows": "The Hotkeys pane with ^⌥H (hidden section), ^⌥A (always-hidden), ^⌥Space (search), ^⌥B (Ice Bar) and ^⌥M (application menus) recorded. A settings screen, which is what this feature is.",
+    "inUse": true,
+    "language": "en-US"
+  },
+  "macos-27-support": {
+    "shows": "A created image, not a raw screenshot: the app icon and name, the headline \"Works on macOS 27\", and a crop of the app's real Advanced window rendered by the capture harness on macOS 27.2 (\"Hiding on macOS 27\" with the Hiding method, and Permissions: Accessibility, Screen Recording and Control Center Access, all Granted). The real macOS 27 menu bar cannot be photographed in the background, so it is not in the picture. Made by marketing/screenshots/seed/macos27-feature-image.swift, 2880 x 1800 px.",
+    "inUse": true,
+    "language": "en-US"
+  }
+}

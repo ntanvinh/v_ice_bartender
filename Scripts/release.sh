@@ -114,6 +114,9 @@ need_clean_tree() {
 $(git -C "$ROOT" status --short | sed 's/^/    /')"
 }
 
+# No release goes out with a local cache tracked, or with a README that names a file the release does not publish.
+"$ROOT/Scripts/check-repo.sh" || exit 1
+
 # --- checks, before anything is changed -----------------------------------------------------------------------------
 if [ "$PUBLISH" = 1 ] && [ "$NOTARIZE" = 0 ] && [ "${ALLOW_UNNOTARIZED:-0}" != 1 ]; then
     die "--publish needs --notarize: an app that is not notarized cannot be opened on other Macs without a warning (ALLOW_UNNOTARIZED=1 to override)"

@@ -603,7 +603,7 @@ final class ControlItem {
         let menu = NSMenu(title: "VIce Bartender")
 
         let settingsItem = NSMenuItem(
-            title: "VIce Bartender Settings…",
+            title: String(localized: "VIce Bartender Settings…"),
             action: #selector(AppDelegate.openSettingsWindow),
             keyEquivalent: ","
         )
@@ -613,7 +613,7 @@ final class ControlItem {
         menu.addItem(.separator())
 
         let searchItem = NSMenuItem(
-            title: "Search Menu Bar Items",
+            title: String(localized: "Search Menu Bar Items"),
             action: #selector(showSearchPanel),
             keyEquivalent: ""
         )
@@ -638,7 +638,9 @@ final class ControlItem {
                 continue
             }
             let item = NSMenuItem(
-                title: "\(section.isHidden ? "Show" : "Hide") \(name.displayString) Section",
+                title: section.isHidden
+                    ? String(localized: "Show \(String(localized: name.localizedTitle)) Section")
+                    : String(localized: "Hide \(String(localized: name.localizedTitle)) Section"),
                 action: #selector(toggleMenuBarSection),
                 keyEquivalent: ""
             )
@@ -657,7 +659,7 @@ final class ControlItem {
         menu.addItem(.separator())
 
         let checkForUpdatesItem = NSMenuItem(
-            title: "Check for Updates…",
+            title: String(localized: "Check for Updates…"),
             action: #selector(checkForUpdates),
             keyEquivalent: ""
         )
@@ -667,7 +669,7 @@ final class ControlItem {
         menu.addItem(.separator())
 
         let quitItem = NSMenuItem(
-            title: "Quit VIce Bartender",
+            title: String(localized: "Quit VIce Bartender"),
             action: #selector(NSApp.terminate),
             keyEquivalent: "q"
         )

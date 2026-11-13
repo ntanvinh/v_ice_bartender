@@ -20,7 +20,7 @@ struct PermissionSettingsRow: View {
                 }
             }
         } label: {
-            Text(permission.title)
+            Text(LocalizedStringKey(permission.title))
         }
         .frame(height: 22)
         // The checks stop once the app is set up, so the line asks again when it appears and

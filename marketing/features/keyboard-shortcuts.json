@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "keyboard-shortcuts",
+  "title": {
+    "en-US": "Control it from the keyboard",
+    "vi": "Điều khiển bằng phím tắt"
+  },
+  "description": {
+    "en-US": "Assign shortcuts to toggle sections, open search, switch the Ice Bar and toggle application menus.",
+    "vi": "Gán phím tắt để bật tắt các vùng, mở tìm kiếm, bật tắt Ice Bar và menu ứng dụng."
+  },
+  "tier": "value",
+  "rank": 90,
+  "mode": "desktop",
+  "orientation": "landscape",
+  "screens": [
+    "Hotkeys"
+  ],
+  "hasVideo": false,
+  "featured": 5,
+  "image": "../screenshots/desktop/05-keyboard-shortcuts.png"
+}

@@ -265,6 +265,6 @@ private struct CaptureIndicatorView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .contentShape(Rectangle())
         .onTapGesture(perform: press)
-        .help(kind == .camera ? "The camera is in use" : "The microphone is in use")
+        .help(kind == .camera ? LocalizedStringKey("The camera is in use") : LocalizedStringKey("The microphone is in use"))
     }
 }

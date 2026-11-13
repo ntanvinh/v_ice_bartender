@@ -57,6 +57,10 @@ final class LayoutBarContainer: NSView {
     /// Ice's own icon, listed under "Visible" on macOS 27 and kept so the same view is reused.
     private var ownIconItem: MenuBarItem?
 
+    /// The items last offered to ``setArrangedViews(items:)``, before any were left out, so the
+    /// row can be worked out again when a picture arrives.
+    private var offeredItems: [MenuBarItem]?
+
     private var cancellables = Set<AnyCancellable>()
 
     /// Creates a container view with the given app state, section, and spacing.
@@ -88,7 +92,8 @@ final class LayoutBarContainer: NSView {
                     guard let self else {
                         return
                     }
-                    setArrangedViews(items: cache.managedItems(for: section))
+                    offeredItems = cache.managedItems(for: section)
+                    setArrangedViews(items: offeredItems)
                 }
                 .store(in: &c)
 
@@ -98,7 +103,20 @@ final class LayoutBarContainer: NSView {
                     guard let self else {
                         return
                     }
-                    layoutArrangedViews()
+                    if #available(macOS 27.0, *), section == .visible, offeredItems != nil {
+                        // A picture that arrives can fill a tile that was left out. The publisher
+                        // speaks before the cache's property changes, so this waits a turn: a
+                        // tile made now would read the old pictures, and the tiles that already
+                        // exist have taken theirs by then, so the row is laid out at its true widths.
+                        DispatchQueue.main.async { [weak self] in
+                            guard let self else {
+                                return
+                            }
+                            setArrangedViews(items: offeredItems)
+                        }
+                    } else {
+                        layoutArrangedViews()
+                    }
                 }
                 .store(in: &c)
         }
@@ -204,6 +222,9 @@ final class LayoutBarContainer: NSView {
                 minX: \.bounds.minX
             )
         }
+        if #available(macOS 27.0, *) {
+            items = items?.filter { !isHole($0, appState: appState) }
+        }
         guard let items else {
             arrangedViews.removeAll()
             return
@@ -218,6 +239,25 @@ final class LayoutBarContainer: NSView {
             }
         }
         arrangedViews = newViews
+    }
+
+    /// Whether a tile in the Visible row would be an empty space the real bar does not have.
+    ///
+    /// Accessibility lists items that MenuBarAgent does not draw: the VPN item with its switch
+    /// off, Search, an item macOS dropped. They report a frame like any other, and with nothing
+    /// to photograph their tile stood in the row as a blank of the item's width, so the window
+    /// showed gaps where the bar has none (reported 2026-11-12). An item that is drawn keeps its
+    /// tile even before its picture arrives, and so do the other rows: an application the user
+    /// put in Hidden has to stay in the window to be moved back.
+    @available(macOS 27.0, *)
+    private func isHole(_ item: MenuBarItem, appState: AppState) -> Bool {
+        guard section == .visible, item.tag != .visibleControlItem, appState.imageCache.images[item.tag] == nil else {
+            return false
+        }
+        let isListed = Bridging.getActiveMenuBarDisplayID().map {
+            ItemDrawing27.isListed(itemFrame: item.bounds, amongBarFrames: MenuBarItemProvider27.barFrames(for: $0))
+        } ?? true
+        return !(item.isOnScreen && isListed)
     }
 
     /// Updates the positions of the container's arranged views using the

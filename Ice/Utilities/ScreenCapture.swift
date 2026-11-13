@@ -35,6 +35,9 @@ enum ScreenCapture {
     /// calls. Pass `true` to the `reset` parameter to replace the cached
     /// result with a newly computed value.
     static func cachedCheckPermissions(reset: Bool = false) -> Bool {
+        #if DEBUG
+        if ProcessInfo.processInfo.environment["VICE_CAPTURE_DIR"] != nil { return true }
+        #endif
         enum Context {
             static var cachedResult: Bool?
         }

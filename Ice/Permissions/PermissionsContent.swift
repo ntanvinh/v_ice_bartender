@@ -82,7 +82,7 @@ struct PermissionRowContent: View {
             icon
             VStack(alignment: .leading, spacing: 8) {
                 HStack(alignment: .firstTextBaseline, spacing: 12) {
-                    Text(title)
+                    Text(LocalizedStringKey(title))
                         .font(.headline)
                     Spacer(minLength: 0)
                     PermissionStatusBadge(status: status)
@@ -126,7 +126,7 @@ struct PermissionRowContent: View {
             ForEach(details, id: \.self) { detail in
                 HStack(alignment: .firstTextBaseline, spacing: 6) {
                     Text("•")
-                    Text(detail)
+                    Text(LocalizedStringKey(detail))
                 }
                 .foregroundStyle(.secondary)
             }

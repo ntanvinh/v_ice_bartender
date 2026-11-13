@@ -143,6 +143,13 @@ extension MenuBarItemManager {
         }
     }
 
+    #if DEBUG
+    /// Fills the cache with demo items for the screenshot harness.
+    func seedForCapture(_ cache: ItemCache) {
+        itemCache = cache
+    }
+    #endif
+
     /// Cache for menu bar items.
     struct ItemCache: Hashable {
         /// Storage for cached menu bar items, keyed by section.
@@ -427,6 +434,9 @@ extension MenuBarItemManager {
             // There is no item window list on macOS 27. A reorder keeps the synthetic
             // identifiers, so the signature also carries each item's position.
             let items = await MenuBarItem.getMenuBarItems(option: .activeSpace)
+            // A change in what an item says is no change in where it is, so it is read on every
+            // pass, not only when the signature below moves.
+            appState?.concealer27.observeStatus(texts: MenuBarItemProvider27.statusTexts())
             let signature = items.map { $0.windowID &+ UInt32(truncatingIfNeeded: Int($0.bounds.minX)) }
             if await cacheActor.cachedItemWindowIDs != signature {
                 await cacheItemsRegardless(signature)
@@ -486,27 +496,27 @@ extension MenuBarItemManager {
         var errorDescription: String? {
             switch self {
             case .cannotComplete:
-                "Operation could not be completed"
+                String(localized: "Operation could not be completed")
             case .invalidEventSource:
-                "Invalid event source"
+                String(localized: "Invalid event source")
             case .missingMouseLocation:
-                "Missing mouse location"
+                String(localized: "Missing mouse location")
             case .eventCreationFailure(let item):
-                "Could not create event for \"\(item.displayName)\""
+                String(localized: "Could not create event for \"\(item.displayName)\"")
             case .eventOperationTimeout(let item):
-                "Event operation timed out for \"\(item.displayName)\""
+                String(localized: "Event operation timed out for \"\(item.displayName)\"")
             case .itemNotMovable(let item):
-                "\"\(item.displayName)\" is not movable"
+                String(localized: "\"\(item.displayName)\" is not movable")
             case .itemResponseTimeout(let item):
-                "\"\(item.displayName)\" took too long to respond"
+                String(localized: "\"\(item.displayName)\" took too long to respond")
             case .missingItemBounds(let item):
-                "Missing bounds rectangle for \"\(item.displayName)\""
+                String(localized: "Missing bounds rectangle for \"\(item.displayName)\"")
             }
         }
 
         var recoverySuggestion: String? {
             if case .itemNotMovable = self { return nil }
-            return "Please try again. If the error persists, please file a bug report."
+            return String(localized: "Please try again. If the error persists, please file a bug report.")
         }
     }
 
@@ -1476,7 +1486,7 @@ extension MenuBarItemManager {
         guard let targetItem = items.first else {
             logger.warning("Not enough room to show \(item.logString, privacy: .public)")
             let alert = NSAlert()
-            alert.messageText = "Not enough room to show \"\(item.displayName)\""
+            alert.messageText = String(localized: "Not enough room to show \"\(item.displayName)\"")
             alert.runModal()
             return
         }

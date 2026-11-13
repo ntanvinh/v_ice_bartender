@@ -3,10 +3,10 @@
 //  Ice
 //
 
-import CompactSlider
 import SwiftUI
 
-struct IceSlider<Value: BinaryFloatingPoint, ValueLabel: View>: View {
+/// A standard slider with its current value written beside it.
+struct IceSlider<Value: BinaryFloatingPoint, ValueLabel: View>: View where Value.Stride: BinaryFloatingPoint {
     @Binding private var value: Value
 
     private let bounds: ClosedRange<Value>
@@ -37,37 +37,31 @@ struct IceSlider<Value: BinaryFloatingPoint, ValueLabel: View>: View {
         self.valueLabel = Text(valueLabelKey)
     }
 
-    private var borderShape: some InsettableShape {
-        if #available(macOS 26.0, *) {
-            RoundedRectangle(cornerRadius: 6, style: .continuous)
-        } else {
-            RoundedRectangle(cornerRadius: 5, style: .circular)
+    var body: some View {
+        HStack(spacing: 12) {
+            Slider(value: snappedValue, in: bounds) { EmptyView() }
+                .labelsHidden()
+                .frame(minWidth: 140)
+            valueLabel
+                .monospacedDigit()
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .frame(minWidth: 84, alignment: .trailing)
         }
     }
 
-    private var height: CGFloat {
-        if #available(macOS 26.0, *) { 24 } else { 22 }
-    }
-
-    var body: some View {
-        CompactSlider(value: $value, in: bounds, step: step ?? 0)
-            .frame(height: height)
-            .overlay {
-                valueLabel
-                    .frame(height: height)
-                    .allowsHitTesting(false)
+    /// The value, rounded to the nearest step. The slider is continuous so that it does not
+    /// draw a tick for every step, which on a long range is a dotted line.
+    private var snappedValue: Binding<Value> {
+        Binding {
+            value
+        } set: { newValue in
+            guard let step, step > 0 else {
+                value = newValue
+                return
             }
-            .compactSliderHandleStyle(.hidden())
-            .compactSliderOptionsByAdding(.snapToSteps)
-            .compactSliderOptionsByRemoving(.scrollWheel, .enabledHapticFeedback)
-            .compactSliderProgress { configuration in
-                Rectangle().fill(
-                    configuration.focusState.isFocused
-                        ? Color.accentColor.opacity(0.75)
-                        : Color.accentColor.opacity(0.5)
-                )
-            }
-            .clipShape(borderShape)
-            .contentShape([.interaction, .focusEffect], borderShape)
+            let snapped = bounds.lowerBound + ((newValue - bounds.lowerBound) / step).rounded() * step
+            value = min(max(snapped, bounds.lowerBound), bounds.upperBound)
+        }
     }
 }

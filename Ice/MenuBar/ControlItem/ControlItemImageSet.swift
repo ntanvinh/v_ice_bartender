@@ -14,6 +14,7 @@ struct ControlItemImageSet: Codable, Hashable, Identifiable {
         case dot = "Dot"
         case ellipsis = "Ellipsis"
         case iceCube = "Ice Cube"
+        case appIcon = "App Icon"
         case sunglasses = "Sunglasses"
         case custom = "Custom"
     }
@@ -76,6 +77,10 @@ extension ControlItemImageSet {
             name: .iceCube,
             hidden: .catalog("IceCubeStroke"),
             visible: .catalog("IceCubeFill")
+        ),
+        ControlItemImageSet(
+            name: .appIcon,
+            image: .catalog("AppIconGlyph")
         ),
         ControlItemImageSet(
             name: .sunglasses,

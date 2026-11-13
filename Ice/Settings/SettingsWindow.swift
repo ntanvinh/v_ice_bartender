@@ -18,11 +18,11 @@ struct SettingsWindow: Scene {
                 .onWindowChange { window in
                     model.observeWindowToolbar(window)
                 }
-                .frame(minWidth: 825, maxWidth: 1150, minHeight: 500, maxHeight: 750)
+                .frame(minWidth: 780, maxWidth: 1150, minHeight: 520, maxHeight: 800)
         }
         .commandsRemoved()
         .windowResizability(.contentSize)
-        .defaultSize(width: 900, height: 625)
+        .defaultSize(width: 880, height: 640)
         .environmentObject(appState)
     }
 }

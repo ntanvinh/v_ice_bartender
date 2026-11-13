@@ -8,49 +8,18 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var appState: AppState
     @ObservedObject var navigationState: AppNavigationState
-    @Environment(\.appearsActive) private var appearsActive
     @Environment(\.sidebarRowSize) private var sidebarRowSize
+    @State private var isShowingDonation = false
 
-    private let sidebarPadding: CGFloat = 3
-
-    private var sidebarWidth: CGFloat {
-        if #available(macOS 26.0, *) {
-            switch sidebarRowSize {
-            case .small: 200
-            case .medium: 220
-            case .large: 240
-            @unknown default: 220
-            }
-        } else {
-            switch sidebarRowSize {
-            case .small: 190
-            case .medium: 215
-            case .large: 230
-            @unknown default: 215
-            }
-        }
-    }
-
-    private var sidebarItemHeight: CGFloat {
+    /// The side of an icon tile. It follows the sidebar icon size chosen in System Settings,
+    /// the way the sidebars of Apple's own apps do.
+    private var iconTileSize: CGFloat {
         switch sidebarRowSize {
-        case .small: 26
-        case .medium: 32
-        case .large: 34
-        @unknown default: 32
+        case .small: 20
+        case .medium: 24
+        case .large: 28
+        @unknown default: 24
         }
-    }
-
-    private var sidebarFontSize: CGFloat {
-        switch sidebarRowSize {
-        case .small: 13
-        case .medium: 15
-        case .large: 16
-        @unknown default: 15
-        }
-    }
-
-    private var sidebarTextStyle: some ShapeStyle {
-        appearsActive ? .primary : .secondary
     }
 
     private var navigationTitle: LocalizedStringKey {
@@ -70,50 +39,76 @@ struct SettingsView: View {
     private var sidebar: some View {
         List(selection: $navigationState.settingsNavigationIdentifier) {
             Section {
-                ForEach(SettingsNavigationIdentifier.allCases) { identifier in
+                ForEach(SettingsNavigationIdentifier.mainPanes) { identifier in
                     sidebarItem(for: identifier)
                 }
-            } header: {
-                Text("VIce Bartender")
-                    .font(.system(size: sidebarFontSize * 2.67, weight: .medium))
-                    .foregroundStyle(sidebarTextStyle)
-                    .padding(.leading, sidebarPadding)
-                    .padding(.bottom, sidebarFontSize)
             }
-            .collapsible(false)
+
+            Section {
+                sidebarItem(for: .acknowledgements)
+                sidebarLink("Donate", systemImage: "heart.fill", tint: .pink) {
+                    isShowingDonation = true
+                }
+                sidebarLink("Quit VIce Bartender", systemImage: "power", tint: .red) {
+                    NSApp.terminate(nil)
+                }
+            }
         }
-        .scrollDisabled(true)
+        .listStyle(.sidebar)
+        .sheet(isPresented: $isShowingDonation) {
+            DonationView()
+        }
         .toolbar(removing: .sidebarToggle)
-        .toolbar {
-            sidebarToolbarSpacer
-        }
-        .navigationSplitViewColumnWidth(sidebarWidth)
+        .navigationSplitViewColumnWidth(min: 210, ideal: 230, max: 270)
     }
 
     @ViewBuilder
     private func sidebarItem(for identifier: SettingsNavigationIdentifier) -> some View {
         Label {
             Text(identifier.localized)
-                .font(.system(size: sidebarFontSize))
-                .foregroundStyle(sidebarTextStyle)
+                .lineLimit(1)
         } icon: {
-            identifier.iconResource.view
-                .foregroundStyle(sidebarTextStyle)
-                .padding(sidebarPadding)
+            iconTile(tint: identifier.tint) {
+                identifier.iconResource.view
+            }
         }
-        .frame(height: sidebarItemHeight)
         .tag(identifier)
     }
 
-    @ToolbarContentBuilder
-    private var sidebarToolbarSpacer: some ToolbarContent {
-        if #available(macOS 26.0, *) {
-            ToolbarSpacer(.flexible)
-        } else {
-            ToolbarItem {
-                Spacer(minLength: 0)
+    /// A sidebar row that runs an action instead of selecting a pane.
+    @ViewBuilder
+    private func sidebarLink(
+        _ title: LocalizedStringKey,
+        systemImage: String,
+        tint: Color,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            Label {
+                Text(title)
+                    .lineLimit(1)
+            } icon: {
+                iconTile(tint: tint) {
+                    Image(systemName: systemImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
+    }
+
+    /// The rounded coloured square behind a sidebar icon, as in System Settings.
+    @ViewBuilder
+    private func iconTile(tint: Color, @ViewBuilder icon: () -> some View) -> some View {
+        icon()
+            .foregroundStyle(.white)
+            .padding(iconTileSize * 0.2)
+            .frame(width: iconTileSize, height: iconTileSize)
+            .background(tint.gradient, in: .rect(cornerRadius: iconTileSize * 0.27))
+            .accessibilityHidden(true)
     }
 
     @ViewBuilder
@@ -141,6 +136,8 @@ struct SettingsView: View {
             AdvancedSettingsPane(settings: appState.settings.advanced)
         case .about:
             AboutSettingsPane(updatesManager: appState.updatesManager)
+        case .acknowledgements:
+            AcknowledgementsSettingsPane()
         }
     }
 }

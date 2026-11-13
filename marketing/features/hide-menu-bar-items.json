@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "hide-menu-bar-items",
+  "title": {
+    "en-US": "Hide clutter from your menu bar",
+    "vi": "Làm gọn thanh menu"
+  },
+  "description": {
+    "en-US": "Keep the apps you use rarely out of sight in a hidden section, plus an always-hidden one, and bring them back when you need them.",
+    "vi": "Giấu các biểu tượng ít dùng vào vùng ẩn, kèm một vùng luôn ẩn, và gọi chúng ra khi cần."
+  },
+  "tier": "unique",
+  "rank": 10,
+  "mode": "desktop",
+  "orientation": "landscape",
+  "screens": [
+    "General",
+    "Menu bar"
+  ],
+  "hasVideo": false
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://vappmanager.local/schema/product.v1.json",
+  "schemaVersion": 1,
+  "packageName": "v_ice_bartender",
+  "displayName": "VIce Bartender",
+  "slug": "v-ice-bartender",
+  "websiteSlug": "vice-bartender",
+  "kind": "desktop",
+  "platforms": [
+    "macOS"
+  ],
+  "sortOrder": 999,
+  "ids": {},
+  "links": {
+    "appStore": "#",
+    "googlePlay": "#",
+    "website": "#",
+    "macos": "#",
+    "windows": "#",
+    "linux": "#",
+    "privacyPolicy": "/privacy"
+  },
+  "locales": {
+    "text": [
+      "en-US",
+      "vi"
+    ],
+    "media": [
+      "en-US"
+    ],
+    "seed": [
+      "en-US"
+    ]
+  },
+  "targets": [
+    {
+      "name": "Ice",
+      "path": "",
+      "kind": "desktop"
+    }
+  ]
+}

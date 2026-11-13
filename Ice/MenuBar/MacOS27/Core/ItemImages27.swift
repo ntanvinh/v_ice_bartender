@@ -336,9 +336,9 @@ enum ItemImages27 {
             guard apart >= toneVoteDistance else {
                 continue
             }
-            if channels.allSatisfy({ $0 >= 255 - extremeMargin }) {
+            if channels.allSatisfy({ $0 >= 255 - toneVoteMargin }) {
                 light += 1
-            } else if channels.allSatisfy({ $0 <= extremeMargin }) {
+            } else if channels.allSatisfy({ $0 <= toneVoteMargin }) {
                 dark += 1
             }
         }
@@ -347,6 +347,16 @@ enum ItemImages27 {
 
     /// How far from the tile's commonest colour a pixel must be to cast a vote.
     private static let toneVoteDistance = 60
+
+    /// How near to pure white or black a pixel must be to cast a vote.
+    ///
+    /// MenuBarAgent draws a glyph in pure white or pure black, while a dark wallpaper is full of
+    /// pixels within `extremeMargin` of black without ever being black. Measured 2026-11-12 over
+    /// an aerial video of tea fields: across the bar 68 349 pixels lay within 55 of black and 7 405
+    /// within 55 of white, but only 288 within 15 of black against 3 667 within 15 of white. With
+    /// the loose margin a dark frame outvoted the glyphs, the bar was judged to have black glyphs,
+    /// and the tiles came out as a cloud of wallpaper (VOpenKey's showed it most, being a big box).
+    private static let toneVoteMargin = 12
 
     /// The tags whose frames are the same in both reads, give or take a point.
     ///

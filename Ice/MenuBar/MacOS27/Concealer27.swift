@@ -286,6 +286,7 @@ final class Concealer27: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+        statusReveal.startWatching()
         update()
     }
 
@@ -759,6 +760,19 @@ final class Concealer27: ObservableObject {
             temporarilyShown[bundleID] = count > 1 ? count - 1 : nil
         }
         update()
+    }
+
+    /// Shows a hidden application's item for a few seconds when its status changes.
+    private(set) lazy var statusReveal = StatusReveal27(concealer: self)
+
+    /// Hands what the applications' items say to ``statusReveal``, with the sections it needs.
+    func observeStatus(texts: [String: String]) {
+        statusReveal.observe(texts: texts, layout: savedLayout)
+    }
+
+    /// The saved sections, for ``statusReveal``, which reads the hidden applications on its own.
+    var layoutForStatusReveal: [String: MacOS27Section] {
+        savedLayout
     }
 
     /// Shows an application for a moment, to click or photograph its item.

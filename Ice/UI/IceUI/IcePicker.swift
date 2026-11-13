@@ -5,6 +5,7 @@
 
 import SwiftUI
 
+/// A pop-up menu picker with its label at the leading edge of the row.
 struct IcePicker<Label: View, SelectionValue: Hashable, Content: View>: View {
     @Binding var selection: SelectionValue
 
@@ -34,20 +35,12 @@ struct IcePicker<Label: View, SelectionValue: Hashable, Content: View>: View {
     }
 
     var body: some View {
-        LabeledContent {
-            Picker(selection: $selection) {
-                content
-                    .labelStyle(.titleAndIcon)
-                    .toggleStyle(.automatic)
-            } label: {
-                label
-            }
-            .pickerStyle(.menu)
-            .buttonStyle(.bordered)
-            .labelsHidden()
-            .fixedSize()
+        Picker(selection: $selection) {
+            content
+                .labelStyle(.titleAndIcon)
         } label: {
             label
         }
+        .pickerStyle(.menu)
     }
 }

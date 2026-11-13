@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "camera-microphone-indicator",
+  "title": {
+    "en-US": "See camera and microphone use",
+    "vi": "Biết khi camera, micro đang bật"
+  },
+  "description": {
+    "en-US": "On macOS 27, while items are hidden, VIce Bartender can show its own camera and microphone indicator that opens Control Centre.",
+    "vi": "Trên macOS 27, khi các mục đang ẩn, VIce Bartender có thể hiện chỉ báo camera và micro riêng, bấm vào sẽ mở Control Centre."
+  },
+  "tier": "unique",
+  "rank": 40,
+  "mode": "desktop",
+  "orientation": "landscape",
+  "screens": [
+    "Advanced"
+  ],
+  "hasVideo": false
+}

@@ -17,9 +17,9 @@ struct AdvancedSettingsPane: View {
     private func formattedToSeconds(_ interval: TimeInterval) -> LocalizedStringKey {
         let formatted = interval.formatted()
         return if interval == 1 {
-            LocalizedStringKey(formatted + " second")
+            LocalizedStringKey("\(formatted) second")
         } else {
-            LocalizedStringKey(formatted + " seconds")
+            LocalizedStringKey("\(formatted) seconds")
         }
     }
 
@@ -31,6 +31,7 @@ struct AdvancedSettingsPane: View {
                 sectionDividerStyle
             }
             IceSection("Other") {
+                showAppIconInDock
                 hideApplicationMenus
                 enableSecondaryContextMenu
                 showOnHoverDelay
@@ -64,16 +65,9 @@ struct AdvancedSettingsPane: View {
         .annotation {
             switch settings.macOS27HidingMethod {
             case .nativeAllowList:
-                Text(
-                    "Uses macOS's own Allow in the Menu Bar switch for each hidden app. System items stay "
-                        + "native, including Focus and the camera indicator, and clicks on them need no reveal. "
-                        + "While hidden, those apps show as not allowed in System Settings > Control Center."
-                )
+                Text("Uses macOS's own Allow in the Menu Bar switch for each hidden app. System items stay native, including Focus and the camera indicator, and clicks on them need no reveal. While hidden, those apps show as not allowed in System Settings > Control Center.")
             case .assessmentMode:
-                Text(
-                    "Uses assessment mode, which also removes Control Centre's modules and needs a brief "
-                        + "reveal to pass clicks to system items. Only for systems where the native switch does not work."
-                )
+                Text("Uses assessment mode, which also removes Control Centre's modules and needs a brief reveal to pass clicks to system items. Only for systems where the native switch does not work.")
             }
         }
     }
@@ -121,12 +115,18 @@ struct AdvancedSettingsPane: View {
             Text(
                 """
                 Make more room in the menu bar by hiding the current app menus if \
-                needed. macOS requires Ice to make itself visible in the Dock while \
-                this setting is in effect.
+                needed. macOS normally shows Ice in the Dock while this setting is in \
+                effect; turn that off with “Show app icon in the Dock.”
                 """
             )
             .padding(.trailing, 75)
         }
+    }
+
+    @ViewBuilder
+    private var showAppIconInDock: some View {
+        Toggle("Show app icon in the Dock", isOn: $settings.showAppIconInDock)
+            .annotation("The menu bar icon remains available when this is off.")
     }
 
     @ViewBuilder

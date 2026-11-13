@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "macos-27-support",
+  "title": {
+    "en-US": "Works on macOS 27 too",
+    "vi": "Chạy được trên macOS 27"
+  },
+  "description": {
+    "en-US": "On macOS 27, VIce Bartender uses Accessibility to list menu bar items and place supported items into sections.",
+    "vi": "Trên macOS 27, VIce Bartender dùng Accessibility để liệt kê các mục menu và đưa những mục được hỗ trợ vào từng vùng."
+  },
+  "tier": "unique",
+  "rank": 30,
+  "mode": "desktop",
+  "orientation": "landscape",
+  "screens": [
+    "Menu Bar Layout",
+    "Advanced"
+  ],
+  "hasVideo": false,
+  "image": "../screenshots/desktop/06-macos-27-support.png"
+}

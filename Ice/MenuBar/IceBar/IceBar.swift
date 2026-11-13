@@ -10,6 +10,9 @@ import SwiftUI
 // MARK: - IceBarPanel
 
 final class IceBarPanel: NSPanel {
+    /// The transparent margin the panel keeps around the bar it draws.
+    fileprivate static let margin: CGFloat = 5
+
     /// The shared app state.
     private weak var appState: AppState?
 
@@ -136,6 +139,29 @@ final class IceBarPanel: NSPanel {
 
                 return CGPoint(x: (location.x - frame.width / 2).clamped(to: lowerBound...upperBound), y: originY)
             case .iceIcon:
+                if #available(macOS 27.0, *) {
+                    // On macOS 27 the icon stands left of Control Center and the clock, and the
+                    // hidden items belong to its left, so the bar's right edge goes under the
+                    // icon's right edge, where the bar never covers the icon. Where the icon is
+                    // not known, or is on another display, the bar's right edge goes to the
+                    // screen's right edge. Either way the whole bar stays on the screen.
+                    //
+                    // The icon's frame comes from the provider's last read, with the item cache as
+                    // the second source.
+                    let iconFrame = MenuBarItemProvider27.ownIconFrame() ?? appState.itemManager.itemCache.managedItems
+                        .first(matching: .visibleControlItem)
+                        .flatMap { Bridging.getWindowBounds(for: $0.windowID) }
+                    let originX = IceBarPlacement27.originX(
+                        panelWidth: frame.width,
+                        margin: Self.margin,
+                        iconFrame: iconFrame,
+                        screenMinX: screen.frame.minX,
+                        screenMaxX: screen.frame.maxX
+                    )
+                    Logger.default.debug("Ice Bar origin x \(originX, privacy: .public) for width \(self.frame.width, privacy: .public), icon \(String(describing: iconFrame), privacy: .public), screen \(screen.frame.minX, privacy: .public)...\(screen.frame.maxX, privacy: .public)")
+                    return CGPoint(x: originX, y: originY)
+                }
+
                 let lowerBound = screen.frame.minX
                 let upperBound = screen.frame.maxX - frame.width
 
@@ -193,13 +219,18 @@ final class IceBarPanel: NSPanel {
             }
         }
 
-        contentView = IceBarHostingView(
+        let hostingView = IceBarHostingView(
             appState: appState,
             colorManager: colorManager,
             screen: screen,
             section: section
         )
+        contentView = hostingView
 
+        // The panel takes the size of its content only on the next layout pass. Placing it
+        // before that used the width of the last bar (none, the first time), and a bar wider
+        // than that stuck out past the screen's edge until the size change moved it back.
+        setContentSize(hostingView.fittingSize)
         updateOrigin(for: screen)
 
         // Color manager must be updated after updating the panel's origin,
@@ -277,6 +308,17 @@ private final class IceBarHostingView: NSHostingView<IceBarContentView> {
         return true
     }
 }
+
+#if DEBUG
+extension IceBarPanel {
+    /// The Ice Bar's real content view, for the screenshot harness.
+    @MainActor
+    static func captureView(appState: AppState, screen: NSScreen, section: MenuBarSection.Name) -> NSView {
+        let colorManager = IceBarColorManager()
+        return IceBarHostingView(appState: appState, colorManager: colorManager, screen: screen, section: section)
+    }
+}
+#endif
 
 // MARK: - IceBarContentView
 
@@ -356,7 +398,7 @@ private struct IceBarContentView: View {
                     .foregroundStyle(Color(cgColor: configuration.current.borderColor))
             }
         }
-        .padding(5)
+        .padding(IceBarPanel.margin)
         .frame(maxWidth: screen.frame.width)
         .fixedSize()
         .onFrameChange(update: $frame)

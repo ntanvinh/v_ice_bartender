@@ -5,6 +5,7 @@
 
 import SwiftUI
 
+/// A pop-up menu of actions with its label at the leading edge of the row.
 struct IceMenu<Title: View, Label: View, Content: View>: View {
     private let title: Title
     private let label: Label
@@ -51,13 +52,10 @@ struct IceMenu<Title: View, Label: View, Content: View>: View {
             Menu {
                 content
                     .labelStyle(.titleAndIcon)
-                    .toggleStyle(.automatic)
             } label: {
                 title
             }
             .menuStyle(.button)
-            .buttonStyle(.bordered)
-            .labelsHidden()
             .fixedSize()
         } label: {
             label

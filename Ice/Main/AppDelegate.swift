@@ -14,6 +14,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: NSApplicationDelegate Methods
 
     func applicationWillFinishLaunching(_ notification: Notification) {
+        #if DEBUG
+        if CaptureHarness.isActive { return }
+        #endif
         if #available(macOS 27.0, *) {
             // Before anything else: allow in the menu bar again every application an earlier
             // run turned off and never turned back on, which is what a crash leaves behind.
@@ -27,6 +30,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        #if DEBUG
+        if CaptureHarness.isActive {
+            CaptureHarness.run(appState: appState)
+            return
+        }
+        #endif
+
         // Hide the main menu's items to add additional space to the
         // menu bar when we are the focused app.
         for item in NSApp.mainMenu?.items ?? [] {
@@ -78,6 +88,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        #if DEBUG
+        if CaptureHarness.isActive { return }
+        #endif
         if #available(macOS 27.0, *) {
             // Every application Ice turned off in the menu bar is turned back on, as hiding
             // through assessment mode ends by itself when Ice goes.

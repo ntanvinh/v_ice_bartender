@@ -4,3 +4,5 @@ xcuserdata/
 .build/
 .swiftpm/
 dist/
+# The trail tool's local cache of the code map (per machine, see .trail/README.md)
+/graft/

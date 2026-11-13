@@ -30,6 +30,8 @@ enum MenuBarItemProvider27 {
         let element: AXUIElement
         let bundleID: String
         let identifier: String
+        /// The item's place among its application's items, which orders what they say.
+        let index: Int
         let frame: CGRect
     }
 
@@ -52,6 +54,8 @@ enum MenuBarItemProvider27 {
         let pid: pid_t
         let identifier: String
         let title: String?
+        /// What the item says about itself (description, title, tooltip), see `StatusChange27`.
+        let statusText: String
         let index: Int
         let frame: CGRect
     }
@@ -62,12 +66,19 @@ enum MenuBarItemProvider27 {
     /// concurrency pool (see `MenuBarItemImageCache.captureQueue`).
     private static let queue = DispatchQueue(label: "vn.io.lssoft.vicebartender.MenuBarItemProvider27", qos: .userInitiated)
 
+    /// The queue of ``statusTexts(of:)``. It is not `queue`, which a scan can hold for seconds,
+    /// so a status read is not kept waiting behind one.
+    private static let statusQueue = DispatchQueue(label: "vn.io.lssoft.vicebartender.MenuBarItemProvider27.status", qos: .utility)
+
     private static let lock = NSLock()
     nonisolated(unsafe) private static var entries = [CGWindowID: Entry]()
     nonisolated(unsafe) private static var lastOverflowButtonFrame: CGRect?
     /// The system overflow control of each display's bar, from the last read.
     nonisolated(unsafe) private static var lastOverflowIndicators = [CGDirectDisplayID: OverflowIndicator]()
     nonisolated(unsafe) private static var lastSystemItemFrames = [CGRect]()
+    /// What each application's items said at the last read, keyed by bundle identifier. Empty
+    /// text means the items say nothing. Only applications that were read are in it.
+    nonisolated(unsafe) private static var lastStatusTexts = [String: String]()
     /// System item frames per display. MenuBarAgent describes the bars of both displays in its
     /// windows, unlike other applications, whose items only have frames on the active one.
     nonisolated(unsafe) private static var lastSystemFramesByDisplay = [CGDirectDisplayID: [CGRect]]()
@@ -84,8 +95,8 @@ enum MenuBarItemProvider27 {
     /// menu bar was active. Hover hit-testing needs it for the display that is not active,
     /// where Accessibility reports no frames at all.
     nonisolated(unsafe) private static var lastLeftEdges = [CGDirectDisplayID: CGFloat]()
-    /// The left edge of Ice's own icon on the bar, from the last read that found it drawn.
-    nonisolated(unsafe) private static var lastOwnIconMinX: CGFloat?
+    /// Ice's own icon on the bar, from the last read that found it drawn.
+    nonisolated(unsafe) private static var lastOwnIconFrame: CGRect?
     /// Processes whose items are concealed. Accessibility keeps reporting their frames where
     /// they were last drawn, so without this they would pass for drawn items.
     nonisolated(unsafe) private static var concealedPIDs = Set<pid_t>()
@@ -174,6 +185,69 @@ enum MenuBarItemProvider27 {
         }
     }
 
+    /// What each application's items said at the last read (see ``StatusChange27``).
+    static func statusTexts() -> [String: String] {
+        lock.withLock { lastStatusTexts }
+    }
+
+    /// What the given applications' items say now, read from the items the last scan found
+    /// without scanning again, in the form ``statusTexts()`` has them in.
+    ///
+    /// Reading a concealed item works: macOS 27 keeps its Accessibility element, and the text
+    /// follows what the application sets (measured 2026-11-13: VOpenKey's description went to
+    /// "VOpenKey AI, Caps Lock đang bật" while its item was concealed).
+    ///
+    /// An application is left out of the answer when any of its items did not answer, so a slow
+    /// application is not taken for one whose item says nothing.
+    static func statusTexts(of bundleIDs: Set<String>) async -> [String: String] {
+        let found = lock.withLock { entries.values.filter { bundleIDs.contains($0.bundleID) } }
+        guard !found.isEmpty else {
+            return [:]
+        }
+        return await withCheckedContinuation { continuation in
+            statusQueue.async {
+                continuation.resume(returning: readStatusTexts(of: found))
+            }
+        }
+    }
+
+    private static func readStatusTexts(of found: [Entry]) -> [String: String] {
+        var parts = [String: [(index: Int, text: String)]]()
+        var unanswered = Set<String>()
+        for entry in found where !unanswered.contains(entry.bundleID) {
+            // The scan's own timeout, so that the two do not set one against the other.
+            AXUIElementSetMessagingTimeout(entry.element, AccessibilityScanSchedule27.normalTimeout)
+            guard let text = statusText(of: entry.element) else {
+                unanswered.insert(entry.bundleID)
+                continue
+            }
+            parts[entry.bundleID, default: []].append((entry.index, text))
+        }
+        var texts = [String: String]()
+        for (bundleID, items) in parts where !unanswered.contains(bundleID) {
+            texts[bundleID] = items.sorted { $0.index < $1.index }.map(\.text).joined(separator: "\n")
+        }
+        return texts
+    }
+
+    /// The text one item publishes, or `nil` if it did not answer. An attribute the item does
+    /// not have is no failure: it says nothing there.
+    private static func statusText(of element: AXUIElement) -> String? {
+        var texts = [String?]()
+        for attribute in [kAXDescriptionAttribute, kAXTitleAttribute, kAXHelpAttribute] {
+            var value: CFTypeRef?
+            switch AXUIElementCopyAttributeValue(element, attribute as CFString, &value) {
+            case .success:
+                texts.append(value as? String)
+            case .noValue, .attributeUnsupported:
+                texts.append(nil)
+            default:
+                return nil
+            }
+        }
+        return StatusChange27.text(description: texts[0], title: texts[1], help: texts[2])
+    }
+
     /// Tells the provider which processes are concealed right now.
     static func setConcealedPIDs(_ pids: Set<pid_t>) {
         lock.withLock { concealedPIDs = pids }
@@ -189,7 +263,13 @@ enum MenuBarItemProvider27 {
     /// `nil` if none has. A read that does not find it, because it is collapsed to nothing under
     /// assessment mode or because Ice's own process did not answer in time, keeps the last one.
     static func ownIconMinX() -> CGFloat? {
-        lock.withLock { lastOwnIconMinX }
+        ownIconFrame()?.minX
+    }
+
+    /// Ice's own icon on the bar, in screen coordinates, from the last read that found it drawn,
+    /// or `nil` if none has. Kept across reads that do not find it, like `ownIconMinX()`.
+    static func ownIconFrame() -> CGRect? {
+        lock.withLock { lastOwnIconFrame }
     }
 
     /// Frames of the system items drawn on the given display, from the last read.
@@ -339,6 +419,11 @@ enum MenuBarItemProvider27 {
                     pid: pid,
                     identifier: string(element, kAXIdentifierAttribute) ?? "",
                     title: string(element, kAXDescriptionAttribute) ?? string(element, kAXTitleAttribute),
+                    statusText: StatusChange27.text(
+                        description: string(element, kAXDescriptionAttribute),
+                        title: string(element, kAXTitleAttribute),
+                        help: string(element, kAXHelpAttribute)
+                    ),
                     index: index,
                     frame: frame
                 ))
@@ -425,6 +510,15 @@ enum MenuBarItemProvider27 {
         if retryIfMenuBarMoves, Bridging.getActiveMenuBarDisplayID() != activeDisplayID {
             return readItems(retryIfMenuBarMoves: false)
         }
+        // The system items and Ice's own are left out: they are not an application's status.
+        var statusTexts = [String: [String]]()
+        // In the application's own order: a concealed item's frame is stale and cannot order them.
+        for raw in rawItems.sorted(by: { $0.index < $1.index }) where raw.bundleID != menuBarAgentBundleID && raw.pid != ownPID {
+            statusTexts[raw.bundleID, default: []].append(raw.statusText)
+        }
+        lock.withLock {
+            lastStatusTexts = statusTexts.mapValues { $0.joined(separator: "\n") }
+        }
         var newEntries = [CGWindowID: Entry]()
         var items = [MenuBarItem]()
         for raw in rawItems.sorted(by: { $0.frame.minX < $1.frame.minX }) {
@@ -432,7 +526,7 @@ enum MenuBarItemProvider27 {
                 continue
             }
             let windowID = SyntheticWindowID27.make(bundleID: raw.bundleID, identifier: tag.title, index: raw.index)
-            newEntries[windowID] = Entry(element: raw.element, bundleID: raw.bundleID, identifier: raw.identifier, frame: raw.frame)
+            newEntries[windowID] = Entry(element: raw.element, bundleID: raw.bundleID, identifier: raw.identifier, index: raw.index, frame: raw.frame)
             items.append(MenuBarItem(
                 tag: tag,
                 syntheticWindowID: windowID,
@@ -482,7 +576,7 @@ enum MenuBarItemProvider27 {
             }
             // Collapsed to nothing, Ice's own icon reports a frame at the origin, which is no place.
             if let own = items.first(where: { $0.tag == .visibleControlItem && $0.isOnScreen && $0.bounds.width > 4 && $0.bounds.minX > 0 }) {
-                lastOwnIconMinX = own.bounds.minX
+                lastOwnIconFrame = own.bounds
             }
         }
         return items

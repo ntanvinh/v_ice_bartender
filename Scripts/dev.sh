@@ -8,11 +8,14 @@
 #
 #   Scripts/dev.sh                       build, install to ~/Applications, open
 #   Scripts/dev.sh --no-bump             do not raise the version (the build number stays the same)
+#   VAPP_VERSION_HELD=1 Scripts/dev.sh   same as --no-bump
 #   Scripts/dev.sh --reset-permissions   also forget the Accessibility / Screen Recording grants (to see the first run again)
 #   Scripts/dev.sh --no-open             do not open it
 source "$(dirname "$0")/common.sh"
 
 RESET=0; OPEN=1; BUMP=1
+# VApp Manager's Deploy AI already raised, noted and committed the version: a second bump would install a number no commit has.
+[ "${VAPP_VERSION_HELD:-}" = 1 ] && BUMP=0
 for arg in "$@"; do
     case "$arg" in
         --reset-permissions) RESET=1 ;;

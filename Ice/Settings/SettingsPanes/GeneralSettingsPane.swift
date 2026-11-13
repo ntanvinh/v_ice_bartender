@@ -14,6 +14,7 @@ struct GeneralSettingsPane: View {
     @State private var presentedError: LocalizedErrorWrapper?
     @State private var isApplyingItemSpacingOffset = false
     @State private var tempItemSpacingOffset: CGFloat = 0
+    @State private var appLanguage = AppLanguage.stored
 
     private var itemSpacingOffsetKey: LocalizedStringKey {
         switch tempItemSpacingOffset {
@@ -27,9 +28,9 @@ struct GeneralSettingsPane: View {
     private var rehideIntervalKey: LocalizedStringKey {
         let formatted = settings.rehideInterval.formatted()
         if settings.rehideInterval == 1 {
-            return LocalizedStringKey(formatted + " second")
+            return LocalizedStringKey("\(formatted) second")
         } else {
-            return LocalizedStringKey(formatted + " seconds")
+            return LocalizedStringKey("\(formatted) seconds")
         }
     }
 
@@ -67,6 +68,31 @@ struct GeneralSettingsPane: View {
     @ViewBuilder
     private var appOptions: some View {
         LaunchAtLogin.Toggle()
+        languagePicker
+    }
+
+    @ViewBuilder
+    private var languagePicker: some View {
+        IcePicker("Language", selection: $appLanguage) {
+            ForEach(AppLanguage.allCases) { language in
+                Text(language.title).tag(language)
+            }
+        }
+        .annotation {
+            if appLanguage != AppLanguage.launched {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Restart VIce Bartender to apply the new language.")
+                    Button("Restart now") {
+                        AppLanguage.relaunch()
+                    }
+                }
+            } else {
+                Text("Choose the language of VIce Bartender. \"System\" follows the language set in System Settings.")
+            }
+        }
+        .onChange(of: appLanguage) { newValue in
+            newValue.apply()
+        }
     }
 
     // MARK: Ice Icon Options
@@ -117,7 +143,7 @@ struct GeneralSettingsPane: View {
                 isImportingCustomIceIcon = true
             }
         } title: {
-            iceIconMenuItem(for: settings.iceIcon)
+            iceIconMenuTitle(for: settings.iceIcon)
         }
         .annotation("Choose a custom icon to show in the menu bar.")
         .fileImporter(
@@ -158,10 +184,28 @@ struct GeneralSettingsPane: View {
         }
     }
 
+    /// The menu's closed state: the icon and its name with room between them.
+    @ViewBuilder
+    private func iceIconMenuTitle(for imageSet: ControlItemImageSet) -> some View {
+        HStack(spacing: 8) {
+            if let nsImage = imageSet.hidden.nsImage(for: appState) {
+                switch imageSet.name {
+                case .custom:
+                    Image(size: CGSize(width: 18, height: 18)) { context in
+                        context.draw(Image(nsImage: nsImage), in: context.clipBoundingRect)
+                    }
+                default:
+                    Image(nsImage: nsImage)
+                }
+            }
+            Text(LocalizedStringKey(imageSet.name.rawValue))
+        }
+    }
+
     @ViewBuilder
     private func iceIconMenuItem(for imageSet: ControlItemImageSet) -> some View {
         Label {
-            Text(imageSet.name.rawValue)
+            Text(LocalizedStringKey(imageSet.name.rawValue))
         } icon: {
             if let nsImage = imageSet.hidden.nsImage(for: appState) {
                 switch imageSet.name {
@@ -310,49 +354,45 @@ struct GeneralSettingsPane: View {
             )
             .disabled(isApplyingItemSpacingOffset)
         } label: {
-            LabeledContent {
+            HStack {
+                Text("Menu bar item spacing")
+                BetaBadge()
+            }
+        }
+        .onAppear {
+            tempItemSpacingOffset = settings.itemSpacingOffset
+        }
+
+        LabeledContent {
+            HStack(spacing: 8) {
+                if isApplyingItemSpacingOffset {
+                    ProgressView()
+                        .controlSize(.small)
+                } else {
+                    Button("Reset", systemImage: "arrow.counterclockwise") {
+                        tempItemSpacingOffset = 0
+                        applyTempItemSpacingOffset()
+                    }
+                    .labelStyle(.iconOnly)
+                    .help("Reset to the default spacing")
+                    .disabled(settings.itemSpacingOffset == 0)
+                }
                 Button("Apply") {
                     applyTempItemSpacingOffset()
                 }
                 .help("Apply the current spacing")
                 .disabled(isApplyingItemSpacingOffset || tempItemSpacingOffset == settings.itemSpacingOffset)
-
-                if isApplyingItemSpacingOffset {
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                        .scaleEffect(0.5)
-                        .frame(width: 15, height: 15)
-                } else {
-                    Button {
-                        tempItemSpacingOffset = 0
-                        applyTempItemSpacingOffset()
-                    } label: {
-                        Image(systemName: "arrow.counterclockwise.circle.fill")
-                    }
-                    .buttonStyle(.borderless)
-                    .help("Reset to the default spacing")
-                    .disabled(isApplyingItemSpacingOffset || settings.itemSpacingOffset == 0)
-                }
-            } label: {
-                HStack {
-                    Text("Menu bar item spacing")
-                    BetaBadge()
-                }
             }
+        } label: {
+            Text("Applying this setting will relaunch all apps with menu bar items. Some apps may need to be manually relaunched.")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
         }
-        .annotation(
-            "Applying this setting will relaunch all apps with menu bar items. Some apps may need to be manually relaunched.",
-            spacing: 2
+
+        CalloutBox(
+            "Note: You may need to log out and back in for this setting to apply properly.",
+            systemImage: "exclamationmark.circle"
         )
-        .annotation(spacing: 10) {
-            CalloutBox(
-                "Note: You may need to log out and back in for this setting to apply properly.",
-                systemImage: "exclamationmark.circle"
-            )
-        }
-        .onAppear {
-            tempItemSpacingOffset = settings.itemSpacingOffset
-        }
     }
 
     private func applyTempItemSpacingOffset() {
@@ -366,6 +406,70 @@ struct GeneralSettingsPane: View {
                 alert.runModal()
             }
             isApplyingItemSpacingOffset = false
+        }
+    }
+}
+
+// MARK: - AppLanguage
+
+/// The languages the app can be shown in, chosen in the General settings.
+///
+/// The choice is stored in the app's own `AppleLanguages` default, which macOS reads
+/// when the app launches, so a change takes effect after a restart.
+private enum AppLanguage: String, CaseIterable, Identifiable {
+    case system
+    case english = "en"
+    case vietnamese = "vi"
+
+    var id: String { rawValue }
+
+    /// Language names are shown in their own language, so they stay readable
+    /// whichever language is active.
+    var title: LocalizedStringKey {
+        switch self {
+        case .system: "System"
+        case .english: "English"
+        case .vietnamese: "Tiếng Việt"
+        }
+    }
+
+    /// The language the app was launched with. Read once, so that it stays
+    /// the same after the choice changes and tells whether a restart is due.
+    static let launched = stored
+
+    /// The language currently saved in the app's defaults.
+    static var stored: AppLanguage {
+        guard
+            let code = UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first,
+            UserDefaults.standard.object(forKey: launchMarkerKey) != nil
+        else {
+            return .system
+        }
+        return allCases.first { code.hasPrefix($0.rawValue) && $0 != .system } ?? .system
+    }
+
+    private static let launchMarkerKey = "AppLanguageChosen"
+
+    func apply() {
+        let defaults = UserDefaults.standard
+        switch self {
+        case .system:
+            defaults.removeObject(forKey: "AppleLanguages")
+            defaults.removeObject(forKey: Self.launchMarkerKey)
+        case .english, .vietnamese:
+            defaults.set([rawValue], forKey: "AppleLanguages")
+            defaults.set(true, forKey: Self.launchMarkerKey)
+        }
+    }
+
+    /// Starts a new instance of the app and quits this one.
+    static func relaunch() {
+        let configuration = NSWorkspace.OpenConfiguration()
+        configuration.createsNewApplicationInstance = true
+        NSWorkspace.shared.openApplication(at: Bundle.main.bundleURL, configuration: configuration) { _, _ in
+            DispatchQueue.main.async {
+                NSApp.terminate(nil)
+            }
         }
     }
 }

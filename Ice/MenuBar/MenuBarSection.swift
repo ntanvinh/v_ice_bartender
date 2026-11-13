@@ -32,9 +32,22 @@ final class MenuBarSection {
             }
         }
 
+        /// The name of the section as a localizable resource.
+        var localizedTitle: LocalizedStringResource {
+            switch self {
+            case .visible: "Visible"
+            case .hidden: "Hidden"
+            case .alwaysHidden: "Always-Hidden"
+            }
+        }
+
         /// Localized string key representation.
         var localized: LocalizedStringKey {
-            LocalizedStringKey(displayString)
+            switch self {
+            case .visible: "Visible"
+            case .hidden: "Hidden"
+            case .alwaysHidden: "Always-Hidden"
+            }
         }
     }
 

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "approvedAt": "2026-11-12T03:54:54.848Z",
+  "theme": "dark",
+  "appearance": {
+    "hasDarkTheme": true,
+    "evidence": "The app has no theme setting of its own; its Settings window and Ice Bar follow the system appearance (SwiftUI), so macOS dark appearance applies. Menu Bar Appearance only tints the menu bar."
+  },
+  "features": [
+    {
+      "featureId": "ice-bar",
+      "reason": "Unique and solves the notch problem on MacBooks, so it sits second.",
+      "shows": "The Ice Bar open as a floating strip under the menu bar holding hidden items such as Slack, Dropbox, 1Password and Tailscale, with a notched-style menu bar above."
+    },
+    {
+      "featureId": "drag-and-drop-layout",
+      "reason": "The signature way to organise items and the clearest picture of control, third for the first-screen trio.",
+      "shows": "The Menu Bar Layout window with Visible, Hidden and Always-Hidden rows each filled with real app tiles (Slack, Zoom, Dropbox, iTerm2, Tailscale, 1Password), one tile mid-drag."
+    },
+    {
+      "featureId": "search-menu-bar-items",
+      "reason": "A daily time saver that reaches items even when hidden.",
+      "shows": "The search panel with a query like \"sl\" typed and matching results (Slack, Slack Huddle helper, Sleep Timer) listed, including hidden ones."
+    },
+    {
+      "featureId": "menu-bar-appearance",
+      "reason": "A visual, eye-catching feature that looks good in a picture.",
+      "shows": "Menu Bar Appearance with a gradient tint, border and rounded shape set, with the live preview of the menu bar above the controls."
+    },
+    {
+      "featureId": "keyboard-shortcuts",
+      "reason": "Power-user convenience; shown as the Hotkeys screen, which is where the feature lives.",
+      "shows": "The Hotkeys pane with real shortcuts recorded (e.g. ⌃⌥H toggle hidden section, ⌃⌥Space search, ⌃⌥B Ice Bar, ⌃⌥A application menus)."
+    }
+  ]
+}

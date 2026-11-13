@@ -266,6 +266,13 @@ final class AppState: ObservableObject {
                 self?.objectWillChange.send()
             }
             .store(in: &c)
+        settings.advanced.$showAppIconInDock
+            .receive(on: DispatchQueue.main)
+            .dropFirst()
+            .sink { show in
+                NSApp.setActivationPolicy(show ? .regular : .accessory)
+            }
+            .store(in: &c)
         updatesManager.objectWillChange
             .sink { [weak self] in
                 self?.objectWillChange.send()
@@ -324,7 +331,8 @@ final class AppState: ObservableObject {
     /// Activates the app and sets its activation policy.
     func activate(withPolicy policy: NSApplication.ActivationPolicy? = nil) {
         if let policy {
-            NSApp.setActivationPolicy(policy)
+            let effectivePolicy = policy == .regular && !settings.advanced.showAppIconInDock ? .accessory : policy
+            NSApp.setActivationPolicy(effectivePolicy)
         }
         // NSApplication.activate(ignoringOtherApps:) is deprecated, with
         // no suitable alternative for explicit activation, so we activate

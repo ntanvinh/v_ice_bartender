@@ -291,7 +291,7 @@ final class MenuBarManager: ObservableObject {
         let menu = NSMenu(title: "VIce Bartender")
 
         let editAppearanceItem = NSMenuItem(
-            title: "Edit Menu Bar Appearance…",
+            title: String(localized: "Edit Menu Bar Appearance…"),
             action: #selector(showAppearanceEditorPanel),
             keyEquivalent: ""
         )
@@ -301,7 +301,7 @@ final class MenuBarManager: ObservableObject {
         menu.addItem(.separator())
 
         let settingsItem = NSMenuItem(
-            title: "VIce Bartender Settings…",
+            title: String(localized: "VIce Bartender Settings…"),
             action: #selector(AppDelegate.openSettingsWindow),
             keyEquivalent: ","
         )

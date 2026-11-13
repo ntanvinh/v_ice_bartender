@@ -33,8 +33,9 @@ final class ItemImageStore27 {
     /// of the bar over the tile, which showed as a pale box behind the glyph; version 6
     /// spaced the glyphs more tightly than the menu bar does; version 7 could not give a
     /// glyph its full margin when the capture ended right at the glyph's edge; version 8
-    /// could store a tile cut while the bar was re-laying out.
-    private static let storeVersion = "9"
+    /// could store a tile cut while the bar was re-laying out; version 9 could store a cloud of
+    /// wallpaper when dark wallpaper outvoted the glyphs (see `ItemImages27.toneVotes`).
+    private static let storeVersion = "10"
 
     /// The margin left on each side of a glyph, in points, so items are spaced evenly and
     /// with the menu bar's own rhythm: its glyphs sit 18 to 29 points apart, median 22
@@ -61,6 +62,13 @@ final class ItemImageStore27 {
     private static let captureFreshness = Duration.milliseconds(700)
 
     private var appearanceObserver: NSObjectProtocol?
+
+    /// Every write and removal on disk runs here, one after another and in the order they were
+    /// asked for. They used to run as separate detached tasks, and the removal of a tile that was
+    /// refused could land after the write of the one that replaced it, under the same file name:
+    /// the index named a picture that was no longer there, and the layout window left a hole
+    /// where the tile had been (6 of 22 index entries had no file, 2026-11-12).
+    private static let diskQueue = DispatchQueue(label: "vn.io.lssoft.vicebartender.ItemImageStore27.disk", qos: .utility)
 
     init() {
         let versionFile = directory.appendingPathComponent("version.txt")
@@ -93,7 +101,7 @@ final class ItemImageStore27 {
         index.removeAll()
         photoSchedule = PhotoSchedule27()
         let directory = directory
-        Task.detached(priority: .utility) {
+        Self.diskQueue.async {
             try? FileManager.default.removeItem(at: directory)
         }
     }
@@ -104,11 +112,19 @@ final class ItemImageStore27 {
         if let image = loaded[key] {
             return image
         }
+        guard let entry = index[key] else {
+            return nil
+        }
         guard
-            let entry = index[key],
             let source = CGImageSourceCreateWithURL(directory.appendingPathComponent(entry.fileName) as CFURL, nil),
             let cgImage = CGImageSourceCreateImageAtIndex(source, 0, nil)
         else {
+            // The index names a picture that is not there. Left in the index it counted as an
+            // image for `hasImage`, so the item was never photographed again and its tile stayed
+            // empty. Forgetting it lets the next capture of the bar replace it.
+            logger.notice("The picture of \(key, privacy: .public) is missing, so it is forgotten")
+            index[key] = nil
+            writeIndex()
             return nil
         }
         guard isUsable(cgImage, key: key) else {
@@ -117,7 +133,7 @@ final class ItemImageStore27 {
             index[key] = nil
             let fileName = entry.fileName
             let directory = directory
-            Task.detached(priority: .utility) {
+            Self.diskQueue.async {
                 try? FileManager.default.removeItem(at: directory.appendingPathComponent(fileName))
             }
             writeIndex()
@@ -183,6 +199,14 @@ final class ItemImageStore27 {
         let stripFrame = CGRect(x: displayBounds.minX, y: displayBounds.minY, width: displayBounds.width, height: barHeight)
         let items = await MenuBarItemProvider27.items()
         let concealedPIDs = appState.concealer27.concealedPIDs
+        // What the bar's own window lists is what it draws. An application's item that it does
+        // not list (the VPN item with its switch off, an item macOS dropped) still reports a
+        // frame, and that phantom frame overlapped the real tile beside it, which then got no
+        // picture either.
+        let barFrames = MenuBarItemProvider27.barFrames(for: displayID)
+        func isListed(_ item: MenuBarItem) -> Bool {
+            ItemDrawing27.isListed(itemFrame: item.bounds, amongBarFrames: barFrames)
+        }
         guard let captured = await captureStrip(displayID: displayID, size: stripFrame.size) else {
             return
         }
@@ -196,7 +220,7 @@ final class ItemImageStore27 {
         // one, and neither can say what the pixels under it belong to. See
         // `ItemImages27.overlappingTags`.
         let overlapping = ItemImages27.overlappingTags(
-            frames: frames(items.filter { $0.isOnScreen && !concealedPIDs.contains($0.ownerPID) })
+            frames: frames(items.filter { $0.isOnScreen && isListed($0) && !concealedPIDs.contains($0.ownerPID) })
         )
         var skipped = 0
         var stored = 0
@@ -204,7 +228,7 @@ final class ItemImageStore27 {
         // for the whole strip, rather than tile by tile, keeps a dark patch of wallpaper behind
         // one item from passing for its glyph (see `ItemImages27.toneVotes`).
         var votes = (light: 0, dark: 0)
-        for item in items where Self.isPhotographable(item, concealedPIDs: concealedPIDs) {
+        for item in items where Self.isPhotographable(item, concealedPIDs: concealedPIDs) && isListed(item) {
             guard
                 settled.contains(item.tag.description),
                 !overlapping.contains(item.tag.description),
@@ -219,7 +243,7 @@ final class ItemImageStore27 {
             votes.dark += tileVotes.dark
         }
         let tone: ItemImages27.GlyphTone? = votes.light + votes.dark == 0 ? nil : (votes.light >= votes.dark ? .light : .dark)
-        for item in items where Self.isPhotographable(item, concealedPIDs: concealedPIDs) {
+        for item in items where Self.isPhotographable(item, concealedPIDs: concealedPIDs) && isListed(item) {
             guard settled.contains(item.tag.description) else {
                 skipped += 1
                 continue
@@ -491,7 +515,7 @@ final class ItemImageStore27 {
             return
         }
         let directory = directory
-        Task.detached(priority: .utility) {
+        Self.diskQueue.async {
             try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
             try? data.write(to: directory.appendingPathComponent(fileName), options: .atomic)
         }
@@ -503,7 +527,7 @@ final class ItemImageStore27 {
         }
         let directory = directory
         let version = Self.storeVersion
-        Task.detached(priority: .utility) {
+        Self.diskQueue.async {
             try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
             try? data.write(to: directory.appendingPathComponent("index.json"), options: .atomic)
             try? version.write(to: directory.appendingPathComponent("version.txt"), atomically: true, encoding: .utf8)

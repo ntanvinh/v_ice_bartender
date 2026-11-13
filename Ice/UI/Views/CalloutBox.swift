@@ -27,7 +27,7 @@ struct CalloutBox<Content: View, Icon: View, ForegroundStyle: ShapeStyle>: View 
     }
 
     init(
-        alignment: HorizontalAlignment = .center,
+        alignment: HorizontalAlignment = .leading,
         font: Font? = .calloutBox,
         foregroundStyle: ForegroundStyle = .secondary,
         @ViewBuilder content: () -> Content,
@@ -43,7 +43,7 @@ struct CalloutBox<Content: View, Icon: View, ForegroundStyle: ShapeStyle>: View 
     }
 
     init(
-        alignment: HorizontalAlignment = .center,
+        alignment: HorizontalAlignment = .leading,
         font: Font? = .calloutBox,
         foregroundStyle: ForegroundStyle = .secondary,
         @ViewBuilder content: () -> Content
@@ -59,7 +59,7 @@ struct CalloutBox<Content: View, Icon: View, ForegroundStyle: ShapeStyle>: View 
 
     init(
         _ titleKey: LocalizedStringKey,
-        alignment: HorizontalAlignment = .center,
+        alignment: HorizontalAlignment = .leading,
         font: Font? = .calloutBox,
         foregroundStyle: ForegroundStyle = .secondary
     ) where Content == Text, Icon == EmptyView {
@@ -74,7 +74,7 @@ struct CalloutBox<Content: View, Icon: View, ForegroundStyle: ShapeStyle>: View 
 
     init(
         _ titleKey: LocalizedStringKey,
-        alignment: HorizontalAlignment = .center,
+        alignment: HorizontalAlignment = .leading,
         font: Font? = .calloutBox,
         foregroundStyle: ForegroundStyle = .secondary,
         @ViewBuilder icon: () -> Icon
@@ -90,7 +90,7 @@ struct CalloutBox<Content: View, Icon: View, ForegroundStyle: ShapeStyle>: View 
 
     init(
         systemImage: String,
-        alignment: HorizontalAlignment = .center,
+        alignment: HorizontalAlignment = .leading,
         font: Font? = .calloutBox,
         foregroundStyle: ForegroundStyle = .secondary,
         @ViewBuilder content: () -> Content
@@ -107,7 +107,7 @@ struct CalloutBox<Content: View, Icon: View, ForegroundStyle: ShapeStyle>: View 
     init(
         _ titleKey: LocalizedStringKey,
         systemImage: String,
-        alignment: HorizontalAlignment = .center,
+        alignment: HorizontalAlignment = .leading,
         font: Font? = .calloutBox,
         foregroundStyle: ForegroundStyle = .secondary
     ) where Content == Text, Icon == Image {
@@ -121,21 +121,19 @@ struct CalloutBox<Content: View, Icon: View, ForegroundStyle: ShapeStyle>: View 
     }
 
     var body: some View {
-        IceGroupBox {
-            Label {
-                content
-            } icon: {
-                icon
-            }
-            .font(font)
-            .foregroundStyle(foregroundStyle)
-            .fixedSize(horizontal: false, vertical: true)
-            .frame(maxWidth: .infinity, alignment: Alignment(horizontal: alignment, vertical: .center))
+        Label {
+            content
+        } icon: {
+            icon
         }
+        .font(font)
+        .foregroundStyle(foregroundStyle)
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: .infinity, alignment: Alignment(horizontal: alignment, vertical: .center))
     }
 }
 
 extension Font {
     /// The default font for Ice callout boxes.
-    static let calloutBox = callout.bold()
+    static let calloutBox = callout
 }

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "auto-rehide",
+  "title": {
+    "en-US": "Items tuck themselves away",
+    "vi": "Tự ẩn lại gọn gàng"
+  },
+  "description": {
+    "en-US": "Shown items hide again on their own, after a delay or when you switch apps, and app menus step aside when they would overlap.",
+    "vi": "Các mục vừa hiện tự ẩn lại sau một khoảng trễ hoặc khi bạn đổi ứng dụng, còn menu ứng dụng tự nhường chỗ khi bị chồng lên."
+  },
+  "tier": "value",
+  "rank": 80,
+  "mode": "desktop",
+  "orientation": "landscape",
+  "screens": [
+    "General"
+  ],
+  "hasVideo": false
+}

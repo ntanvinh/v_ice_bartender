@@ -30,8 +30,16 @@ final class Hotkey: ObservableObject {
 
     /// A Boolean value that indicates whether the hotkey is enabled.
     var isEnabled: Bool {
-        listener != nil
+        #if DEBUG
+        if captureShowsEnabled { return true }
+        #endif
+        return listener != nil
     }
+
+    #if DEBUG
+    /// Makes a recorder show the shortcut without registering it, for the screenshot harness.
+    var captureShowsEnabled = false
+    #endif
 
     /// Creates a hotkey with the given action and key combination.
     init(action: HotkeyAction, keyCombination: KeyCombination? = nil) {

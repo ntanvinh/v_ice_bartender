@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "ice-bar",
+  "title": {
+    "en-US": "Show hidden items below the bar",
+    "vi": "Hiện mục ẩn dưới thanh menu"
+  },
+  "description": {
+    "en-US": "Open hidden items in a separate bar under the menu bar, handy on MacBooks with a notch where the menu bar runs out of room.",
+    "vi": "Mở các mục ẩn trong một thanh riêng bên dưới thanh menu, tiện cho MacBook có tai thỏ khi thanh menu hết chỗ."
+  },
+  "tier": "unique",
+  "rank": 20,
+  "mode": "desktop",
+  "orientation": "landscape",
+  "screens": [
+    "General",
+    "Ice Bar"
+  ],
+  "hasVideo": false,
+  "featured": 1,
+  "image": "../screenshots/desktop/01-ice-bar.png"
+}

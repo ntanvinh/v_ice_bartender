@@ -1,10 +1,10 @@
 > [!IMPORTANT]
 > **VIce Bartender** is a community-maintained fork of [Ice](https://github.com/jordanbaird/Ice) by Jordan Baird, continued because the original project is no longer maintained. It stays open source under GPL-3.0; all original copyright belongs to its author. Upstream is tracked as the `upstream` git remote.
 >
-> macOS 27 (Golden Gate) support is based on [jordanbaird/Ice#995](https://github.com/jordanbaird/Ice/pull/995) by RabenkoYevhenii (GPL-3.0). On macOS 27 the menu bar is drawn by `MenuBarAgent`, so items are no longer windows; the macOS 27 code path reads them through Accessibility. Moving an app between sections works in Menu Bar Layout, and the order inside a section is set by ⌘-dragging in the menu bar.
+> macOS 27 (Golden Gate) support is based on [jordanbaird/Ice#995](https://github.com/jordanbaird/Ice/pull/995) by RabenkoYevhenii (GPL-3.0). On macOS 27 the menu bar is drawn by `MenuBarAgent`, so items are no longer windows; the macOS 27 code path reads them through Accessibility. Moving an app between sections works in Menu Bar Layout, and so does reordering the Visible row: a drop there is carried over to the real bar with a ⌘ drag Ice makes for you (pointer put back afterwards). Items macOS will not move by hand, and the hidden rows, are not reordered on the bar.
 
 <div align="center">
-    <img src="Ice/Assets.xcassets/AppIcon.appiconset/icon_256x256.png" width=200 height=200>
+    <img src="Ice/Resources/Assets.xcassets/AppIcon.appiconset/icon_256x256.png" width=200 height=200>
     <h1>VIce Bartender</h1>
 </div>
 
@@ -24,7 +24,7 @@ VIce Bartender is a powerful menu bar management tool. While its primary functio
 
 ### Manual Installation
 
-Download the "VIce Bartender.zip" file from the [latest release](https://github.com/ntanvinh/v_ice_bartender/releases/latest) and move the unzipped app into your `Applications` folder.
+Download `VIceBartender.dmg` from the [latest release](https://github.com/ntanvinh/v_ice_bartender/releases/latest), open it and drag VIce Bartender into your `Applications` folder.
 
 ## Features/Roadmap
 

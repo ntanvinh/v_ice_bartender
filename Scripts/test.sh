@@ -9,6 +9,7 @@
 #
 # The build goes to a folder of its own (VICE_TEST_BUILD_DIR, default /tmp/vice-test-build), so it never touches an app that is
 # running or installed, and its log is next to it. The exit code is 0 only when everything that was asked for passed.
+# Every run first checks the repository (Scripts/check-repo.sh): no local cache or ignored file may be tracked.
 source "$(dirname "$0")/common.sh"
 
 UNIT=1; BUILD=0; FILTER=""
@@ -30,6 +31,8 @@ failed=0
 # A machine under heavy load makes long steps stall without failing; say so instead of leaving a silent wait.
 load="$(uptime | sed -E 's/.*load averages?: ([0-9.]+).*/\1/')"
 if [ "${load%%.*}" -ge 40 ] 2>/dev/null; then warn "the machine is busy (load average $load): the steps below can take a few minutes"; fi
+
+"$ROOT/Scripts/check-repo.sh" || failed=1
 
 if [ "$UNIT" = 1 ]; then
     say "Unit tests (swift test)"

@@ -153,6 +153,16 @@ final class MenuBarSearchPanel: NSPanel {
     }
 }
 
+#if DEBUG
+extension MenuBarSearchPanel {
+    /// The search panel's real content view, for the screenshot harness.
+    @MainActor
+    static func captureView(appState: AppState, model: MenuBarSearchModel) -> NSView {
+        MenuBarSearchHostingView(appState: appState, model: model, displayID: 0, panel: MenuBarSearchPanel())
+    }
+}
+#endif
+
 private final class MenuBarSearchHostingView: NSHostingView<AnyView> {
     override var safeAreaInsets: NSEdgeInsets {
         NSEdgeInsets()
@@ -312,7 +322,7 @@ private struct MenuBarSearchContentView: View {
                 }
 
                 let headerItem = ListItem.header(id: .header(name)) {
-                    Text(name.displayString)
+                    Text(name.localized)
                         .fontWeight(.semibold)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -415,7 +425,7 @@ private struct ShowItemButton: View {
     var body: some View {
         Button(action: action) {
             HStack {
-                Text("\(Bridging.isWindowOnScreen(item.windowID) ? "Click" : "Show") Item")
+                Text(Bridging.isWindowOnScreen(item.windowID) ? "Click Item" : "Show Item")
                     .padding(.leading, 5)
 
                 Image(systemName: "return")

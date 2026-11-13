@@ -92,7 +92,13 @@ struct MenuBarItem: CustomStringConvertible {
             return Constants.displayName
         }
 
-        lazy var fallbackName = "Menu Bar Item"
+        #if DEBUG
+        if let name = MenuBarItem.captureNames[tag] {
+            return name
+        }
+        #endif
+
+        lazy var fallbackName = String(localized: "Menu Bar Item")
 
         guard let sourceApplication else {
             return fallbackName
@@ -379,3 +385,24 @@ private extension MenuBarItemTag.Namespace {
         }
     }
 }
+
+#if DEBUG
+// MARK: - Capture demo items
+
+extension MenuBarItem {
+    /// Names for the demo items the screenshot harness lists (see `CaptureHarness`).
+    nonisolated(unsafe) static var captureNames = [MenuBarItemTag: String]()
+
+    /// Creates a demo item that exists only for the screenshot harness.
+    init(captureTag tag: MenuBarItemTag, windowID: CGWindowID, name: String, size: CGSize) {
+        self.tag = tag
+        self.windowID = windowID
+        self.ownerPID = 0
+        self.sourcePID = nil
+        self.bounds = CGRect(origin: .zero, size: size)
+        self.title = name
+        self.isOnScreen = true
+        MenuBarItem.captureNames[tag] = name
+    }
+}
+#endif

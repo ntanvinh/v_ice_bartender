@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "launch-at-login",
+  "title": {
+    "en-US": "Starts when you log in",
+    "vi": "Tự chạy khi đăng nhập"
+  },
+  "description": {
+    "en-US": "Launch at login to tidy your menu bar from the start. Automatic update checks and downloads can be enabled in settings.",
+    "vi": "Tự chạy khi đăng nhập để thanh menu gọn ngay từ đầu. Bạn có thể bật tự kiểm tra và tải bản cập nhật trong cài đặt."
+  },
+  "tier": "common",
+  "rank": 200,
+  "mode": "desktop",
+  "orientation": "landscape",
+  "screens": [
+    "General",
+    "About"
+  ],
+  "hasVideo": false
+}

@@ -79,7 +79,13 @@ final class LayoutBarItemView: NSView {
         self.appState = appState
 
         // set the frame to the full item frame size; the image will be centered when displayed
-        super.init(frame: CGRect(origin: .zero, size: item.bounds.size))
+        // Until its picture arrives a tile is only as wide as its stand-in icon, not the item's
+        // full width, so an item without a picture does not leave a wide blank in the row.
+        let isOwn = item.tag == .visibleControlItem
+        let initialSize = isOwn
+            ? item.bounds.size
+            : CGSize(width: min(item.bounds.width, Self.placeholderWidth), height: item.bounds.height)
+        super.init(frame: CGRect(origin: .zero, size: initialSize))
         unregisterDraggedTypes()
 
         self.toolTip = Self.toolTip(for: item)
@@ -107,10 +113,10 @@ final class LayoutBarItemView: NSView {
     /// shows an Ethernet glyph on a wired Mac, looking like a button that does not work.
     private static func toolTip(for item: MenuBarItem) -> String {
         if item.tag == .visibleControlItem {
-            return "\(item.displayName)\nThis is the VIce Bartender icon. macOS keeps it just left of Control Center, and VIce Bartender cannot move it past that."
+            return "\(item.displayName)\n" + String(localized: "This is the VIce Bartender icon. macOS keeps it just left of Control Center, and VIce Bartender cannot move it past that.")
         }
         if !item.isMovable, #available(macOS 27.0, *) {
-            return "\(item.displayName)\n\(MenuBarSettingsLink27.explanation)\nClick to open System Settings > Menu Bar."
+            return "\(item.displayName)\n\(MenuBarSettingsLink27.explanation)\n" + String(localized: "Click to open System Settings > Menu Bar.")
         }
         if
             #available(macOS 27.0, *),
@@ -118,9 +124,9 @@ final class LayoutBarItemView: NSView {
             !NativeSwitch27.canIceHide(bundleID: bundleID, tracked: NativeAllowListConcealer27.trackedBundleIDs())
         {
             if let menuBarSwitch = NativeSwitch27.menuBarSwitch(bundleID: bundleID, title: item.title) {
-                return "\(item.displayName)\nmacOS draws this item and VIce Bartender cannot hide it itself. Drag it to Hidden and VIce Bartender turns off \u{201C}\(menuBarSwitch.label)\u{201D} in System Settings > Menu Bar for you."
+                return "\(item.displayName)\n" + String(localized: "macOS draws this item and VIce Bartender cannot hide it itself. Drag it to Hidden and VIce Bartender turns off \u{201C}\(menuBarSwitch.label)\u{201D} in System Settings > Menu Bar for you.")
             }
-            return "\(item.displayName)\nmacOS draws this item and VIce Bartender cannot hide it. If macOS has a switch for it under Menu Bar Controls in System Settings > Menu Bar, turn it off there."
+            return "\(item.displayName)\n" + String(localized: "macOS draws this item and VIce Bartender cannot hide it. If macOS has a switch for it under Menu Bar Controls in System Settings > Menu Bar, turn it off there.")
         }
         return item.displayName
     }
@@ -160,21 +166,34 @@ final class LayoutBarItemView: NSView {
                 .store(in: &c)
         }
 
+        if #available(macOS 27.0, *) {
+            NotificationCenter.default.publisher(for: StatusReveal27.settingDidChange)
+                .sink { [weak self] _ in
+                    self?.needsDisplay = true
+                }
+                .store(in: &c)
+        }
+
         cancellables = c
+    }
+
+    override func viewDidMoveToSuperview() {
+        super.viewDidMoveToSuperview()
+        needsDisplay = true
     }
 
     /// Provides an alert to display when the item view is disabled.
     func provideAlertForDisabledItem() -> NSAlert {
         let alert = NSAlert()
-        alert.messageText = "Menu bar item is not movable."
-        alert.informativeText = "macOS prohibits \"\(item.displayName)\" from being moved."
+        alert.messageText = String(localized: "Menu bar item is not movable.")
+        alert.informativeText = String(localized: "macOS prohibits \"\(item.displayName)\" from being moved.")
         return alert
     }
 
     /// Provides an alert to display when a menu bar item is unresponsive.
     func provideAlertForUnresponsiveItem() -> NSAlert {
         let alert = provideAlertForDisabledItem()
-        alert.informativeText = "\(item.displayName) is unresponsive. Until it is restarted, it cannot be moved. Movement of other menu bar items may also be affected until this is resolved."
+        alert.informativeText = String(localized: "\(item.displayName) is unresponsive. Until it is restarted, it cannot be moved. Movement of other menu bar items may also be affected until this is resolved.")
         return alert
     }
 
@@ -217,9 +236,68 @@ final class LayoutBarItemView: NSView {
         tinted.draw(in: rect)
     }
 
+    /// The width of the tile of an item whose picture is not available.
+    private static let placeholderWidth: CGFloat = 30
+
+    /// Draws the owning application's icon where there is no picture of the item.
+    private func drawPlaceholderIcon() {
+        guard let icon = item.sourceApplication?.icon else {
+            return
+        }
+        let side = min(bounds.height, bounds.width, 18)
+        icon.draw(
+            in: CGRect(x: bounds.midX - side / 2, y: bounds.midY - side / 2, width: side, height: side),
+            from: .zero,
+            operation: .sourceOver,
+            fraction: isEnabled ? 1.0 : Self.disabledFraction
+        )
+    }
+
+    /// Whether the item is set to appear by itself when its status changes. It only takes
+    /// effect in Hidden, so only a tile there is marked.
+    private var showsAutoRevealBadge: Bool {
+        guard
+            #available(macOS 27.0, *),
+            !isOwnIcon,
+            let appState,
+            let bundleID = item.sourceApplication?.bundleIdentifier,
+            appState.itemManager.itemCache.address(for: item.tag)?.section == .hidden
+        else {
+            return false
+        }
+        let reveal = appState.concealer27.statusReveal
+        return reveal.canDetect(bundleID: bundleID) && reveal.isEnabled(bundleID: bundleID)
+    }
+
+    /// A small accent-coloured dot with a bell at the tile's lower right corner.
+    private func drawAutoRevealBadge() {
+        let side: CGFloat = 11
+        let rect = CGRect(x: bounds.maxX - side - 1, y: bounds.minY + 1, width: side, height: side)
+        NSColor.controlAccentColor.setFill()
+        NSBezierPath(ovalIn: rect).fill()
+        let config = NSImage.SymbolConfiguration(pointSize: 6, weight: .bold)
+            .applying(.init(paletteColors: [.white]))
+        guard let bell = NSImage(systemSymbolName: "bell.fill", accessibilityDescription: nil)?
+            .withSymbolConfiguration(config) else {
+            return
+        }
+        bell.draw(in: CGRect(x: rect.midX - bell.size.width / 2, y: rect.midY - bell.size.height / 2, width: bell.size.width, height: bell.size.height))
+    }
+
     override func draw(_ dirtyRect: NSRect) {
+        draw()
+        if !isDraggingPlaceholder, showsAutoRevealBadge {
+            drawAutoRevealBadge()
+        }
+    }
+
+    private func draw() {
         if isOwnIcon {
             drawOwnIcon()
+            return
+        }
+        if !isDraggingPlaceholder, cachedImage == nil {
+            drawPlaceholderIcon()
             return
         }
         if !isDraggingPlaceholder {
@@ -249,6 +327,49 @@ final class LayoutBarItemView: NSView {
         }
     }
 
+    // MARK: Status reveal
+
+    override func menu(for event: NSEvent) -> NSMenu? {
+        guard
+            #available(macOS 27.0, *),
+            let appState,
+            isEnabled,
+            !isOwnIcon,
+            let bundleID = item.sourceApplication?.bundleIdentifier
+        else {
+            return nil
+        }
+        let reveal = appState.concealer27.statusReveal
+        let section = appState.itemManager.itemCache.address(for: item.tag)?.section
+        let seconds = Int(StatusChange27.revealDuration)
+
+        // An item that cannot be watched has nothing to offer, so it gets no menu at all rather
+        // than a disabled entry with a long reason.
+        guard section != .alwaysHidden, reveal.canDetect(bundleID: bundleID) else {
+            return nil
+        }
+
+        let menu = NSMenu()
+        let toggle = NSMenuItem(
+            title: String(localized: "Show for \(seconds) seconds when its status changes"),
+            action: #selector(toggleStatusReveal(_:)),
+            keyEquivalent: ""
+        )
+        toggle.target = self
+        toggle.representedObject = bundleID
+        toggle.state = reveal.isEnabled(bundleID: bundleID) ? .on : .off
+        menu.addItem(toggle)
+        return menu
+    }
+
+    @objc private func toggleStatusReveal(_ sender: NSMenuItem) {
+        guard #available(macOS 27.0, *), let appState, let bundleID = sender.representedObject as? String else {
+            return
+        }
+        let reveal = appState.concealer27.statusReveal
+        reveal.setEnabled(!reveal.isEnabled(bundleID: bundleID), bundleID: bundleID)
+    }
+
     /// Whether the pointer moved since the button went down, which makes the click a drag.
     private var didDragSinceMouseDown = false
 
@@ -270,10 +391,10 @@ final class LayoutBarItemView: NSView {
     @available(macOS 27.0, *)
     private func presentAlertForSystemItem() {
         let alert = NSAlert()
-        alert.messageText = "macOS draws this item itself."
+        alert.messageText = String(localized: "macOS draws this item itself.")
         alert.informativeText = MenuBarSettingsLink27.explanation
-        alert.addButton(withTitle: "Open Menu Bar Settings")
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: String(localized: "Open Menu Bar Settings"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         if alert.runModal() == .alertFirstButtonReturn {
             MenuBarSettingsLink27.open()
         }

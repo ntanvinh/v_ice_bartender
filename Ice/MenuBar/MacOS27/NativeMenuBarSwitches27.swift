@@ -39,10 +39,10 @@ final class NativeMenuBarSwitches27: ObservableObject {
     /// Turns the switch on (`shown`) or off, and says what came of it.
     func set(_ menuBarSwitch: NativeSwitch27.MenuBarSwitch, shown: Bool) async -> Outcome {
         guard !isWorking else {
-            return .failed("Another switch is being changed. Try again in a moment.")
+            return .failed(String(localized: "Another switch is being changed. Try again in a moment."))
         }
         guard AXIsProcessTrusted() else {
-            return .failed("VIce Bartender needs the Accessibility permission to press the switch for you.")
+            return .failed(String(localized: "VIce Bartender needs the Accessibility permission to press the switch for you."))
         }
         isWorking = true
         defer { isWorking = false }
@@ -53,7 +53,7 @@ final class NativeMenuBarSwitches27: ObservableObject {
         do {
             _ = try await NSWorkspace.shared.open(MenuBarSettingsLink27.paneURL, configuration: configuration)
         } catch {
-            return .failed("System Settings could not be opened: \(error.localizedDescription)")
+            return .failed(String(localized: "System Settings could not be opened: \(error.localizedDescription)"))
         }
         let identifier = menuBarSwitch.accessibilityIdentifier
         let outcome = await withCheckedContinuation { continuation in
@@ -78,13 +78,13 @@ final class NativeMenuBarSwitches27: ObservableObject {
     private nonisolated static func press(accessibilityIdentifier: String, shown: Bool) -> Outcome {
         let wanted = shown ? 1 : 0
         guard let checkbox = waitForCheckbox(accessibilityIdentifier, timeout: 10) else {
-            return .failed("The switch was not found in System Settings > Menu Bar. Turn it off there by hand.")
+            return .failed(String(localized: "The switch was not found in System Settings > Menu Bar. Turn it off there by hand."))
         }
         if value(of: checkbox.element) == wanted {
             return .alreadyThere
         }
         guard AXUIElementPerformAction(checkbox.element, kAXPressAction as CFString) == .success else {
-            return .failed("System Settings did not accept the press. Turn it off there by hand.")
+            return .failed(String(localized: "System Settings did not accept the press. Turn it off there by hand."))
         }
         let deadline = Date().addingTimeInterval(4)
         while Date() < deadline {
@@ -94,7 +94,7 @@ final class NativeMenuBarSwitches27: ObservableObject {
             }
             Thread.sleep(forTimeInterval: 0.15)
         }
-        return .failed("The switch did not change in System Settings. Turn it off there by hand.")
+        return .failed(String(localized: "The switch did not change in System Settings. Turn it off there by hand."))
     }
 
     private struct Checkbox {

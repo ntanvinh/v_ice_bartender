@@ -79,6 +79,13 @@ final class MenuBarItemImageCache: ObservableObject {
     /// The cached item images, keyed by their corresponding tags.
     @Published private(set) var images = [MenuBarItemTag: CapturedImage]()
 
+    #if DEBUG
+    /// Fills the cache with demo images for the screenshot harness.
+    func seedForCapture(_ images: [MenuBarItemTag: CapturedImage]) {
+        self.images = images
+    }
+    #endif
+
     /// Logger for the menu bar item image cache.
     private let logger = Logger(category: "MenuBarItemImageCache")
 

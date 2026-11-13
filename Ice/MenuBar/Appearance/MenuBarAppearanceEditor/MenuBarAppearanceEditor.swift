@@ -137,11 +137,15 @@ struct MenuBarAppearanceEditor: View {
     }
 }
 
-private struct UnlabeledPartialEditor: View {
+private struct UnlabeledPartialEditor<Header: View>: View {
     @Binding var configuration: MenuBarAppearancePartialConfiguration
+
+    @ViewBuilder var header: Header
 
     var body: some View {
         IceSection {
+            header
+        } content: {
             tintPicker
             shadowToggle
         }
@@ -225,42 +229,39 @@ private struct UnlabeledPartialEditor: View {
 private struct LabeledPartialEditor: View {
     @Binding var configuration: MenuBarAppearanceConfigurationV2
     @State private var currentAppearance = SystemAppearance.current
-    @State private var textFrame = CGRect.zero
 
     let appearance: SystemAppearance
 
     var body: some View {
-        IceSection(options: .plain) {
-            labelStack
-        } content: {
-            partialEditor
-        }
-        .onReceive(NSApp.publisher(for: \.effectiveAppearance)) { _ in
-            currentAppearance = .current
-        }
+        partialEditor
+            .onReceive(NSApp.publisher(for: \.effectiveAppearance)) { _ in
+                currentAppearance = .current
+            }
     }
 
     @ViewBuilder
     private var labelStack: some View {
         HStack {
             Text(appearance.titleKey)
-                .font(.headline)
-                .onFrameChange(update: $textFrame)
 
             if currentAppearance != appearance {
+                Spacer()
                 PreviewButton(appearance: appearance)
             }
         }
-        .frame(height: textFrame.height)
     }
 
     @ViewBuilder
     private var partialEditor: some View {
         switch appearance {
         case .light:
-            UnlabeledPartialEditor(configuration: $configuration.lightModeConfiguration)
+            UnlabeledPartialEditor(configuration: $configuration.lightModeConfiguration) {
+                labelStack
+            }
         case .dark:
-            UnlabeledPartialEditor(configuration: $configuration.darkModeConfiguration)
+            UnlabeledPartialEditor(configuration: $configuration.darkModeConfiguration) {
+                labelStack
+            }
         }
     }
 }
@@ -269,7 +270,9 @@ private struct StaticPartialEditor: View {
     @Binding var configuration: MenuBarAppearanceConfigurationV2
 
     var body: some View {
-        UnlabeledPartialEditor(configuration: $configuration.staticConfiguration)
+        UnlabeledPartialEditor(configuration: $configuration.staticConfiguration) {
+            EmptyView()
+        }
     }
 }
 

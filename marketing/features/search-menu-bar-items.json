@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "search-menu-bar-items",
+  "title": {
+    "en-US": "Find managed items by name",
+    "vi": "Tìm mục được quản lý theo tên"
+  },
+  "description": {
+    "en-US": "Search managed menu bar items, including hidden ones, and open the one you need from the results.",
+    "vi": "Tìm các mục menu được quản lý, kể cả mục đang ẩn, rồi mở thẳng mục bạn cần từ kết quả."
+  },
+  "tier": "value",
+  "rank": 60,
+  "mode": "desktop",
+  "orientation": "landscape",
+  "screens": [
+    "Search panel",
+    "Hotkeys"
+  ],
+  "hasVideo": false,
+  "featured": 3,
+  "image": "../screenshots/desktop/03-search-menu-bar-items.png"
+}

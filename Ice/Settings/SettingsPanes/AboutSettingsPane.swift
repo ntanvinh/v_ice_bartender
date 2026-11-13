@@ -8,110 +8,141 @@ import SwiftUI
 struct AboutSettingsPane: View {
     @EnvironmentObject var appState: AppState
     @ObservedObject var updatesManager: UpdatesManager
-    @Environment(\.openURL) private var openURL
-
-    private var acknowledgementsURL: URL {
-        // swiftlint:disable:next force_unwrapping
-        Bundle.main.url(forResource: "Acknowledgements", withExtension: "pdf")!
-    }
-
-    private var contributeURL: URL {
-        // swiftlint:disable:next force_unwrapping
-        URL(string: "https://github.com/ntanvinh/v_ice_bartender")!
-    }
-
-    private var issuesURL: URL {
-        contributeURL.appendingPathComponent("issues")
-    }
-
-    private var donateURL: URL {
-        // swiftlint:disable:next force_unwrapping
-        URL(string: "https://icemenubar.app/Donate")!
-    }
+    @Environment(\.colorScheme) private var colorScheme
+    @AppStorage(Defaults.Key.hasDonated.rawValue) private var hasDonated = false
 
     private var lastUpdateCheckString: String {
         if let date = updatesManager.lastUpdateCheckDate {
             date.formatted(date: .abbreviated, time: .standard)
         } else {
-            "Never"
+            String(localized: "Never")
         }
     }
 
     var body: some View {
-        if #available(macOS 26.0, *) {
-            contentForm(cornerStyle: .continuous)
-        } else {
-            contentForm(cornerStyle: .circular)
+        IceForm {
+            Section {
+                appIconAndCopyrightSection
+                    .frame(maxWidth: .infinity)
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+            }
+
+            IceSection {
+                automaticallyCheckForUpdates
+                automaticallyDownloadUpdates
+                if updatesManager.canCheckForUpdates {
+                    checkForUpdates
+                }
+            }
+
+            IceSection {
+                aboutRow("Developer") {
+                    Text(DonationInfo.developerName)
+                }
+                aboutRow("Website") {
+                    Link(DonationInfo.websiteURL.host() ?? "lssoft.io.vn", destination: DonationInfo.websiteURL)
+                }
+                aboutRow("Contact") {
+                    // swiftlint:disable:next force_unwrapping
+                    Link(DonationInfo.contactEmail, destination: URL(string: "mailto:\(DonationInfo.contactEmail)")!)
+                }
+            }
         }
     }
 
-    @ViewBuilder
-    private func contentForm(cornerStyle: RoundedCornerStyle) -> some View {
-        IceForm(spacing: 0) {
-            mainContent(containerShape: RoundedRectangle(cornerRadius: 20, style: cornerStyle))
-            Spacer(minLength: 10)
-            bottomBar(containerShape: Capsule(style: cornerStyle))
-        }
-    }
-
-    @ViewBuilder
-    private func mainContent(containerShape: some InsettableShape) -> some View {
-        IceSection(spacing: 0, options: .plain) {
-            appIconAndCopyrightSection
-                .layoutPriority(1)
-
-            Spacer(minLength: 0)
-                .frame(maxHeight: 20)
-
-            updatesSection
-                .layoutPriority(1)
-        }
-        .padding(.top, 5)
-        .padding([.horizontal, .bottom], 30)
-        .frame(maxHeight: 500)
-        .background(.quinary, in: containerShape)
-        .containerShape(containerShape)
-    }
-
+    /// The app icon, name and credits, centred as in the About window of a Mac app. Every line
+    /// is a single line that shrinks before it wraps or truncates, so a longer name or a narrow
+    /// window never breaks the layout.
     @ViewBuilder
     private var appIconAndCopyrightSection: some View {
-        IceSection(options: .plain) {
-            HStack(spacing: 10) {
-                if let nsImage = NSImage(named: NSImage.applicationIconName) {
-                    Image(nsImage: nsImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 230)
-                }
+        VStack(spacing: 4) {
+            if let nsImage = NSImage(named: NSImage.applicationIconName) {
+                Image(nsImage: nsImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 112, height: 112)
+                    .accessibilityHidden(true)
+            }
 
-                VStack(alignment: .leading) {
-                    Text("VIce Bartender")
-                        .font(.system(size: 80))
-                        .foregroundStyle(.primary)
+            Text("VIce Bartender")
+                .font(.largeTitle.bold())
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+                .padding(.top, 8)
 
-                    Text("Version \(Constants.versionString)")
-                        .font(.system(size: 15))
-                        .foregroundStyle(.secondary)
+            Text("Version \(Constants.versionString)")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
 
-                    Text(Constants.copyrightString)
-                        .font(.system(size: 14))
-                        .foregroundStyle(.secondary.opacity(0.67))
-                }
-                .fontWeight(.medium)
+            developedByLine
+                .padding(.top, 12)
+
+            HStack(spacing: 4) {
+                Text("Based on")
+                Link("Ice by Jordan Baird", destination: DonationInfo.originalProjectURL)
+            }
+            .font(.callout)
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+            .minimumScaleFactor(0.8)
+            .padding(.top, 2)
+
+            Text("© 2025 Jordan Baird · © 2026 \(DonationInfo.developerName) · GPL-3.0")
+                .font(.footnote)
+                .foregroundStyle(.tertiary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+
+            if hasDonated {
+                thankYouLine
+                    .padding(.top, 8)
             }
         }
+        .multilineTextAlignment(.center)
+        .padding(.vertical, 8)
     }
 
     @ViewBuilder
-    private var updatesSection: some View {
-        IceSection(options: .hasDividers) {
-            automaticallyCheckForUpdates
-            automaticallyDownloadUpdates
-            if updatesManager.canCheckForUpdates {
-                checkForUpdates
-            }
+    private var developedByLine: some View {
+        HStack(spacing: 8) {
+            Image("LSSLogo")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .brightness(colorScheme == .dark ? 0 : -0.5)
+                .frame(width: 32, height: 22)
+                .accessibilityHidden(true)
+            Text("Developed by \(DonationInfo.developerName)")
+                .font(.headline)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
         }
-        .frame(maxWidth: 600)
+        .accessibilityElement(children: .combine)
+    }
+
+    /// Shown only after the person says they donated. It never asks for another donation.
+    @ViewBuilder
+    private var thankYouLine: some View {
+        Label {
+            Text("Thank you for your support.")
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+        } icon: {
+            Image(systemName: "heart.fill")
+                .foregroundStyle(.pink)
+        }
+        .font(.callout)
+        .accessibilityElement(children: .combine)
+    }
+
+    @ViewBuilder
+    private func aboutRow(_ title: LocalizedStringKey, @ViewBuilder value: () -> some View) -> some View {
+        LabeledContent(title) {
+            value()
+        }
+        .lineLimit(1)
     }
 
     @ViewBuilder
@@ -132,63 +163,13 @@ struct AboutSettingsPane: View {
 
     @ViewBuilder
     private var checkForUpdates: some View {
-        HStack {
+        LabeledContent {
             Button("Check for Updates") {
                 updatesManager.checkForUpdates()
             }
-            Spacer()
+        } label: {
             Text("Last checked: \(lastUpdateCheckString)")
-                .font(.caption)
+                .foregroundStyle(.secondary)
         }
-    }
-
-    @ViewBuilder
-    private func bottomBar(containerShape: some InsettableShape) -> some View {
-        HStack {
-            Button("Quit VIce Bartender") {
-                NSApp.terminate(nil)
-            }
-            Spacer()
-            Button("Acknowledgements") {
-                NSWorkspace.shared.open(acknowledgementsURL)
-            }
-            Button("Contribute") {
-                openURL(contributeURL)
-            }
-            Button("Report a Bug") {
-                openURL(issuesURL)
-            }
-            Button("Support the original author", systemImage: "heart.circle.fill") {
-                openURL(donateURL)
-            }
-        }
-        .padding(8)
-        .buttonStyle(BottomBarButtonStyle())
-        .background(.quinary, in: containerShape)
-        .containerShape(containerShape)
-        .frame(height: 40)
-    }
-}
-
-private struct BottomBarButtonStyle: ButtonStyle {
-    @State private var isHovering = false
-
-    private var borderShape: some InsettableShape {
-        ContainerRelativeShape()
-    }
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding(.horizontal, 10)
-            .padding(.vertical, 4)
-            .background {
-                borderShape
-                    .fill(configuration.isPressed ? .tertiary : .quaternary)
-                    .opacity(isHovering ? 1 : 0)
-            }
-            .contentShape([.focusEffect, .interaction], borderShape)
-            .onHover { hovering in
-                isHovering = hovering
-            }
     }
 }

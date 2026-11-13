@@ -12,8 +12,9 @@ import SwiftUI
 @MainActor
 final class AdvancedSettings: ObservableObject {
     /// A Boolean value that indicates whether the always-hidden section
-    /// is enabled.
-    @Published var enableAlwaysHiddenSection = false
+    /// is enabled. On by default: the layout window and the hotkeys offer it from the
+    /// first launch, as Bartender does.
+    @Published var enableAlwaysHiddenSection = true
 
     /// A Boolean value that indicates whether to show all sections when
     /// the user is dragging items in the menu bar.
@@ -25,6 +26,9 @@ final class AdvancedSettings: ObservableObject {
     /// A Boolean value that indicates whether the application menus
     /// should be hidden if needed to show all menu bar items.
     @Published var hideApplicationMenus = true
+
+    /// A Boolean value indicating whether the app icon may appear in the Dock.
+    @Published var showAppIconInDock = true
 
     /// A Boolean value that indicates whether to show a context menu
     /// when the user right-clicks the menu bar.
@@ -63,6 +67,7 @@ final class AdvancedSettings: ObservableObject {
         Defaults.ifPresent(key: .enableAlwaysHiddenSection, assign: &enableAlwaysHiddenSection)
         Defaults.ifPresent(key: .showAllSectionsOnUserDrag, assign: &showAllSectionsOnUserDrag)
         Defaults.ifPresent(key: .hideApplicationMenus, assign: &hideApplicationMenus)
+        Defaults.ifPresent(key: .showAppIconInDock, assign: &showAppIconInDock)
         Defaults.ifPresent(key: .enableSecondaryContextMenu, assign: &enableSecondaryContextMenu)
         Defaults.ifPresent(key: .showOnHoverDelay, assign: &showOnHoverDelay)
         Defaults.ifPresent(key: .showCaptureIndicator, assign: &showCaptureIndicator)
@@ -110,6 +115,13 @@ final class AdvancedSettings: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { shouldHide in
                 Defaults.set(shouldHide, forKey: .hideApplicationMenus)
+            }
+            .store(in: &c)
+
+        $showAppIconInDock
+            .receive(on: DispatchQueue.main)
+            .sink { show in
+                Defaults.set(show, forKey: .showAppIconInDock)
             }
             .store(in: &c)
 

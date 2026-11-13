@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "drag-and-drop-layout",
+  "title": {
+    "en-US": "Arrange items by drag and drop",
+    "vi": "Sắp xếp bằng kéo thả"
+  },
+  "description": {
+    "en-US": "Move supported menu bar items between sections and arrange them in one layout window, without hunting through the bar.",
+    "vi": "Chuyển mục menu được hỗ trợ giữa các vùng, rồi sắp xếp trong một cửa sổ bố cục — không cần tìm từng mục trên thanh."
+  },
+  "tier": "value",
+  "rank": 50,
+  "mode": "desktop",
+  "orientation": "landscape",
+  "screens": [
+    "Menu Bar Layout"
+  ],
+  "hasVideo": false,
+  "featured": 2,
+  "image": "../screenshots/desktop/02-drag-and-drop-layout.png"
+}

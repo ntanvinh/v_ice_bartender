@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "menu-bar-appearance",
+  "title": {
+    "en-US": "Restyle the menu bar",
+    "vi": "Đổi diện mạo thanh menu"
+  },
+  "description": {
+    "en-US": "Add a solid or gradient tint, shadow, border and rounded or split shapes to the menu bar.",
+    "vi": "Thêm màu nền đặc hoặc chuyển sắc, đổ bóng, viền và dạng bo tròn hoặc tách đôi cho thanh menu."
+  },
+  "tier": "value",
+  "rank": 100,
+  "mode": "desktop",
+  "orientation": "landscape",
+  "screens": [
+    "Menu Bar Appearance"
+  ],
+  "hasVideo": false,
+  "featured": 4,
+  "image": "../screenshots/desktop/04-menu-bar-appearance.png"
+}

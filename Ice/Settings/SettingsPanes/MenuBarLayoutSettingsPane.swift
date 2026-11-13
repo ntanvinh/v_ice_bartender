@@ -19,7 +19,7 @@ struct MenuBarLayoutSettingsPane: View {
         } else if appState.menuBarManager.isMenuBarHiddenBySystemUserDefaults {
             cannotArrange
         } else {
-            IceForm(spacing: 20) {
+            IceForm {
                 header
                 if #available(macOS 27.0, *) {
                     StuckOverflowWarning(concealer: appState.concealer27)
@@ -27,6 +27,12 @@ struct MenuBarLayoutSettingsPane: View {
                         ControlCenterAccessNotice(permission: permission)
                     }
                     NativeSwitchesOffNotice(switches: appState.nativeSwitches27)
+                }
+                if !hasItems {
+                    IceSection {
+                        loadingMenuBarItems
+                            .frame(maxWidth: .infinity)
+                    }
                 }
                 layoutBars
                 if #available(macOS 27.0, *) {
@@ -39,9 +45,9 @@ struct MenuBarLayoutSettingsPane: View {
     @ViewBuilder
     private var header: some View {
         IceSection {
-            VStack(spacing: 3) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text("Drag to arrange your menu bar items into different sections.")
-                    .font(.title3.bold())
+                    .font(.headline)
                 Group {
                     // macOS 27 does order the items itself when it lays the bar out, but ⌘
                     // dragging in the bar overrides it and the new order holds — measured
@@ -54,15 +60,14 @@ struct MenuBarLayoutSettingsPane: View {
                         Text("Items can also be arranged by ⌘ Command + dragging them in the menu bar.")
                     }
                 }
-                .font(.system(size: 12, weight: .medium))
+                .font(.callout)
                 .foregroundStyle(.secondary)
                 if #available(macOS 27.0, *) {
                     // The dimmed items are drawn by macOS. Ice cannot move or hide them, but macOS
                     // has a switch for most of them (see `MenuBarSettingsLink27`).
                     Text("Dimmed items are drawn by macOS and cannot be moved here: click one to open System Settings, where Wi\u{2011}Fi, Bluetooth, Sound and the others can be turned off. Dragging Text Input, VPN or Spotlight to Hidden turns them off there for you.")
-                        .font(.system(size: 12, weight: .medium))
+                        .font(.callout)
                         .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
                     Button("Open Menu Bar Settings") {
                         MenuBarSettingsLink27.open()
@@ -70,56 +75,46 @@ struct MenuBarLayoutSettingsPane: View {
                     .padding(.top, 4)
                 }
             }
-            .padding(15)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
     @ViewBuilder
     private var layoutBars: some View {
-        VStack(spacing: 20) {
-            ForEach(MenuBarSection.Name.allCases, id: \.self) { section in
-                layoutBar(for: section)
-            }
+        ForEach(MenuBarSection.Name.allCases, id: \.self) { section in
+            layoutBar(for: section)
         }
         .opacity(hasItems ? 1 : 0.75)
         .blur(radius: hasItems ? 0 : 5)
         .allowsHitTesting(hasItems)
-        .overlay {
-            if !hasItems {
-                loadingMenuBarItems
-            }
-        }
     }
 
     @ViewBuilder
     private var cannotArrange: some View {
-        Text("VIce Bartender cannot arrange menu bar items in automatically hidden menu bars.")
-            .font(.title3)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        ContentUnavailableView(
+            "VIce Bartender cannot arrange menu bar items in automatically hidden menu bars.",
+            systemImage: "menubar.rectangle"
+        )
     }
 
     @ViewBuilder
     private var missingScreenRecordingPermissions: some View {
-        VStack {
-            Text("Menu bar layout requires screen recording permissions.")
-                .font(.title2)
-
-            Button {
+        ContentUnavailableView {
+            Label("Menu bar layout requires screen recording permissions.", systemImage: "record.circle")
+        } actions: {
+            Button("Go to Advanced Settings") {
                 appState.navigationState.settingsNavigationIdentifier = .advanced
-            } label: {
-                Text("Go to Advanced Settings")
             }
-            .buttonStyle(.link)
         }
     }
 
     @ViewBuilder
     private var loadingMenuBarItems: some View {
-        VStack {
-            Text("Loading menu bar items…")
+        VStack(spacing: 8) {
             ProgressView()
+            Text("Loading menu bar items…")
+                .foregroundStyle(.secondary)
         }
-        .font(.title)
     }
 
     @ViewBuilder
@@ -128,12 +123,11 @@ struct MenuBarLayoutSettingsPane: View {
             let section = appState.menuBarManager.section(withName: name),
             section.isEnabled
         {
-            VStack(alignment: .leading) {
-                Text(name.localized)
-                    .font(.headline)
-                    .padding(.leading, 8)
-
+            // The bar draws its own tray, so it sits in the section without the card behind it.
+            IceSection(name.localized) {
                 LayoutBar(imageCache: appState.imageCache, section: name)
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear)
             }
         }
     }
@@ -157,11 +151,11 @@ private struct StuckOverflowWarning: View {
         if concealer.isOverflowStuck {
             IceSection {
                 VStack(alignment: .leading, spacing: 10) {
-                    VStack(alignment: .leading, spacing: 3) {
+                    VStack(alignment: .leading, spacing: 4) {
                         Text("Some items are folded away on the built-in display.")
                             .font(.headline)
                         Text("macOS stopped laying them out when VIce Bartender freed the space beside the notch, and left no control to reach them. Restarting the menu bar, below, brings them back. So does relaunching the application whose item is missing.")
-                            .font(.system(size: 12, weight: .medium))
+                            .font(.callout)
                             .foregroundStyle(.secondary)
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -177,7 +171,6 @@ private struct StuckOverflowWarning: View {
                         }
                     }
                 }
-                .padding(15)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
@@ -198,11 +191,11 @@ private struct NativeSwitchesOffNotice: View {
         if !off.isEmpty {
             IceSection {
                 VStack(alignment: .leading, spacing: 10) {
-                    VStack(alignment: .leading, spacing: 3) {
+                    VStack(alignment: .leading, spacing: 4) {
                         Text("Turned off in macOS")
                             .font(.headline)
                         Text("These items are off in System Settings > Menu Bar, so they are neither in the menu bar nor in this window. Turn one back on to see it again.")
-                            .font(.system(size: 12, weight: .medium))
+                            .font(.callout)
                             .foregroundStyle(.secondary)
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -223,12 +216,11 @@ private struct NativeSwitchesOffNotice: View {
                     }
                     if let failure {
                         Text(failure)
-                            .font(.system(size: 12, weight: .medium))
+                            .font(.callout)
                             .foregroundStyle(.red)
                             .fixedSize(horizontal: false, vertical: true)
                     }
                 }
-                .padding(15)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
@@ -250,11 +242,11 @@ private struct ControlCenterAccessNotice: View {
         if !permission.hasPermission {
             IceSection {
                 HStack(alignment: .center, spacing: 16) {
-                    VStack(alignment: .leading, spacing: 3) {
+                    VStack(alignment: .leading, spacing: 4) {
                         Text("The VIce Bartender icon can disappear while items are hidden.")
                             .font(.headline)
                         Text("Without access to Control Center, macOS hides items in a way that also removes this icon. With access, VIce Bartender uses macOS's own \u{201C}Allow in the Menu Bar\u{201D} switch, which keeps it. macOS asks for Full Disk Access first: turn it on for VIce Bartender, then quit and reopen the app.")
-                            .font(.system(size: 12, weight: .medium))
+                            .font(.callout)
                             .foregroundStyle(.secondary)
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -263,7 +255,6 @@ private struct ControlCenterAccessNotice: View {
                         permission.performRequest()
                     }
                 }
-                .padding(15)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
@@ -287,11 +278,11 @@ private struct RedrawMenuBarSection: View {
     var body: some View {
         IceSection {
             VStack(alignment: .leading, spacing: 10) {
-                VStack(alignment: .leading, spacing: 3) {
+                VStack(alignment: .leading, spacing: 4) {
                     Text("Items missing, or showing the wrong icon?")
                         .font(.headline)
                     Text("macOS sometimes stops drawing an item, and relaunching the application it belongs to does not bring it back. Restarting the part of macOS that draws the menu bar does. The bar blinks for about a second. Nothing closes, and no settings change.")
-                        .font(.system(size: 12, weight: .medium))
+                        .font(.callout)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -299,7 +290,6 @@ private struct RedrawMenuBarSection: View {
                     concealer.restartMenuBarAgent()
                 }
             }
-            .padding(15)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
     }

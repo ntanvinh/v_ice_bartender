@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "flexible-show-triggers",
+  "title": {
+    "en-US": "Reveal items your way",
+    "vi": "Hiện mục theo cách bạn thích"
+  },
+  "description": {
+    "en-US": "Show hidden items on hover, click on an empty area, or scroll and swipe in the menu bar.",
+    "vi": "Hiện mục ẩn khi rê chuột, bấm vào vùng trống hoặc cuộn, vuốt trên thanh menu."
+  },
+  "tier": "value",
+  "rank": 70,
+  "mode": "desktop",
+  "orientation": "landscape",
+  "screens": [
+    "General"
+  ],
+  "hasVideo": false
+}

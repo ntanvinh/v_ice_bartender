@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "menu-bar-item-spacing",
+  "title": {
+    "en-US": "Fit more icons with tighter spacing",
+    "vi": "Thu hẹp khoảng cách biểu tượng"
+  },
+  "description": {
+    "en-US": "Adjust the spacing between menu bar items (beta) so more of them fit.",
+    "vi": "Chỉnh khoảng cách giữa các mục menu (beta) để thanh chứa được nhiều hơn."
+  },
+  "tier": "value",
+  "rank": 110,
+  "mode": "desktop",
+  "orientation": "landscape",
+  "screens": [
+    "Advanced"
+  ],
+  "hasVideo": false
+}

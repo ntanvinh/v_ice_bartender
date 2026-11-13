@@ -159,6 +159,7 @@ extension Defaults {
         case showAllSectionsOnUserDrag = "ShowAllSectionsOnUserDrag"
         case sectionDividerStyle = "SectionDividerStyle"
         case hideApplicationMenus = "HideApplicationMenus"
+        case showAppIconInDock = "ShowAppIconInDock"
         case enableSecondaryContextMenu = "EnableSecondaryContextMenu"
         case showOnHoverDelay = "ShowOnHoverDelay"
         case tempShowInterval = "TempShowInterval"
@@ -166,9 +167,15 @@ extension Defaults {
         // MARK: Appearance Settings
         case menuBarAppearanceConfigurationV2 = "MenuBarAppearanceConfigurationV2"
 
+        // MARK: Donation
+        case hasDonated = "HasDonated"
+
         // MARK: macOS 27
         case macOS27Layout = "MacOS27Layout"
         case macOS27LayoutSeeded = "MacOS27LayoutSeeded"
+        /// Bundle identifiers of applications whose item is not shown when its status changes.
+        /// The setting is on for everyone else, so only the exceptions are stored.
+        case macOS27StatusRevealOff = "MacOS27StatusRevealOff"
         case showCaptureIndicator = "ShowCaptureIndicator"
         case macOS27MenuReach = "MacOS27MenuReach"
         case macOS27MenuOwner = "MacOS27MenuOwner"

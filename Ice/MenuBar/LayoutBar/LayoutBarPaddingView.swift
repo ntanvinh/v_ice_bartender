@@ -74,8 +74,9 @@ final class LayoutBarPaddingView: NSView {
         }
 
         if #available(macOS 27.0, *), let appState = container.appState {
-            // On macOS 27 the saved layout decides sections and macOS orders the items within
-            // one, so a drop only moves the item's application to this section.
+            // On macOS 27 the saved layout decides sections, so a drop moves the item's application
+            // to this section. The order within the Visible row is the bar's own, and the drop is
+            // carried over to it with a ⌘ drag (see `ItemReorderer27`).
             if !draggingSource.item.isControlItem, let bundleID = draggingSource.item.sourceApplication?.bundleIdentifier {
                 if
                     container.section != .visible,
@@ -93,6 +94,15 @@ final class LayoutBarPaddingView: NSView {
                     return false
                 }
                 appState.concealer27.setSection(MacOS27Section(container.section), for: bundleID)
+                if container.section == .visible {
+                    // The bar is what the Visible row shows, so the order the tile was dropped in
+                    // is made the bar's order too. The hidden rows have nothing on the bar to move.
+                    let item = draggingSource.item
+                    let order = arrangedViews.map(\.item)
+                    Task {
+                        await ItemReorderer27.reflect(item: item, order: order, appState: appState)
+                    }
+                }
             }
             return true
         }
@@ -153,13 +163,13 @@ final class LayoutBarPaddingView: NSView {
     private func presentAlertForItemOnlyMacOSCanHide(_ item: MenuBarItem, bundleID: String, failure: String?) {
         let label = NativeSwitch27.label(bundleID: bundleID, title: item.title)
         let alert = NSAlert()
-        alert.messageText = "VIce Bartender cannot hide \(label ?? "this item")."
-        let guidance = "macOS draws it and keeps it out of VIce Bartender's reach, so it would stay in the menu bar. "
-            + (label.map { "Turn off \u{201C}\($0)\u{201D} under Menu Bar Controls in System Settings > Menu Bar to hide it." }
-                ?? "If macOS has a switch for it under Menu Bar Controls in System Settings > Menu Bar, turn it off there.")
+        alert.messageText = label.map { String(localized: "VIce Bartender cannot hide \($0).") } ?? String(localized: "VIce Bartender cannot hide this item.")
+        let guidance = String(localized: "macOS draws it and keeps it out of VIce Bartender's reach, so it would stay in the menu bar.") + " "
+            + (label.map { String(localized: "Turn off \u{201C}\($0)\u{201D} under Menu Bar Controls in System Settings > Menu Bar to hide it.") }
+                ?? String(localized: "If macOS has a switch for it under Menu Bar Controls in System Settings > Menu Bar, turn it off there."))
         alert.informativeText = failure.map { "\($0)\n\n\(guidance)" } ?? guidance
-        alert.addButton(withTitle: "Open Menu Bar Settings")
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: String(localized: "Open Menu Bar Settings"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         // After the drag has ended: a modal session inside a drop would hold the drag open.
         DispatchQueue.main.async {
             if alert.runModal() == .alertFirstButtonReturn {
