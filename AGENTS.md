@@ -41,6 +41,6 @@ no API key, $0).
 <!-- trail:end -->
 
 ## Repository rules
-- Never commit or stage `.trail/cache/` or `graft/` (the trail tool's per-machine cache). When git refuses a path as ignored, untrack it with `git rm -r --cached <path>`, never `git add -f`. `Scripts/check-repo.sh` fails when one is tracked; `Scripts/test.sh` and `Scripts/release.sh` run it first.
+- Never commit or stage `.trail/cache/` or `graft/` (the trail tool's per-machine cache). When git refuses a path as ignored, untrack it with `git rm -r --cached <path>`, never `git add -f`, and commit that removal: a removal that is only staged leaves HEAD tracking the file. `Scripts/check-repo.sh` fails when one is tracked in the index or in HEAD; `Scripts/test.sh` and `Scripts/release.sh` run it first.
 - The README's download step names `VIceBartender.dmg`, the file `Scripts/release.sh` uploads with every release. Change the two together; `Scripts/check-repo.sh` fails when they differ.
 - Every local picture or link in a Markdown file must point to a file that exists in the repository (paths are relative to that file). When you move or rename an asset, update the Markdown that shows it; `Scripts/check-repo.sh` fails on a missing target.

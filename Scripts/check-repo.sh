@@ -17,10 +17,17 @@ for dir in "${LOCAL_CACHES[@]}"; do
     git check-ignore -q --no-index -- "$dir/probe" || die "$dir/ is not ignored by any .gitignore: add it, see .trail/README.md"
 done
 
-tracked="$({ git ls-files -- "${LOCAL_CACHES[@]}"; git ls-files -ci --exclude-standard; } | sort -u)"
+# Checked in the index (what the next commit records) and in HEAD (what is published). An untracking that is staged but not committed
+# leaves HEAD tracking the files: git then refuses to add them, and the commit step fails with "ignored by .gitignore".
+tracked="$({
+    git ls-files -- "${LOCAL_CACHES[@]}"
+    git ls-files -ci --exclude-standard
+    git ls-tree -r --name-only HEAD -- "${LOCAL_CACHES[@]}"
+    git ls-tree -r --name-only HEAD | git check-ignore --no-index --stdin || true # exit 1 only means that nothing matched
+} | sort -u)"
 if [ -n "$tracked" ]; then
     printf '%s\n' "$tracked" | sed 's/^/  tracked: /' >&2
-    die "git tracks local cache or ignored files (listed above). Untrack them with: git rm -r --cached <path>"
+    die "git tracks local cache or ignored files, in the index or in HEAD (listed above). Untrack them with git rm -r --cached <path>, then commit that removal"
 fi
 
 # The README's download step must name the file that release.sh uploads with every release: the disk image without a version in
