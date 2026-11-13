@@ -27,6 +27,9 @@ tracked="$({
 } | sort -u)"
 if [ -n "$tracked" ]; then
     printf '%s\n' "$tracked" | sed 's/^/  tracked: /' >&2
+    if [ -n "$(git diff --cached --name-only --diff-filter=D -- "${LOCAL_CACHES[@]}")" ]; then
+        die "the removal of the paths above is staged but not committed, so HEAD still tracks them: commit the staged removal"
+    fi
     die "git tracks local cache or ignored files, in the index or in HEAD (listed above). Untrack them with git rm -r --cached <path>, then commit that removal"
 fi
 
