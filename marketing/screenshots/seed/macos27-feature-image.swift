@@ -31,10 +31,12 @@ let height = 1800
 let W = CGFloat(width)
 let H = CGFloat(height)
 
-// The part of the 1560 x 2200 px Advanced capture that is macOS 27 only, with the permissions it needs.
+// The part of the 1560 x 2200 px Advanced capture that is macOS 27 only, with the permissions it needs:
+// "Hiding on macOS 27" down to the Permissions block. Re-measured on the rebuilt Settings window (2026-11-14).
+let cropRect = CGRect(x: 480, y: 1200, width: 1080, height: 650)
 let source = load(args[1])
 guard source.pixelsWide == 1560, source.pixelsHigh == 2200,
-      let cropped = source.cgImage?.cropping(to: CGRect(x: 440, y: 1085, width: 1120, height: 655))
+      let cropped = source.cgImage?.cropping(to: cropRect)
 else {
     FileHandle.standardError.write(Data("the Advanced capture is not 1560 x 2200 px: the layout changed, check the crop\n".utf8))
     exit(1)
@@ -118,7 +120,7 @@ draw("Hide and arrange your menu bar items on the latest macOS.",
      size: 60, weight: .regular, hex: 0xFFFFFF, alpha: 0.72, kern: -0.4, lineHeight: 84)
 
 // MARK: Right: the real window, cropped.
-let card = CGRect(x: 1300, y: 490, width: 1380, height: CGFloat(655) * 1380 / 1120)
+let card = CGRect(x: 1420, y: 539, width: 1200, height: cropRect.height * 1200 / cropRect.width)
 let radius: CGFloat = 46
 let path = CGPath(roundedRect: card, cornerWidth: radius, cornerHeight: radius, transform: nil)
 

@@ -32,6 +32,7 @@
 #   <Sparkle>/bin/generate_keys        (<Sparkle> is build/release/SourcePackages/artifacts/sparkle/Sparkle after a first build;
 #                                       it keeps the private key in your keychain and prints the public one)
 source "$(dirname "$0")/common.sh"
+source "$(dirname "$0")/release-notes.sh"
 
 BUMP=""; NOTARIZE=0; PUBLISH=0; ASSUME_YES=0; DRY_RUN=0; APPCAST=1
 for arg in "$@"; do
@@ -151,6 +152,10 @@ if [ "$FULL" = 1 ]; then
     fi
     CURRENT="$("$VERSION_SH" current)"
 
+    # The notes come before anything is changed or built: a missing file must cost seconds here, not an hour of notarizing and a release with
+    # GitHub's own description (marketing/releases/notes/<version>.md, see scripts/release-notes.sh).
+    require_release_notes "$NEXT_VERSION" "$REPO" "v"
+
     say "Plan"
     {
         if [ "$RESUME_RELEASE" = 1 ]; then
@@ -189,6 +194,8 @@ IDENTITY="$(find_identity)"
 STATE="$("$VERSION_SH" current)"; VERSION="${STATE% *}"; BUILD="${STATE#* }"
 [ -n "$VERSION" ] && [ -n "$BUILD" ] || die "could not read the version from the Xcode project"
 say "Releasing $APP_NAME $VERSION (build $BUILD)"
+# Also for a release made without a bump argument (--publish alone): its version is only known here, and the appcast below lists these notes.
+[ "$PUBLISH" = 1 ] && require_release_notes "$VERSION" "$REPO" "v"
 
 BUILD_DIR="$ROOT/build/release"
 DIST_DIR="$ROOT/dist"
@@ -301,7 +308,8 @@ make_appcast() {
     sig="$("$SPARKLE_BIN/sign_update" "$DMG" 2>/dev/null | sed -n 's/.*sparkle:edSignature="\([^"]*\)".*/\1/p')"
     [ -n "$sig" ] || die "sign_update did not sign $(basename "$DMG") (is the Sparkle key in the keychain?)"
     length="$(stat -f %z "$DMG")"
-    notes="$("$VERSION_SH" notes 2>/dev/null || true)"
+    # What the update window lists: the English notes of the version (the same text as the GitHub description), not the raw git log of the change log.
+    notes="$(release_notes_section "$VERSION" en-US)"
     /usr/bin/python3 - "$APPCAST_FILE" "$REPO" "$VERSION" "$BUILD" "$MIN_MACOS" "$sig" "$length" "$(basename "$DMG")" "$DISPLAY_NAME" "$notes" <<'PY'
 import email.utils, html, sys
 out, repo, version, build, minos, sig, length, dmg, name, notes = sys.argv[1:11]
@@ -352,23 +360,23 @@ if [ "$PUBLISH" = 1 ]; then
         fi
         SHA="$(git -C "$ROOT" rev-parse HEAD)"
         NOTES="$ROOT/build/release-notes.md"
-        "$VERSION_SH" notes > "$NOTES" 2>/dev/null || : > "$NOTES"
+        mkdir -p "$ROOT/build"
+        release_notes_body "$VERSION" > "$NOTES"
         if [ "${RESUME_RELEASE:-0}" = 1 ]; then
             say "Release $TAG already exists on $REPO, ensuring the files are uploaded"
             gh release upload "$TAG" "${ASSETS[@]}" --clobber --repo "$REPO"
         else
             say "Publishing $TAG on $REPO"
-            if [ -s "$NOTES" ]; then
-                gh release create "$TAG" "${ASSETS[@]}" --repo "$REPO" --target "$SHA" --title "$DISPLAY_NAME $VERSION" --notes-file "$NOTES"
-            else
-                gh release create "$TAG" "${ASSETS[@]}" --repo "$REPO" --target "$SHA" --title "$DISPLAY_NAME $VERSION" --generate-notes
-            fi
+            gh release create "$TAG" "${ASSETS[@]}" --repo "$REPO" --target "$SHA" --title "$DISPLAY_NAME $VERSION" --notes-file "$NOTES"
         fi
         say "Released: https://github.com/$REPO/releases/tag/$TAG"
         say "Always the newest version, for a website: https://github.com/$REPO/releases/latest/download/$APP_NAME.dmg"
     else
         say "Publishing $TAG on $REPO"
-        gh release create "$TAG" "${ASSETS[@]}" --repo "$REPO" --title "$DISPLAY_NAME $VERSION" --generate-notes
+        NOTES="$ROOT/build/release-notes.md"
+        mkdir -p "$ROOT/build"
+        release_notes_body "$VERSION" > "$NOTES"
+        gh release create "$TAG" "${ASSETS[@]}" --repo "$REPO" --title "$DISPLAY_NAME $VERSION" --notes-file "$NOTES"
     fi
 fi
 

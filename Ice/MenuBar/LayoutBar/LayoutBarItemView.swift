@@ -256,6 +256,14 @@ final class LayoutBarItemView: NSView {
     /// Whether the item is set to appear by itself when its status changes. It only takes
     /// effect in Hidden, so only a tile there is marked.
     private var showsAutoRevealBadge: Bool {
+        #if DEBUG
+        // The capture harness has no running app behind its demo items, so it marks one of them as
+        // watched. Only the badge is drawn here, by the code below.
+        if CaptureHarness.isActive, CaptureHarness.marksStatusDemo,
+           item.tag.namespace.description == CaptureHarness.demoStatusNamespace {
+            return appState?.itemManager.itemCache.address(for: item.tag)?.section == .hidden
+        }
+        #endif
         guard
             #available(macOS 27.0, *),
             !isOwnIcon,

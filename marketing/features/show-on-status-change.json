@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "show-on-status-change",
+  "title": {
+    "en-US": "Notice hidden icons when they change",
+    "vi": "Hiện biểu tượng ẩn khi đổi trạng thái"
+  },
+  "description": {
+    "en-US": "On macOS 27, a hidden icon that changes, such as a Caps Lock indicator, shows for 10 seconds so you notice it without opening the hidden section. Right-click its icon in Menu Bar Layout to turn this off for one app.",
+    "vi": "Trên macOS 27, biểu tượng ẩn nào đổi trạng thái, chẳng hạn đèn Caps Lock, sẽ hiện trong 10 giây để bạn kịp chú ý mà không cần mở vùng ẩn. Chuột phải vào biểu tượng trong Bố cục thanh menu để tắt riêng cho từng ứng dụng."
+  },
+  "tier": "unique",
+  "rank": 25,
+  "mode": "desktop",
+  "orientation": "landscape",
+  "screens": [
+    "Menu Bar Layout"
+  ],
+  "hasVideo": false,
+  "image": "../screenshots/desktop/07-show-on-status-change.png",
+  "featured": 2
+}

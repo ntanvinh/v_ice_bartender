@@ -1,32 +1,38 @@
 {
   "ice-bar": {
-    "shows": "The Ice Bar strip holding the hidden items Slack, Slack Huddle, 1Password, iTerm2, Tailscale and iStat Menus, drawn by the app's own Ice Bar view with demo items on a transparent canvas. Demo glyphs, not the apps' own icons; no menu bar above it.",
+    "shows": "The Ice Bar strip holding the hidden items Slack, Slack Huddle, 1Password, iTerm2, Tailscale and iStat Menus, drawn by the app's own Ice Bar view with demo items on a transparent canvas. Demo glyphs, not the apps' own icons; no menu bar above it. Retaken 2026-11-14 with the capture build.",
     "inUse": true,
     "language": "en-US"
   },
   "drag-and-drop-layout": {
-    "shows": "The Menu Bar Layout window with the Visible, Hidden and Always-Hidden rows filled with demo tiles (Zoom, Dropbox, Bluetooth, Slack, 1Password, iTerm2, Tailscale, iStat Menus, Sleep Timer, Clipboard History). No tile is mid-drag.",
+    "shows": "The Menu Bar Layout pane of the rebuilt Settings window (native sidebar, grouped rows) with the Visible, Hidden and Always-Hidden rows filled with demo items: Zoom, Dropbox and Bluetooth; Slack, Slack Huddle, 1Password, iTerm2, Tailscale and iStat Menus; Sleep Timer and Clipboard History. No tile is mid-drag. The window is inactive, so the sidebar is grey. Retaken 2026-11-14.",
     "inUse": true,
     "language": "en-US"
   },
   "search-menu-bar-items": {
-    "shows": "The search panel with \"slack\" typed and the results Slack Huddle and Slack (both hidden items), Show Item ready. App icons are the generic fallback because the demo items have no running app.",
+    "shows": "The search panel with \"slack\" typed and the results Slack Huddle and Slack (both hidden items), Show Item ready. App icons are the generic fallback because the demo items have no running app. Retaken 2026-11-14.",
     "inUse": true,
     "language": "en-US"
   },
   "menu-bar-appearance": {
-    "shows": "The Menu Bar Appearance pane with a purple-to-blue gradient tint, shadow, a 2 pt light border and the full rounded shape set. It is a settings screen, which is what this feature is; there is no live menu bar preview in the pane.",
+    "shows": "The Menu Bar Appearance pane of the rebuilt Settings window with a purple-to-blue gradient tint, shadow, a 2 pt white border, the Full shape with round end caps, and the notch inset switch on. It is a settings screen, which is what this feature is; there is no live menu bar preview in the pane. Retaken 2026-11-14.",
     "inUse": true,
     "language": "en-US"
   },
   "keyboard-shortcuts": {
-    "shows": "The Hotkeys pane with ^⌥H (hidden section), ^⌥A (always-hidden), ^⌥Space (search), ^⌥B (Ice Bar) and ^⌥M (application menus) recorded. A settings screen, which is what this feature is.",
+    "shows": "The Hotkeys pane of the rebuilt Settings window with ^⌥H (toggle the hidden section), ^⌥A (always-hidden section), ^⌥Space (search menu bar items), ^⌥B (enable the Ice Bar) and ^⌥M (toggle application menus) recorded. A settings screen, which is what this feature is. Retaken 2026-11-14.",
     "inUse": true,
     "language": "en-US"
   },
   "macos-27-support": {
-    "shows": "A created image, not a raw screenshot: the app icon and name, the headline \"Works on macOS 27\", and a crop of the app's real Advanced window rendered by the capture harness on macOS 27.2 (\"Hiding on macOS 27\" with the Hiding method, and Permissions: Accessibility, Screen Recording and Control Center Access, all Granted). The real macOS 27 menu bar cannot be photographed in the background, so it is not in the picture. Made by marketing/screenshots/seed/macos27-feature-image.swift, 2880 x 1800 px.",
+    "shows": "A created image, not a raw screenshot: the app icon and name, the headline \"Works on macOS 27\", and a crop of the app's Advanced window rendered by the capture harness on macOS 27.2 (\"Hiding on macOS 27\" with the Hiding method \"Allow in the Menu Bar\", and Permissions: Accessibility, Screen Recording and Control Center Access, all Granted). The real macOS 27 menu bar cannot be photographed in the background, so it is not in the picture. Made by marketing/screenshots/seed/macos27-feature-image.swift from seed/captured-desktop/macos27-advanced.png (crop 480,1200, 1080 x 650), 2880 x 1800 px. Recut 2026-11-14 for the rebuilt Settings window.",
     "inUse": true,
     "language": "en-US"
+  },
+  "show-on-status-change": {
+    "shows": "The Menu Bar Layout pane of the rebuilt Settings window. The Hidden row holds demo items, and the Tailscale demo tile carries the blue bell badge that marks an icon shown for 10 seconds when its status changes. Demo data: the harness marks that one item as watched and reads no status; the badge is drawn by the app's own tile view. The reveal itself, the icon appearing in the bar, is not in the picture.",
+    "inUse": false,
+    "needs": "The reveal itself: a hidden icon that is shown for 10 seconds after a real status change, such as a Caps Lock indicator in an input app. The capture harness has demo items only, and the real menu bar of a macOS 27 Mac cannot be photographed in the background. Meanwhile 07-show-on-status-change.png is the Menu Bar Layout pane with the bell badge on a demo tile, drawn by the app's own view; the harness marks that one demo item as watched and reads no status. Tried 2026-11-14.",
+    "accepted": true
   }
 }

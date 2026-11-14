@@ -33,6 +33,15 @@ enum CaptureHarness {
 
     private static var keepAlive = [NSWindow]()
 
+    /// The demo item that the status-reveal picture marks as watched, as an app that publishes its
+    /// status would be. The harness reads no status: the badge on its tile is drawn by the app's
+    /// own view, and only the "watched" state is set here.
+    static let demoStatusNamespace = "io.tailscale.ipn.macsys"
+
+    /// Set only while the status-reveal picture is made, so the other Menu Bar Layout pictures keep
+    /// their tiles unmarked.
+    static var marksStatusDemo = false
+
     static func run(appState: AppState) {
         NSApp.setActivationPolicy(.accessory)
         // VICE_CAPTURE_APPEARANCE=light shows the light appearance; anything else keeps dark.
@@ -178,6 +187,9 @@ enum CaptureHarness {
             try await captureSettings(.menuBarAppearance, file: "settings-appearance", appState: appState)
         case "settings-hotkeys":
             try await captureSettings(.hotkeys, file: "settings-hotkeys", appState: appState)
+        case "settings-status":
+            marksStatusDemo = true
+            try await captureSettings(.menuBarLayout, file: "settings-status", appState: appState)
         case "layout":
             try await captureSettings(.menuBarLayout, file: "03-drag-and-drop-layout", appState: appState)
         case "appearance":

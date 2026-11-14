@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "name": {
+    "en": "VIce Bartender — Menu Bar Manager for Mac",
+    "vi": "VIce Bartender — Quản lý thanh menu trên Mac"
+  },
+  "tagline": {
+    "en": "A tidy Mac menu bar, with hidden items on demand",
+    "vi": "Gọn thanh menu, hiện mục ẩn khi cần"
+  },
+  "description": {
+    "en": "Mac menu bar manager to hide, arrange and search icons, with Ice Bar for hidden items. Open source under GPL-3.0; supports macOS 27. See the features.",
+    "vi": "Quản lý thanh menu Mac: ẩn, sắp xếp và tìm biểu tượng; mở mục ẩn bằng Ice Bar riêng. Mã nguồn mở theo GPL-3.0, hỗ trợ macOS 27. Khám phá các tính năng."
+  },
+  "seo": {
+    "keywords": {
+      "en": [
+        "menu bar manager",
+        "hide menu icons",
+        "mac menu bar",
+        "menu bar organizer",
+        "macbook notch",
+        "declutter menu bar",
+        "menu bar search",
+        "open source macOS",
+        "macOS 27",
+        "menu bar spacing"
+      ],
+      "vi": [
+        "quản lý thanh menu",
+        "quan ly thanh menu",
+        "ẩn icon menu bar",
+        "an icon menu bar",
+        "sắp xếp thanh menu",
+        "macbook tai thỏ",
+        "tìm kiếm menu bar",
+        "tim kiem menu bar",
+        "macOS 27",
+        "mã nguồn mở Mac"
+      ]
+    }
+  },
+  "openSource": [
+    {
+      "name": "Ice",
+      "author": "Jordan Baird",
+      "url": "https://github.com/jordanbaird/Ice",
+      "license": "GPL-3.0",
+      "note": {
+        "en": "VIce Bartender continues Ice, a menu bar manager that is no longer maintained.",
+        "vi": "VIce Bartender tiếp tục phát triển Ice, trình quản lý thanh menu không còn được duy trì."
+      }
+    },
+    {
+      "name": "Ice #995",
+      "author": "RabenkoYevhenii",
+      "url": "https://github.com/jordanbaird/Ice/pull/995",
+      "license": "GPL-3.0",
+      "note": {
+        "en": "macOS 27 support is based on this pull request.",
+        "vi": "Hỗ trợ macOS 27 dựa trên pull request này."
+      }
+    }
+  ]
+}

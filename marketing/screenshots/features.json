@@ -1,7 +1,8 @@
 {
   "schemaVersion": 1,
   "status": "approved",
-  "approvedAt": "2026-11-12T03:54:54.848Z",
+  "approvedAt": "2026-11-14T03:37:02.885Z",
+  "edited": true,
   "theme": "dark",
   "appearance": {
     "hasDarkTheme": true,
@@ -12,6 +13,16 @@
       "featureId": "ice-bar",
       "reason": "Unique and solves the notch problem on MacBooks, so it sits second.",
       "shows": "The Ice Bar open as a floating strip under the menu bar holding hidden items such as Slack, Dropbox, 1Password and Tailscale, with a notched-style menu bar above."
+    },
+    {
+      "featureId": "show-on-status-change",
+      "reason": "Helps users notice changes to hidden status icons without opening the Hidden section.",
+      "shows": "The Menu Bar Layout pane with hidden demo items and a blue bell badge on the Tailscale demo tile. The app's tile view draws the badge to mark the watched state; the actual reveal is not shown."
+    },
+    {
+      "featureId": "macos-27-support",
+      "reason": "A macOS 27 compatibility path that uses Accessibility to find menu bar items and arrange supported items.",
+      "shows": "A composed graphic with the Advanced pane captured on macOS 27.2, showing the Allow in the Menu Bar hiding method and granted Accessibility, Screen Recording and Control Center Access permissions. The real macOS menu bar is not pictured."
     },
     {
       "featureId": "drag-and-drop-layout",

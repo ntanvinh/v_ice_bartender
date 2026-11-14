@@ -15,7 +15,7 @@
     "appStore": "#",
     "googlePlay": "#",
     "website": "#",
-    "macos": "#",
+    "macos": "https://github.com/ntanvinh/v_ice_bartender/releases/latest/download/VIceBartender.dmg",
     "windows": "#",
     "linux": "#",
     "privacyPolicy": "/privacy"
