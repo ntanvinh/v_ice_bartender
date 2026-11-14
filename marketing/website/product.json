@@ -50,16 +50,6 @@
         "en": "VIce Bartender continues Ice, a menu bar manager that is no longer maintained.",
         "vi": "VIce Bartender tiếp tục phát triển Ice, trình quản lý thanh menu không còn được duy trì."
       }
-    },
-    {
-      "name": "Ice #995",
-      "author": "RabenkoYevhenii",
-      "url": "https://github.com/jordanbaird/Ice/pull/995",
-      "license": "GPL-3.0",
-      "note": {
-        "en": "macOS 27 support is based on this pull request.",
-        "vi": "Hỗ trợ macOS 27 dựa trên pull request này."
-      }
     }
   ]
 }
