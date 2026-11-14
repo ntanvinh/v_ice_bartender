@@ -18,6 +18,6 @@
     "Ice Bar"
   ],
   "hasVideo": false,
-  "featured": 1,
-  "image": "../screenshots/desktop/01-ice-bar.png"
+  "image": "../screenshots/desktop/01-ice-bar.png",
+  "featured": 3
 }

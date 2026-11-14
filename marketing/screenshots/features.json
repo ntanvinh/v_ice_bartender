@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "approved",
-  "approvedAt": "2026-11-14T03:37:02.885Z",
+  "approvedAt": "2026-11-14T04:33:34.371Z",
   "edited": true,
   "theme": "dark",
   "appearance": {
@@ -9,11 +9,6 @@
     "evidence": "The app has no theme setting of its own; its Settings window and Ice Bar follow the system appearance (SwiftUI), so macOS dark appearance applies. Menu Bar Appearance only tints the menu bar."
   },
   "features": [
-    {
-      "featureId": "ice-bar",
-      "reason": "Unique and solves the notch problem on MacBooks, so it sits second.",
-      "shows": "The Ice Bar open as a floating strip under the menu bar holding hidden items such as Slack, Dropbox, 1Password and Tailscale, with a notched-style menu bar above."
-    },
     {
       "featureId": "show-on-status-change",
       "reason": "Helps users notice changes to hidden status icons without opening the Hidden section.",
@@ -23,6 +18,11 @@
       "featureId": "macos-27-support",
       "reason": "A macOS 27 compatibility path that uses Accessibility to find menu bar items and arrange supported items.",
       "shows": "A composed graphic with the Advanced pane captured on macOS 27.2, showing the Allow in the Menu Bar hiding method and granted Accessibility, Screen Recording and Control Center Access permissions. The real macOS menu bar is not pictured."
+    },
+    {
+      "featureId": "ice-bar",
+      "reason": "Unique and solves the notch problem on MacBooks, so it sits second.",
+      "shows": "The Ice Bar open as a floating strip under the menu bar holding hidden items such as Slack, Dropbox, 1Password and Tailscale, with a notched-style menu bar above."
     },
     {
       "featureId": "drag-and-drop-layout",
