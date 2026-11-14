@@ -235,12 +235,14 @@ if [ "$SKIP_BUILD" = 0 ]; then
     # --- build and sign -------------------------------------------------------------------------------------------------
     APP="$(build_app Release "$BUILD_DIR" CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO ENABLE_HARDENED_RUNTIME=YES OTHER_CODE_SIGN_FLAGS="--timestamp")"
     [ -d "$APP" ] || die "build did not produce $APP"
+    resign_sparkle "$APP" "$IDENTITY"
 
     say "Checking the signature"
     codesign --verify --deep --strict --verbose=2 "$APP" 2>&1 | sed 's/^/    /' >&2
     SIGNING="$(codesign -dv --verbose=4 "$APP" 2>&1)"
     echo "$SIGNING" | grep -q "flags=.*runtime" || die "the app is not signed with the hardened runtime, Apple would refuse to notarize it"
     echo "$SIGNING" | grep -q "Timestamp=" || die "the signature has no secure timestamp, Apple would refuse to notarize it"
+    check_developer_id_binaries "$APP"
     BUILT_ID="$(/usr/libexec/PlistBuddy -c 'Print CFBundleIdentifier' "$APP/Contents/Info.plist")"
     [ "$BUILT_ID" = "$BUNDLE_ID" ] || die "the built app has the identifier '$BUILT_ID', expected $BUNDLE_ID"
     BUILT_VERSION="$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' "$APP/Contents/Info.plist")"

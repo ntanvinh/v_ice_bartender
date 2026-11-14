@@ -37,3 +37,39 @@ build_app() {
         "$@" build > "$derived.log" 2>&1 || { grep -E 'error:' "$derived.log" | head -20 >&2; die "build failed, full log: $derived.log"; }
     echo "$derived/Build/Products/$configuration/$DISPLAY_NAME.app"
 }
+
+# Sparkle ships its helpers (the two XPC services, Autoupdate, Updater.app) ad hoc signed. Xcode signs only the framework around them,
+# so they keep that signature, and Apple's notarization refuses them: "not signed with a valid Developer ID certificate" and "does not
+# include a secure timestamp". Sign them again, inside out, with the same identity, then the framework, then the app that seals them.
+# resign_sparkle <app> <identity>
+resign_sparkle() {
+    local app="$1" identity="$2" item
+    local framework="$app/Contents/Frameworks/Sparkle.framework"
+    [ -d "$framework" ] || die "no Sparkle.framework in $app"
+    for item in "$framework"/Versions/B/XPCServices/*.xpc "$framework/Versions/B/Updater.app" "$framework/Versions/B/Autoupdate"; do
+        [ -e "$item" ] || die "Sparkle's $(basename "$item") is missing from $framework"
+        codesign --force --options runtime --timestamp --sign "$identity" --preserve-metadata=entitlements "$item" \
+            || die "could not sign $(basename "$item")"
+    done
+    codesign --force --options runtime --timestamp --sign "$identity" "$framework" || die "could not sign Sparkle.framework"
+    codesign --force --options runtime --timestamp --sign "$identity" --preserve-metadata=identifier,entitlements,requirements "$app" \
+        || die "could not sign $(basename "$app")"
+}
+
+# Every Mach-O file in the app must be signed with a Developer ID, the hardened runtime and a secure timestamp, or notarization fails.
+# check_developer_id_binaries <app>: dies on the first one that is not
+check_developer_id_binaries() {
+    local app="$1" file info count=0
+    while IFS= read -r file; do
+        file -b "$file" | grep -q "Mach-O" || continue
+        count=$((count + 1))
+        info="$(codesign -dv --verbose=4 "$file" 2>&1)"
+        if ! { echo "$info" | grep -q "^Authority=Developer ID Application" \
+            && echo "$info" | grep -q "flags=.*runtime" \
+            && echo "$info" | grep -q "^Timestamp="; }; then
+            die "${file#"$app"/} is not signed with a Developer ID, the hardened runtime and a secure timestamp: Apple would refuse to notarize it"
+        fi
+    done < <(find "$app/Contents" -type f \( -perm -u+x -o -name '*.dylib' \))
+    [ "$count" -gt 0 ] || die "found no executables in $app to check"
+    echo "    checked $count executables: all Developer ID, hardened runtime, timestamped" >&2
+}
