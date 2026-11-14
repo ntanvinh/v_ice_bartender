@@ -1,5 +1,11 @@
 {
-  "schemaVersion": 1,
+  "slug": "vice-bartender",
+  "sortOrder": 999,
+  "icon": "./icon.png",
+  "kind": "app",
+  "platforms": [
+    "macOS"
+  ],
   "name": {
     "en": "VIce Bartender — Menu Bar Manager for Mac",
     "vi": "VIce Bartender — Quản lý thanh menu trên Mac"
@@ -40,6 +46,99 @@
       ]
     }
   },
+  "features": [
+    {
+      "image": "./screenshots/07-show-on-status-change.png",
+      "mode": "desktop",
+      "orientation": "landscape",
+      "text": {
+        "en": "Notice hidden icons when they change",
+        "vi": "Hiện biểu tượng ẩn khi đổi trạng thái"
+      },
+      "description": {
+        "en": "On macOS 27, a hidden icon that changes, such as a Caps Lock indicator, shows for 10 seconds so you notice it without opening the hidden section. Right-click its icon in Menu Bar Layout to turn this off for one app.",
+        "vi": "Trên macOS 27, biểu tượng ẩn nào đổi trạng thái, chẳng hạn đèn Caps Lock, sẽ hiện trong 10 giây để bạn kịp chú ý mà không cần mở vùng ẩn. Chuột phải vào biểu tượng trong Bố cục thanh menu để tắt riêng cho từng ứng dụng."
+      }
+    },
+    {
+      "image": "./screenshots/06-macos-27-support.png",
+      "mode": "desktop",
+      "orientation": "landscape",
+      "text": {
+        "en": "Works on macOS 27 too",
+        "vi": "Chạy được trên macOS 27"
+      },
+      "description": {
+        "en": "On macOS 27, VIce Bartender uses Accessibility to list menu bar items and place supported items into sections.",
+        "vi": "Trên macOS 27, VIce Bartender dùng Accessibility để liệt kê các mục menu và đưa những mục được hỗ trợ vào từng vùng."
+      }
+    },
+    {
+      "image": "./screenshots/01-ice-bar.png",
+      "mode": "desktop",
+      "orientation": "landscape",
+      "text": {
+        "en": "Show hidden items below the bar",
+        "vi": "Hiện mục ẩn dưới thanh menu"
+      },
+      "description": {
+        "en": "Open hidden items in a separate bar under the menu bar, handy on MacBooks with a notch where the menu bar runs out of room.",
+        "vi": "Mở các mục ẩn trong một thanh riêng bên dưới thanh menu, tiện cho MacBook có tai thỏ khi thanh menu hết chỗ."
+      }
+    },
+    {
+      "image": "./screenshots/02-drag-and-drop-layout.png",
+      "mode": "desktop",
+      "orientation": "landscape",
+      "text": {
+        "en": "Arrange items by drag and drop",
+        "vi": "Sắp xếp bằng kéo thả"
+      },
+      "description": {
+        "en": "Move supported menu bar items between sections and arrange them in one layout window, without hunting through the bar.",
+        "vi": "Chuyển mục menu được hỗ trợ giữa các vùng, rồi sắp xếp trong một cửa sổ bố cục — không cần tìm từng mục trên thanh."
+      }
+    },
+    {
+      "image": "./screenshots/03-search-menu-bar-items.png",
+      "mode": "desktop",
+      "orientation": "landscape",
+      "text": {
+        "en": "Find managed items by name",
+        "vi": "Tìm mục được quản lý theo tên"
+      },
+      "description": {
+        "en": "Search managed menu bar items, including hidden ones, and open the one you need from the results.",
+        "vi": "Tìm các mục menu được quản lý, kể cả mục đang ẩn, rồi mở thẳng mục bạn cần từ kết quả."
+      }
+    },
+    {
+      "image": "./screenshots/04-menu-bar-appearance.png",
+      "mode": "desktop",
+      "orientation": "landscape",
+      "text": {
+        "en": "Restyle the menu bar",
+        "vi": "Đổi diện mạo thanh menu"
+      },
+      "description": {
+        "en": "Add a solid or gradient tint, shadow, border and rounded or split shapes to the menu bar.",
+        "vi": "Thêm màu nền đặc hoặc chuyển sắc, đổ bóng, viền và dạng bo tròn hoặc tách đôi cho thanh menu."
+      }
+    },
+    {
+      "image": "./screenshots/05-keyboard-shortcuts.png",
+      "mode": "desktop",
+      "orientation": "landscape",
+      "text": {
+        "en": "Control it from the keyboard",
+        "vi": "Điều khiển bằng phím tắt"
+      },
+      "description": {
+        "en": "Assign shortcuts to toggle sections, open search, switch the Ice Bar and toggle application menus.",
+        "vi": "Gán phím tắt để bật tắt các vùng, mở tìm kiếm, bật tắt Ice Bar và menu ứng dụng."
+      }
+    }
+  ],
   "openSource": [
     {
       "name": "Ice",
@@ -61,5 +160,14 @@
         "vi": "Hỗ trợ macOS 27 dựa trên pull request này."
       }
     }
-  ]
+  ],
+  "links": {
+    "appStore": "#",
+    "googlePlay": "#",
+    "website": "#",
+    "macos": "https://github.com/ntanvinh/v_ice_bartender/releases/latest/download/VIceBartender.dmg",
+    "windows": "#",
+    "linux": "#",
+    "privacyPolicy": "/privacy"
+  }
 }
